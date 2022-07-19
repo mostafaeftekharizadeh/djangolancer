@@ -1,5 +1,18 @@
-from .models import Vacancy
+from .models import Vacancy, Skill, Category, Level
 from rest_framework import serializers
+
+class SkillSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Skill
+        fields =  ['name']
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        fields =  ['name']
+class LevelSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Level
+        fields =  ['name']
 
 class VacancySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
