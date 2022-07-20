@@ -1,4 +1,4 @@
-from .models import Vacancy, Skill, Category, Level, Country,State,City
+from .models import Vacancy, Skill, Category,Place, Level, Country,State,City
 from rest_framework import serializers
 
 class SkillSerializer(serializers.HyperlinkedModelSerializer):
@@ -13,7 +13,10 @@ class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Level
         fields =  ['name']
-
+class PlaceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Place
+        fields =  ['name']
 class CountrySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Country

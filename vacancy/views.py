@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import authentication, permissions
-from .serializers import VacancySerializer, SkillSerializer, CategorySerializer, LevelSerializer,CountrySerializer,StateSerializer,CitySerializer
-from .models import Vacancy, Skill, Category, Level,Country,State,City
+from .serializers import VacancySerializer, SkillSerializer, CategorySerializer, LevelSerializer,PlaceSerializer,CountrySerializer,StateSerializer,CitySerializer
+from .models import Vacancy, Skill, Category,Place, Level,Country,State,City
 
 # Create your views here.
 class VacancyViewSet(viewsets.ModelViewSet):
@@ -20,12 +20,21 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET',)
-
 class LevelViewSet(viewsets.ModelViewSet):
     queryset = Level.objects.all()
     serializer_class = LevelSerializer
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET',)
+class PlaceViewSet(viewsets.ModelViewSet):
+    queryset = Place.objects.all()
+    serializer_class = PlaceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    allowed_methods = ('GET',)
+
+class VacancyViewSet(viewsets.ModelViewSet):
+    queryset = Vacancy.objects.all()
+    serializer_class = VacancySerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class CountryViewSet(viewsets.ModelViewSet):
     queryset = Country.objects.all()
