@@ -23,5 +23,7 @@ router.register(r'vacancy/vacancy', views.VacancyViewSet)
 router.register(r'vacancy/skill', views.SkillViewSet)
 router.register(r'vacancy/category', views.CategoryViewSet)
 router.register(r'vacancy/level', views.LevelViewSet)
-
+router.register(r'vacancy/country', views.CountryViewSet)
+router.register(r'vacancy/state', views.StateViewSet)
+router.register(r'vacancy/city', views.CityViewSet)
 

@@ -1,4 +1,4 @@
-from .models import Vacancy, Skill, Category, Level
+from .models import Vacancy, Skill, Category, Level, Country,State,City
 from rest_framework import serializers
 
 class SkillSerializer(serializers.HyperlinkedModelSerializer):
@@ -12,6 +12,19 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Level
+        fields =  ['name']
+
+class CountrySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Country
+        fields =  ['name']
+class StateSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = State
+        fields =  ['name']
+class CitySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = City
         fields =  ['name']
 
 class VacancySerializer(serializers.HyperlinkedModelSerializer):
@@ -28,5 +41,6 @@ class VacancySerializer(serializers.HyperlinkedModelSerializer):
                    'deposit',
                    'description',
                    'skills',
+                   'country',
                    'state',
                    'city']
