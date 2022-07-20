@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from location.models import Country, State, City, Place
+from configuration.models import Estimate
 
 class Skill(models.Model):
     name = models.TextField()
@@ -22,10 +23,10 @@ class Vacancy(models.Model):
     title = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
-    time_estimate = models.IntegerField()
+    time_estimate = models.ForeignKey(Estimate, on_delete=models.CASCADE)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     expire_date = models.DateTimeField()
-    budget_total = models.TextField()
+    budget_total = models.IntegerField()
     budget_min = models.IntegerField()
     budget_max = models.IntegerField()
     deposit = models.IntegerField()
@@ -34,6 +35,7 @@ class Vacancy(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
+    status = models.IntegerField(default=0)
     def __str__(self):
         return self.title
 
@@ -50,6 +52,14 @@ class Applicant(models.Model):
     description = models.TextField()
     cost = models.IntegerField()
     time = models.IntegerField()
+
+class ApplicantLevel(models.Model): 
+    Applicant =  models.ForeignKey(Applicant, on_delete=models.CASCADE)  
+    title = models.TextField()
+    time = models.IntegerField()
+    optional = models.BooleanField()
+    cost = models.IntegerField()    
+ 
 
 
 
