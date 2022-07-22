@@ -52,6 +52,8 @@ class Applicant(models.Model):
     description = models.TextField()
     cost = models.IntegerField()
     time = models.IntegerField()
+    def __str__(self):
+        return self.description
 
 class ApplicantLevel(models.Model): 
     Applicant =  models.ForeignKey(Applicant, on_delete=models.CASCADE)  
@@ -59,8 +61,5 @@ class ApplicantLevel(models.Model):
     time = models.IntegerField()
     optional = models.BooleanField()
     cost = models.IntegerField()    
- 
-
-
-
-
+    def __str__(self):
+        return self.title
