@@ -19,7 +19,7 @@ from . import views
 
 
 router = routers.DefaultRouter()
-router.register(r'vacancy/vacancy', views.VacancyViewSet)
+router.register(r'vacancy/vacancy', views.VacancyViewSet, basename='vacancy')
 router.register(r'vacancy/skill', views.SkillViewSet)
 router.register(r'vacancy/category', views.CategoryViewSet)
 router.register(r'vacancy/level', views.LevelViewSet)

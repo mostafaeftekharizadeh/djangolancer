@@ -25,7 +25,7 @@ class Vacancy(models.Model):
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     time_estimate = models.ForeignKey(Estimate, on_delete=models.CASCADE)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
-    expire_date = models.DateTimeField()
+    expire_date = models.DateTimeField(null=True, blank=True)
     budget_total = models.IntegerField()
     budget_min = models.IntegerField()
     budget_max = models.IntegerField()
@@ -55,11 +55,11 @@ class Applicant(models.Model):
     def __str__(self):
         return self.description
 
-class ApplicantLevel(models.Model): 
-    Applicant =  models.ForeignKey(Applicant, on_delete=models.CASCADE)  
+class ApplicantLevel(models.Model):
+    Applicant =  models.ForeignKey(Applicant, on_delete=models.CASCADE)
     title = models.TextField()
     time = models.IntegerField()
     optional = models.BooleanField()
-    cost = models.IntegerField()    
+    cost = models.IntegerField()
     def __str__(self):
         return self.title

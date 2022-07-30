@@ -32,9 +32,13 @@ class PlaceViewSet(viewsets.ModelViewSet):
     allowed_methods = ('GET',)
 
 class VacancyViewSet(viewsets.ModelViewSet):
-    queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
     permission_classes = [permissions.IsAuthenticated]
+    def get_queryset(self):
+        if self.request.GET.get('owner') == '1':
+            return Vacancy.objects.filter(user=self.request.user)
+        else:
+            return Vacancy.objects.all().exclude(user=self.request.user)
 
 class CountryViewSet(viewsets.ModelViewSet):
     queryset = Country.objects.all()

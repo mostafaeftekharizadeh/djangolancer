@@ -34,8 +34,8 @@ class EstimateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Estimate
         fields =  ['name']
-        
-class VacancySerializer(serializers.HyperlinkedModelSerializer):
+
+class VacancySerializer(serializers.ModelSerializer):
     class Meta:
         model = Vacancy
         fields =  ['title',
@@ -53,3 +53,5 @@ class VacancySerializer(serializers.HyperlinkedModelSerializer):
                    'state',
                    'city',
                    'status']
+        ordering_fields = ['title']
+        nested_depth = 2
