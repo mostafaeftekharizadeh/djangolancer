@@ -28,3 +28,7 @@ router.register(r'vacancy/state', views.StateViewSet)
 router.register(r'vacancy/city', views.CityViewSet)
 router.register(r'vacancy/place', views.PlaceViewSet)
 router.register(r'vacancy/estimate', views.EstimateViewSet)
+
+
+urlpatterns = [
+]

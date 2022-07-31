@@ -18,19 +18,11 @@ urlpatterns = [
 automatically add apps url patterns
 '''
 for app in settings.MIDLANCER_APPS:
-    try:
-        _app = importlib.import_module(app + ".urls")
-        try:
-            urlpatterns += _app.urlpatterns
-        except:
-            pass
-        try:
-            router.registry.extend(_app.router.registry)
-        except:
-            pass
-    except:
-        pass
+    _app = importlib.import_module(app + ".urls")
+    urlpatterns += _app.urlpatterns
+    router.registry.extend(_app.router.registry)
 
-urlpatterns = [
-    path('api/v1/', include(router.urls)),
+print(urlpatterns)
+urlpatterns += [
+    path('', include(router.urls)),
 ]

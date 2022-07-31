@@ -3,7 +3,10 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import authentication, permissions
-from .serializers import MaintainerSerializer, UserRegisterSerializer
+from .serializers import MaintainerSerializer
+from .serializers import UserRegisterSerializer
+from .serializers import ChangePasswordSerializer
+from .serializers import UpdateUserSerializer
 from .models import Maintainer
 
 
@@ -33,6 +36,25 @@ class UserRegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserRegisterSerializer
+
+class UpdateUserView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    model = User
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UpdateUserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+class ChangePasswordView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    model = User
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = ChangePasswordSerializer
+
+    def get_object(self):
+        return self.request.user
+
 
 class MaintainerViewSet(viewsets.ModelViewSet):
     queryset = Maintainer.objects.all()
