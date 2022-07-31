@@ -140,3 +140,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+MIDLANCER_APPS = [
+    'user',
+    'location',
+    'vacancy',
+    'configuration'
+]
+

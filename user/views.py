@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from rest_framework import viewsets
+from rest_framework import generics
 from rest_framework import authentication, permissions
-from .serializers import MaintainerSerializer
+from .serializers import MaintainerSerializer, UserRegisterSerializer
 from .models import Maintainer
 
 
@@ -26,6 +28,11 @@ class LoginView(ObtainAuthToken):
             'last_name' : user.last_name,
             'email': user.email
         })
+
+class UserRegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = UserRegisterSerializer
 
 class MaintainerViewSet(viewsets.ModelViewSet):
     queryset = Maintainer.objects.all()

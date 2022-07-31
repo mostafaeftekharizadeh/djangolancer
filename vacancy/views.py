@@ -2,12 +2,12 @@ from rest_framework import viewsets
 from rest_framework import authentication, permissions
 from .serializers import VacancySerializer, SkillSerializer, CategorySerializer, LevelSerializer,PlaceSerializer,CountrySerializer,StateSerializer,CitySerializer,EstimateSerializer
 from .models import Vacancy, Skill, Category,Place, Level,Country,State,City,Estimate
+from rest_framework import generics
+from django_filters import rest_framework as filters
+
+
 
 # Create your views here.
-class VacancyViewSet(viewsets.ModelViewSet):
-    queryset = Vacancy.objects.all()
-    serializer_class = VacancySerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class SkillViewSet(viewsets.ModelViewSet):
     queryset = Skill.objects.all()
@@ -31,14 +31,22 @@ class PlaceViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET',)
 
+
 class VacancyViewSet(viewsets.ModelViewSet):
+    queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ('country', 'state', 'city', 'skills', 'user', 'level', 'place')
+    '''
+    filter vacancies based on owner
+    '''
     def get_queryset(self):
         if self.request.GET.get('owner') == '1':
             return Vacancy.objects.filter(user=self.request.user)
         else:
             return Vacancy.objects.all().exclude(user=self.request.user)
+
 
 class CountryViewSet(viewsets.ModelViewSet):
     queryset = Country.objects.all()
