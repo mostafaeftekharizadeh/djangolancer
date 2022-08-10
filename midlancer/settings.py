@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'user',
     'location',
-    'vacancy',
+    # 'vacancy',
+    'projects',
     'configuration',
     #    'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
    'drf_yasg',
