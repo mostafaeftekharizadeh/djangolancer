@@ -150,3 +150,4 @@ MIDLANCER_APPS = [
     'configuration'
 ]
 
+AUTH_PROFILE_MODULE = 'user.Profile'

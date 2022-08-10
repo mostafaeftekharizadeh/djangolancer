@@ -1,14 +1,13 @@
-from .models import Maintainer
 from rest_framework import serializers
+from django.contrib.auth.models import User
+from rest_framework.validators import UniqueValidator
+from django.contrib.auth.password_validation import validate_password
+from .models import Maintainer, Profile
 
 class MaintainerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Maintainer
         fields = ['name']
-from rest_framework import serializers
-from django.contrib.auth.models import User
-from rest_framework.validators import UniqueValidator
-from django.contrib.auth.password_validation import validate_password
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -46,6 +45,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
 
+        profile = Profile.objects.create(user = user)
+
+
         return user
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
@@ -74,30 +76,50 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         return instance
 
 class UpdateUserSerializer(serializers.ModelSerializer):
+    '''
     email = serializers.EmailField(
             required=True,
             validators=[UniqueValidator(queryset=User.objects.all())]
             )
+            '''
 
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name')
+        fields = ('email', 'first_name', 'last_name')#, 'city', 'gender', 'age')
+        '''
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
         }
+        '''
 
     def validate(self, attrs):
         _user = self.context['request'].user
-        if _user.email != attrs['email'] and len(User.objects.filter(email=attrs['email'])) > 1:
+        if ('email' in attrs and
+            _user.email != attrs['email'] and
+            len(User.objects.filter(email=attrs['email'])) > 1):
             raise serializers.ValidationError({"email": "This field must be unique."})
 
         return attrs
 
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get("first_name")
-        instance.last_name = validated_data.get("last_name")
-        instance.email = validated_data.get("email")
+        print(validated_data.get("first_name"))
+        if validated_data.get('first_name'):
+            instance.first_name = validated_data.get("first_name")
+        if validated_data.get('last_name'):
+            instance.last_name = validated_data.get("last_name")
+        if validated_data.get('email'):
+            instance.email = validated_data.get("email")
         instance.save()
+
+        profile = Profile.objects.get(user=instance)
+        if validated_data.get("city"):
+            profile.city = validated_data.get("city")
+            print(profile.city)
+        if validated_data.get("gender"):
+            profile.gender = validated_data.get("gender")
+        if validated_data.get("age"):
+            profile.age = validated_data.get("age")
+        profile.save()
 
         return instance
