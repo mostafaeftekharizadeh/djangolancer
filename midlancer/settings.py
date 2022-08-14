@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'user',
     'location',
-    # 'vacancy',
     'projects',
     'configuration',
     #    'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
@@ -147,7 +146,7 @@ REST_FRAMEWORK = {
 MIDLANCER_APPS = [
     'user',
     'location',
-    'vacancy',
+    'projects',
     'configuration'
 ]
 
