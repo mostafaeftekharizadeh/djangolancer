@@ -11,12 +11,12 @@ class ProfileType(models.Model):
     active=models.BooleanField()
     def __str__(self):
         return self.name  
-class BankNameType(models.Model):
+class BankName(models.Model):
     name = models.TextField()
     active=models.BooleanField()
     def __str__(self):
         return self.name  
-class LanguageType(models.Model):
+class Language(models.Model):
     name = models.TextField()
     active=models.BooleanField()
     def __str__(self):
@@ -41,23 +41,17 @@ class Status(models.Model):
     active=models.BooleanField()
     def __str__(self):
         return self.name
-
 class WorkCategory(models.Model):
     name = models.TextField()
     active=models.BooleanField()
     def __str__(self):
-        return self.name
-        
+        return self.name  
 class Skill(models.Model):
     workcategory= models.ForeignKey(WorkCategory,on_delete=models.CASCADE)
     name = models.TextField()
     active=models.BooleanField()
     def __str__(self):
         return self.name
-
-
-
-
 class ComplainType(models.Model):
     name = models.TextField()
     active=models.BooleanField()

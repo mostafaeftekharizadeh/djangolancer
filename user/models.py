@@ -8,7 +8,7 @@ class Maintainer(models.Model):
     description = models.TextField()
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
 
     city = models.ForeignKey(City, on_delete=models.CASCADE,null=True, blank=True)
     GENDER_CHOICES = [

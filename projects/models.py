@@ -1,11 +1,12 @@
 from django.db import models
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from location.models import Country, State, City, Place
 from configuration.models import Estimate, Status,WorkCategory
 from user.models import Profile
 from configuration.models import Skill,Status,Level
 
 class Project(models.Model):
+    user = models.OneToOneField(User,unique=True,on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     WorkCategory = models.ForeignKey(WorkCategory, on_delete=models.CASCADE)
     work = models.TextField()
