@@ -57,3 +57,8 @@ class ComplainType(models.Model):
     active=models.BooleanField()
     def __str__(self):
         return self.name
+class Degree(models.Model):
+    name = models.TextField()
+    active=models.BooleanField()
+    def __str__(self):
+        return self.name
