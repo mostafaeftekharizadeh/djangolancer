@@ -19,7 +19,7 @@ from . import views
 
 
 router = routers.DefaultRouter()
-router.register(r'Projects/Project', views.ProjectViewSet, basename='Project')
+router.register(r'project/project', views.ProjectViewSet, basename='project')
 
 
 

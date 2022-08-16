@@ -27,6 +27,6 @@ urlpatterns = [
 
 
 router = routers.DefaultRouter()
-router.register(r'user/maintainer', views.MaintainerViewSet)
+#router.register(r'user/maintainer', views.MaintainerViewSet)
 
 

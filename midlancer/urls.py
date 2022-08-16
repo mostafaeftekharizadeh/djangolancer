@@ -45,7 +45,6 @@ for app in settings.MIDLANCER_APPS:
     urlpatterns += _app.urlpatterns
     router.registry.extend(_app.router.registry)
 
-print(urlpatterns)
 urlpatterns += [
     path('', include(router.urls)),
 ]

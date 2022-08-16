@@ -8,7 +8,7 @@ from configuration.models import Skill,Status,Level
 class Project(models.Model):
     user = models.OneToOneField(User,unique=True,on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
-    WorkCategory = models.ForeignKey(WorkCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(WorkCategory, on_delete=models.CASCADE)
     work = models.TextField()
     title = models.TextField()
     # file_upload_img = models.ForeignKey(Profile,on_delete=models.CASCADE)
@@ -26,17 +26,17 @@ class Project(models.Model):
     discount = models.IntegerField()
     date = models.DateTimeField()
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
-    level = models.ForeignKey(Level, on_delete=models.CASCADE)  
-    place = models.ForeignKey(Place, on_delete=models.CASCADE) 
+    level = models.ForeignKey(Level, on_delete=models.CASCADE)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    
+
     def __str__(self):
         return self.title
 class File(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    #file_upload = models.ForeignKey(Profile,on_delete=models.CASCADE)       
+    #file_upload = models.ForeignKey(Profile,on_delete=models.CASCADE)
 class Cost(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     calculate_cost = models.IntegerField()
@@ -62,7 +62,7 @@ class OfferLevel(models.Model):
     def __str__(self):
         return self.title
 class Budget(models.Model):
-    Applicant =  models.ForeignKey(Project, on_delete=models.CASCADE)
+    applicant =  models.ForeignKey(Project, on_delete=models.CASCADE)
     currency = models.TextField()
     title = models.TextField()
     time = models.IntegerField()
