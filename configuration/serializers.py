@@ -1,22 +1,55 @@
-from .models import Skill,WorkCategory,Level,Estimate
+from .models import Estimate,ProfileType,BankName,Language,Level,ViewStatus,Currency,Status,WorkCategory,Skill,ComplainType,Degree
 from rest_framework import serializers
 
-class SkillSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Skill
-        fields =  ['name']
-class WorkCategorySerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = WorkCategory
-        fields =  ['name']
-class LevelSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Level
-        fields =  ['name']
 class EstimateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Estimate
-        fields =  ['name']
+        fields =  ['name','active']
+class ProfileTypeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ProfileType
+        fields =  ['name','active']
+class BankNameSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = BankName
+        fields = ['name','active']
+class LanguageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Language
+        fields = ['name','active']
+class LevelSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Level
+        fields =  ['name','active']
+class ViewStatusSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ViewStatus
+        fields =  ['name','active']
+class CurrencySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Currency
+        fields =  ['name','active']
+class StatusSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Status
+        fields =  ['name','active']
+class WorkCategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = WorkCategory
+        fields =  ['name','active']
+class SkillSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Skill
+        fields = ['name','active']
+class ComplainTypeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ComplainType
+        fields = ['name','active']
+class DegreeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Degree
+        fields = ['name','active']
+
 
 
 

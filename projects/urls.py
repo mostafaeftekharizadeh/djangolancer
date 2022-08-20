@@ -20,8 +20,14 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'project/project', views.ProjectViewSet, basename='project')
-
+router.register(r'project/file', views.FileViewSet, basename='file')
+router.register(r'project/Cost', views.CostViewSet, basename='Cost')
+router.register(r'project/Offer', views.OfferViewSet, basename='Offer')
+router.register(r'project/OfferLevel', views.OfferLevelViewSet, basename='OfferLevel')
+router.register(r'project/Budget', views.BudgetViewSet, basename='Budget')
 
 
 urlpatterns = [
 ]
+
+

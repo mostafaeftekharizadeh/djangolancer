@@ -23,6 +23,18 @@ urlpatterns = [
     path('user/login', views.LoginView.as_view(), name='login_view'),
     path('user/password', views.ChangePasswordView.as_view(), name='change_password_view'),
     path('user/update', views.UpdateUserView.as_view(), name='update_user_view'),
+
+    path('user/Profile', views.ProfileViewSet, name='Profile'),
+    path('user/Profile_skills', views.Profile_skillsViewSet, name='profile_skills'),
+    path('user/Profile_jobs', views.Profile_jobsViewSet, name='profile_jobs'),
+    path('user/Education', views.EducationViewSet, name='Education'),
+    path('user/Certificate', views.CertificateViewSet, name='Certificate'),
+    path('user/Specialty', views.SpecialtyViewSet, name='Specialty'),
+    path('user/Achievement', views.AchievementViewSet, name='Achievement'),
+    path('user/ProfileLanguage', views.ProfileLanguageViewSet, name='ProfileLanguage'),
+    path('user/WorkSample', views.WorkSampleViewSet, name='WorkSample'),
+    path('user/SocialMedia', views.SocialMediaViewSet, name='SocialMedia'),
+    path('user/voting', views.VotingViewSet, name='voting'),
 ]
 
 
