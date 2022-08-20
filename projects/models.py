@@ -31,7 +31,7 @@ class Project(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    cost = models.ForeignKey(Cost, on_delete=models.CASCADE)
+    # cost = models.ForeignKey(Cost, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
 class File(models.Model):
