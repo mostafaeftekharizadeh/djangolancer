@@ -19,18 +19,18 @@ from . import views
 
 
 router = routers.DefaultRouter()
-router.register(r'configuration/Estimate', views.EstimateViewSet, basename='Estimate')
-router.register(r'configuration/ProfileType', views.ProfileTypeViewSet, basename='ProfileType')
-router.register(r'configuration/BankName', views.BankNameViewSet, basename='BankName')
-router.register(r'configuration/Language', views.LanguageViewSet, basename='Language')
-router.register(r'configuration/Level', views.LevelViewSet, basename='Level')
-router.register(r'configuration/ViewStatus', views.ViewStatusViewSet, basename='ViewStatus')
-router.register(r'configuration/Currency', views.CurrencyViewSet, basename='Currency')
-router.register(r'configuration/Status', views.StatusViewSet, basename='Status')
-router.register(r'configuration/WorkCategory', views.WorkCategoryViewSet, basename='WorkCategory')
-router.register(r'configuration/Skill', views.SkillViewSet, basename='Skill')
-router.register(r'configuration/ComplainType', views.ComplainTypeViewSet, basename='ComplainType')
-router.register(r'configuration/Degree', views.DegreeViewSet, basename='Degree')
+router.register(r'api/configuration/Estimate', views.EstimateViewSet, basename='Estimate')
+router.register(r'api/configuration/ProfileType', views.ProfileTypeViewSet, basename='ProfileType')
+router.register(r'api/configuration/BankName', views.BankNameViewSet, basename='BankName')
+router.register(r'api/configuration/Language', views.LanguageViewSet, basename='Language')
+router.register(r'api/configuration/Level', views.LevelViewSet, basename='Level')
+router.register(r'api/configuration/ViewStatus', views.ViewStatusViewSet, basename='ViewStatus')
+router.register(r'api/configuration/Currency', views.CurrencyViewSet, basename='Currency')
+router.register(r'api/configuration/Status', views.StatusViewSet, basename='Status')
+router.register(r'api/configuration/WorkCategory', views.WorkCategoryViewSet, basename='WorkCategory')
+router.register(r'api/configuration/Skill', views.SkillViewSet, basename='Skill')
+router.register(r'api/configuration/ComplainType', views.ComplainTypeViewSet, basename='ComplainType')
+router.register(r'api/configuration/Degree', views.DegreeViewSet, basename='Degree')
 
 urlpatterns = [
 ]

@@ -19,22 +19,21 @@ from . import views
 
 
 urlpatterns = [
-    path('user/register', views.UserRegisterView.as_view(), name='auth_register'),
-    path('user/login', views.LoginView.as_view(), name='login_view'),
-    path('user/password', views.ChangePasswordView.as_view(), name='change_password_view'),
-    path('user/update', views.UpdateUserView.as_view(), name='update_user_view'),
-
-    path('user/Profile', views.ProfileViewSet, name='Profile'),
-    path('user/Profile_skills', views.Profile_skillsViewSet, name='profile_skills'),
-    path('user/Profile_jobs', views.Profile_jobsViewSet, name='profile_jobs'),
-    path('user/Education', views.EducationViewSet, name='Education'),
-    path('user/Certificate', views.CertificateViewSet, name='Certificate'),
-    path('user/Specialty', views.SpecialtyViewSet, name='Specialty'),
-    path('user/Achievement', views.AchievementViewSet, name='Achievement'),
-    path('user/ProfileLanguage', views.ProfileLanguageViewSet, name='ProfileLanguage'),
-    path('user/WorkSample', views.WorkSampleViewSet, name='WorkSample'),
-    path('user/SocialMedia', views.SocialMediaViewSet, name='SocialMedia'),
-    path('user/voting', views.VotingViewSet, name='voting'),
+    path('api/user/register', views.UserRegisterView.as_view(), name='auth_register'),
+    path('api/user/login', views.LoginView.as_view(), name='login_view'),
+    path('api/user/password', views.ChangePasswordView.as_view(), name='change_password_view'),
+    path('api/user/update', views.UpdateUserView.as_view(), name='update_user_view'),
+    path('api/user/Profile', views.ProfileViewSet, name='Profile'),
+    path('api/user/Profile_skills', views.Profile_skillsViewSet, name='profile_skills'),
+    path('api/user/Profile_jobs', views.Profile_jobsViewSet, name='profile_jobs'),
+    path('api/user/Education', views.EducationViewSet, name='Education'),
+    path('api/user/Certificate', views.CertificateViewSet, name='Certificate'),
+    path('api/user/Specialty', views.SpecialtyViewSet, name='Specialty'),
+    path('api/user/Achievement', views.AchievementViewSet, name='Achievement'),
+    path('api/user/ProfileLanguage', views.ProfileLanguageViewSet, name='ProfileLanguage'),
+    path('api/user/WorkSample', views.WorkSampleViewSet, name='WorkSample'),
+    path('api/user/SocialMedia', views.SocialMediaViewSet, name='SocialMedia'),
+    path('api/user/voting', views.VotingViewSet, name='voting'),
 ]
 
 
