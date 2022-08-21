@@ -7,7 +7,7 @@ from configuration.models import Skill,Status,Level
 
 class Project(models.Model):
     user = models.OneToOneField(User,unique=True,on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    # profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     category = models.ForeignKey(WorkCategory, on_delete=models.CASCADE)
     work = models.TextField()
     title = models.TextField()
@@ -44,7 +44,7 @@ class Cost(models.Model):
     pay_date = models.DateTimeField()
 class Offer(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,null=False,on_delete=models.CASCADE)
     total_level = models.IntegerField()
     total_time = models.IntegerField()
     total_price = models.IntegerField()
@@ -63,8 +63,8 @@ class OfferLevel(models.Model):
         return self.title
 class Budget(models.Model):
     project =  models.ForeignKey(Project, on_delete=models.CASCADE)
-    currency = models.TextField()
-    title = models.TextField()
+    currency =models.TextField()
+    title =models.TextField()
     time = models.IntegerField()
     optional = models.BooleanField()
     cost = models.IntegerField()
