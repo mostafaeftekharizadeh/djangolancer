@@ -21,10 +21,10 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'api/project/project', views.ProjectViewSet, basename='project')
 router.register(r'api/project/file', views.FileViewSet, basename='file')
-router.register(r'api/project/Cost', views.CostViewSet, basename='Cost')
-router.register(r'api/project/Offer', views.OfferViewSet, basename='Offer')
-router.register(r'api/project/OfferLevel', views.OfferLevelViewSet, basename='OfferLevel')
-router.register(r'api/project/Budget', views.BudgetViewSet, basename='Budget')
+router.register(r'api/project/cost', views.CostViewSet, basename='cost')
+router.register(r'api/project/offer', views.OfferViewSet, basename='offer')
+router.register(r'api/project/offer_level', views.OfferLevelViewSet, basename='offer_level')
+router.register(r'api/project/budget', views.BudgetViewSet, basename='budget')
 
 
 urlpatterns = [
