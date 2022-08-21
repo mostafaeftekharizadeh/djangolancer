@@ -22,6 +22,7 @@ from rest_framework.response import Response
 
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
+        print(123)
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
         serializer.is_valid(raise_exception=True)
@@ -57,7 +58,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 
     def get_object(self):
         return self.request.user
-        
+
 class MaintainerViewSet(viewsets.ModelViewSet):
     queryset = Maintainer.objects.all()
     serializer_class = MaintainerSerializer
