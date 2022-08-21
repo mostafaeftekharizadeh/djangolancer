@@ -6,4 +6,3 @@ db.sqlite3
 media
 .*.swp
 .*.swo
-migrations
