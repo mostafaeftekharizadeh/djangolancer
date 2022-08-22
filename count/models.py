@@ -20,7 +20,7 @@ class Deposit(models.Model):
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
 
 
-class withdraw(models.Model):
+class Withdraw(models.Model):
     count= models.ForeignKey(Count, on_delete=models.CASCADE)
     user= models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.IntegerField()
@@ -31,7 +31,7 @@ class withdraw(models.Model):
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
 
 
-class withdraw(models.Model):
+class Account(models.Model):
     count= models.ForeignKey(Count, on_delete=models.CASCADE)
     user= models.ForeignKey(User, on_delete=models.CASCADE)
     id_acc =  models.TextField()

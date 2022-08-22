@@ -151,7 +151,11 @@ MIDLANCER_APPS = [
     'user',
     'location',
     'projects',
-    'configuration'
+    'configuration',
+    'count',
+    'complain',
+    # 'FileUploader'
+
 ]
 
 AUTH_PROFILE_MODULE = 'user.Profile'
