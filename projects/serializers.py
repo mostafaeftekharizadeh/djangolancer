@@ -7,7 +7,8 @@ from rest_framework import serializers
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields =  ['profile',
+        fields =  [
+            'user',
                     'category',
                     'work',
                     'title', 
@@ -44,7 +45,7 @@ class FileSerializer(serializers.ModelSerializer):
 class CostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cost
-        fields =  ['Project',
+        fields =  ['project',
                     'calculate_cost',
                     'pay_cost',
                     'pay_date'
@@ -55,7 +56,7 @@ class OfferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Offer
         fields =  ['project',
-                    'profile',
+                    # 'profile',
                     'total_level',
                     'total_time',
                     'total_price',

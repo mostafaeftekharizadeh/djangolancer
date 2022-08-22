@@ -19,12 +19,13 @@ from . import views
 
 
 urlpatterns = [
-    path('api/complain/complain', views.ComplainViewSet, name='complain'),
+ 
 
 ]
 
 
 router = routers.DefaultRouter()
+router.register('api/complain/complain', views.ComplainViewSet, basename='complain')
 #router.register(r'user/maintainer', views.MaintainerViewSet)
 
 

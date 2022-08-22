@@ -31,7 +31,7 @@ class FileViewSet(viewsets.ModelViewSet):
     serializer_class = FileSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ('project')
+    # filterset_fields = ('project')
 
 class CostViewSet(viewsets.ModelViewSet):
     queryset = Cost.objects.all()

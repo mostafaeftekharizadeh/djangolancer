@@ -18,15 +18,15 @@ from rest_framework import routers
 from . import views
 
 
-urlpatterns = [
-    path('api/count/count', views.CountViewSet, name='count'),
-    path('api/count/deposit', views.DepositViewSet, name='deposit'),
-    path('api/count/withdraw', views.WithdrawViewSet, name='withdraw'),
-    path('api/count/account', views.AccountViewSet, name='account'),
-]
 
 
 router = routers.DefaultRouter()
+router.register('api/count/count', views.CountViewSet, basename='count')
+router.register('api/count/deposit', views.DepositViewSet, basename='deposit')
+router.register('api/count/withdraw', views.WithdrawViewSet, basename='withdraw')
+router.register('api/count/account', views.AccountViewSet, basename='account')
 #router.register(r'user/maintainer', views.MaintainerViewSet)
 
 
+urlpatterns = [
+]

@@ -66,3 +66,8 @@ class DegreeViewSet(viewsets.ModelViewSet):
     allowed_methods = ('GET',)
 
 
+class WorkCategoryViewSet(viewsets.ModelViewSet):                                                              
+     queryset = WorkCategory.objects.all()                                                                      
+     serializer_class = WorkCategorySerializer                                   
+     permission_classes = [permissions.IsAuthenticatedOrReadOnly]                                               
+     allowed_methods = ('GET',)
