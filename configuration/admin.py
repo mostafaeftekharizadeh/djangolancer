@@ -18,7 +18,7 @@ class CurrencyAdmin(admin.ModelAdmin):
     pass
 class StatusAdmin(admin.ModelAdmin):
     pass
-class WorkCategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     pass
 class SkillAdmin(admin.ModelAdmin):
     pass
@@ -32,7 +32,7 @@ admin.site.register(Level, LevelAdmin)
 admin.site.register(ViewStatus, ViewStatusAdmin)
 admin.site.register(Currency, CurrencyAdmin)
 admin.site.register(Status, StatusAdmin)
-admin.site.register(WorkCategory, WorkCategoryAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Skill, SkillAdmin)
 admin.site.register(ComplainType, ComplainTypeAdmin)
  

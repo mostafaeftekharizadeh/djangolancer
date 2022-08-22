@@ -27,10 +27,10 @@ router.register(r'api/configuration/level', views.LevelViewSet, basename='level'
 router.register(r'api/configuration/view_status', views.ViewStatusViewSet, basename='viewStatus')
 router.register(r'api/configuration/currency', views.CurrencyViewSet, basename='currency')
 router.register(r'api/configuration/status', views.StatusViewSet, basename='status')
-router.register(r'api/configuration/work_category', views.WorkCategoryViewSet, basename='work_category')
+router.register(r'api/configuration/work_category', views.CategoryViewSet, basename='work_category')
 router.register(r'api/configuration/skill', views.SkillViewSet, basename='Skill')
 router.register(r'api/configuration/complain_type', views.ComplainTypeViewSet, basename='complain_type')
 router.register(r'api/configuration/degree', views.DegreeViewSet, basename='degree')
-router.register(r'api/configuration/work_category', views.WorkCategoryViewSet, basename='work_category')
+router.register(r'api/configuration/work_category', views.CategoryViewSet, basename='work_category')
 urlpatterns = [
 ]

@@ -47,7 +47,7 @@ class Account(models.Model):
     de_wi = models.CharField(
         max_length=1,
         choices=PAY_CHOICES,
-        default='m',
+        default='d',
         null=True, blank=True
     )
     

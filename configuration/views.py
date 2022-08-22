@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework import authentication, permissions
 from django.shortcuts import render
-from .models import Estimate,ProfileType,BankName,Language,Level,ViewStatus,Currency,Status,WorkCategory,Skill,ComplainType,Degree
-from .serializers import EstimateSerializer,ProfileTypeSerializer,BankNameSerializer,LanguageSerializer,LevelSerializer,ViewStatusSerializer,CurrencySerializer,StatusSerializer,WorkCategorySerializer,SkillSerializer,ComplainTypeSerializer,DegreeSerializer
+from .models import Estimate,ProfileType,BankName,Language,Level,ViewStatus,Currency,Status,Category,Skill,ComplainType,Degree
+from .serializers import EstimateSerializer,ProfileTypeSerializer,BankNameSerializer,LanguageSerializer,LevelSerializer,ViewStatusSerializer,CurrencySerializer,StatusSerializer,CategorySerializer,SkillSerializer,ComplainTypeSerializer,DegreeSerializer
 
 class EstimateViewSet(viewsets.ModelViewSet):
     queryset = Estimate.objects.all()
@@ -44,9 +44,9 @@ class StatusViewSet(viewsets.ModelViewSet):
     serializer_class = StatusSerializer
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET',)    
-class WorkCategoryViewSet(viewsets.ModelViewSet):
-    queryset = WorkCategory.objects.all()
-    serializer_class = WorkCategorySerializer
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET',)
 class SkillViewSet(viewsets.ModelViewSet):
@@ -66,8 +66,8 @@ class DegreeViewSet(viewsets.ModelViewSet):
     allowed_methods = ('GET',)
 
 
-class WorkCategoryViewSet(viewsets.ModelViewSet):                                                              
-     queryset = WorkCategory.objects.all()                                                                      
-     serializer_class = WorkCategorySerializer                                   
+class CategoryViewSet(viewsets.ModelViewSet):                                                              
+     queryset = Category.objects.all()                                                                      
+     serializer_class = CategorySerializer                                   
      permission_classes = [permissions.IsAuthenticatedOrReadOnly]                                               
      allowed_methods = ('GET',)

@@ -41,13 +41,24 @@ class Status(models.Model):
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name
-class WorkCategory(models.Model):
+class Category(models.Model):
     name = models.TextField()
+    TYPE_CHOICES = [
+        ("w", 'Work'),
+        ("p", 'Parent'),
+    ]
+    type = models.CharField(
+        max_length=1,
+        choices=TYPE_CHOICES,
+        default='w',
+        null=True, blank=True
+    )
+    parent=models.ForeignKey('Category',on_delete=models.CASCADE)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name  
 class Skill(models.Model):
-    workcategory= models.ForeignKey(WorkCategory,on_delete=models.CASCADE)
+    category= models.ForeignKey(Category,on_delete=models.CASCADE)
     name = models.TextField()
     active=models.BooleanField(default=False)
     def __str__(self):

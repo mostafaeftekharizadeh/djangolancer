@@ -1,4 +1,4 @@
-from .models import Estimate,ProfileType,BankName,Language,Level,ViewStatus,Currency,Status,WorkCategory,Skill,ComplainType,Degree
+from .models import Estimate,ProfileType,BankName,Language,Level,ViewStatus,Currency,Status,Category,Skill,ComplainType,Degree,Category
 from rest_framework import serializers
 
 class EstimateSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,9 +33,9 @@ class StatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Status
         fields =  ['name','active']
-class WorkCategorySerializer(serializers.HyperlinkedModelSerializer):
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = WorkCategory
+        model = Category
         fields =  ['name','active']
 class SkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -49,7 +49,10 @@ class DegreeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Degree
         fields = ['name','active']
-
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['name','active']
 
 
 
