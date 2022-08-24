@@ -53,12 +53,12 @@ class Category(models.Model):
         default='w',
         null=True, blank=True
     )
-    parent=models.ForeignKey('Category',on_delete=models.CASCADE)
+    parent=models.ForeignKey('Category',null=True,on_delete=models.CASCADE)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name  
 class Skill(models.Model):
-    category= models.ForeignKey(Category,on_delete=models.CASCADE)
+    category= models.ForeignKey(Category,null=True,on_delete=models.CASCADE)
     name = models.TextField()
     active=models.BooleanField(default=False)
     def __str__(self):

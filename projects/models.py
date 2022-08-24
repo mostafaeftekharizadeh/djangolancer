@@ -8,7 +8,7 @@ from configuration.models import Skill,Status,Level
 class Project(models.Model):
     user = models.OneToOneField(User,unique=True,on_delete=models.CASCADE)
     # profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,null=False, on_delete=models.CASCADE)
     work = models.TextField()
     title = models.TextField()
     # file_upload_img = models.ForeignKey(Profile,on_delete=models.CASCADE)
