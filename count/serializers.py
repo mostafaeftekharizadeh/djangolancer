@@ -39,7 +39,6 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields =  ['count',
                     'user',
-                    'id_acc',
                     'email',
                     'name',
                     'pos',
