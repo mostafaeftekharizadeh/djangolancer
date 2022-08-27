@@ -14,6 +14,8 @@ class Complain(models.Model):
     price =models.IntegerField()
     viewstatus=models.ForeignKey(ViewStatus, on_delete=models.CASCADE)
     description=models.TextField()
+    exp_opinion=models.TextField(null=True)
+
 
 class ResultComplain(models.Model):
     complain = models.ForeignKey(Complain, on_delete=models.CASCADE)

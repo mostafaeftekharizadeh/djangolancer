@@ -16,7 +16,7 @@ class BankNameSerializer(serializers.HyperlinkedModelSerializer):
 class LanguageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Language
-        fields = ['name','active']
+        fields = ['name','symbol','active']
 class LevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Level
