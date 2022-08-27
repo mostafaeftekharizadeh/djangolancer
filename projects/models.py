@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from location.models import Country, State, City, Place
-from configuration.models import Estimate, Status,Category
+from configuration.models import Estimate, Status,Category,Currency
 from user.models import Profile
 from configuration.models import Skill,Status,Level
 
@@ -9,14 +9,14 @@ class Project(models.Model):
     user = models.OneToOneField(User,unique=True,on_delete=models.CASCADE)
     # profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     category = models.ForeignKey(Category,null=False, on_delete=models.CASCADE)
-    work = models.TextField()
-    title = models.TextField()
+    work = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     # file_upload_img = models.ForeignKey(Profile,on_delete=models.CASCADE)
     skills = models.ManyToManyField(Skill)
-    exp_time = models.TextField()
+    exp_time = models.TimeField()
     description = models.TextField()
     # file_upload_des = models.ForeignKey(Profile,on_delete=models.CASCADE)
-    currency =  models.TextField()
+    currency =  models.ForeignKey(Currency,null=False, on_delete=models.CASCADE)
     budget_min = models.IntegerField()
     budget_max = models.IntegerField()
     tag = models.TextField()
@@ -55,7 +55,7 @@ class Offer(models.Model):
         return self.description
 class OfferLevel(models.Model):
     offer =  models.ForeignKey(Offer, on_delete=models.CASCADE)
-    title = models.TextField()
+    title = models.CharField(max_length=200)
     time = models.IntegerField()
     optional = models.BooleanField()
     cost = models.IntegerField()
@@ -63,8 +63,8 @@ class OfferLevel(models.Model):
         return self.title
 class Budget(models.Model):
     project =  models.ForeignKey(Project, on_delete=models.CASCADE)
-    currency =models.TextField()
-    title =models.TextField()
+    currency =models.ForeignKey(Currency,null=False, on_delete=models.CASCADE)
+    title =models.CharField(max_length=200)
     time = models.IntegerField()
     optional = models.BooleanField()
     cost = models.IntegerField()

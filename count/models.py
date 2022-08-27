@@ -5,10 +5,10 @@ from configuration.models import Status
 
 class Count(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    sheba=models.TextField()
-    card=models.TextField()
-    name=models.TextField()
-    bankname = models.TextField()
+    sheba=models.CharField(max_length=26,unique=True)
+    card=models.CharField(max_length=16,unique=True)
+    name=models.CharField(max_length=255)
+    bankname = models.TextField(max_length=30)
     active=models.TextField()
 
 class Deposit(models.Model):
@@ -16,7 +16,7 @@ class Deposit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.IntegerField()
     date= models.DateField()
-    transaction = models.TextField()
+    transaction = models.IntegerField()
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
 
 
@@ -25,19 +25,18 @@ class Withdraw(models.Model):
     user= models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.IntegerField()
     date= models.DateField()
-    transaction = models.TextField()
+    transaction = models.IntegerField()
     to_account= models.IntegerField()
-    acc_name= models.TextField()
+    acc_name= models.CharField(max_length=255)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
 
 
 class Account(models.Model):
     count= models.ForeignKey(Count, on_delete=models.CASCADE)
     user= models.ForeignKey(User, on_delete=models.CASCADE)
-    id_acc =  models.TextField()
-    email=  models.TextField()
-    name =  models.TextField()
-    pos=  models.TextField()
+    email=  models.CharField(max_length=255)
+    name =  models.CharField(max_length=255)
+    pos=  models.CharField(max_length=255)
     date= models.DateField()
     amount = models.IntegerField()
     PAY_CHOICES = [
