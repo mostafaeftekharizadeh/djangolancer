@@ -52,7 +52,7 @@ class DegreeSerializer(serializers.HyperlinkedModelSerializer):
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ['name','active']
+        fields = ['name','type','parent','active']
 
 
 

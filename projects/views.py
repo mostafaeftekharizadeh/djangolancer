@@ -53,3 +53,8 @@ class BudgetViewSet(viewsets.ModelViewSet):
     serializer_class = BudgetSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
+class NewViewSet(viewsets.ModelViewSet):
+    queryset = Budget.objects.all() 
+    serializer_class = BudgetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = (filters.DjangoFilterBackend,)

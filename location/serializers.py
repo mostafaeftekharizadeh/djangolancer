@@ -4,11 +4,11 @@ from rest_framework import serializers
 class CountrySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Country
-        fields =  ['name','active']
+        fields =  ['name','initials','code','active']
 class StateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = State
-        fields =  ['name','active']
+        fields =  ['name','initials','code','active']
 class CitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = City

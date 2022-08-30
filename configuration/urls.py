@@ -31,6 +31,6 @@ router.register(r'api/configuration/work_category', views.CategoryViewSet, basen
 router.register(r'api/configuration/skill', views.SkillViewSet, basename='Skill')
 router.register(r'api/configuration/complain_type', views.ComplainTypeViewSet, basename='complain_type')
 router.register(r'api/configuration/degree', views.DegreeViewSet, basename='degree')
-router.register(r'api/configuration/work_category', views.CategoryViewSet, basename='work_category')
+router.register(r'api/configuration/category', views.CategoryViewSet, basename='category')
 urlpatterns = [
 ]

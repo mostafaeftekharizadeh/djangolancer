@@ -25,7 +25,7 @@ router.register(r'api/project/cost', views.CostViewSet, basename='cost')
 router.register(r'api/project/offer', views.OfferViewSet, basename='offer')
 router.register(r'api/project/offer_level', views.OfferLevelViewSet, basename='offer_level')
 router.register(r'api/project/budget', views.BudgetViewSet, basename='budget')
-
+router.register(r'api/project/test', views.NewViewSet, basename='test')
 
 urlpatterns = [
 ]
