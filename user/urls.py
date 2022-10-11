@@ -20,6 +20,8 @@ from . import views
 
 urlpatterns = [
     path('api/user/register', views.UserRegisterView.as_view(), name='auth_register'),
+    path('api/user/refresh', views.RefreshView.as_view(), name='auth_register'),
+    path('api/user/verify', views.VerifyView.as_view(), name='auth_register'),
     path('api/user/login', views.LoginView.as_view(), name='login_view'),
     path('api/user/password', views.ChangePasswordView.as_view(), name='change_password_view'),
     path('api/user/update', views.UpdateUserView.as_view(), name='update_user_view'),

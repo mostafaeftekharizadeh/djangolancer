@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import viewsets
@@ -35,6 +36,20 @@ class LoginView(ObtainAuthToken):
             'last_name' : user.last_name,
             'email': user.email
         })
+class RefreshView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = UserRegisterSerializer
+    allowed_methods = ('GET',)
+    def get(self,  format=json):
+        return Response("{status:200}")
+class VerifyView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = UserRegisterSerializer
+    allowed_methods = ('GET',)
+    def get(self,  format=json):
+        return Response("{status:200}")
 
 class UserRegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
