@@ -2,15 +2,10 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-from .models import Maintainer,UserRegister, Profile,Profile_skills,Profile_jobs,Education,Certificate,Specialty,Achievement,ProfileLanguage,WorkSample,SocialMedia,Voting
-
-class MaintainerSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Maintainer
-        fields = ['name','description']
+from .models import  Profile, Skill, Job, Education,Certificate,Specialty,Achievement,Language,WorkSample,SocialMedia,Voting
 
 
-class UserRegisterSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,
             validators=[UniqueValidator(queryset=User.objects.all())]
@@ -131,16 +126,19 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 class Profile_skillsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Profile_skills
+        model = Skill
         fields = ['profile','skill','level']
+
 class Profile_jobsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Profile_jobs
+        model = Job
         fields = ['profile','title','company','description','date_start','date_end']
+
 class EducationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Education
         fields = ['profile','degree','uni_name','description','date_start','date_end']
+
 class CertificateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Certificate
@@ -153,10 +151,12 @@ class AchievementSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Achievement
         fields = ['profile','title','event','description','date_start','date_end']
+
 class ProfileLanguageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = ProfileLanguage
+        model = Language
         fields = ['profile','language','talking','writing','comprehension']
+
 class WorkSampleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = WorkSample

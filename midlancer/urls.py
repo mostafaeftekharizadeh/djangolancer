@@ -1,4 +1,4 @@
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.contrib import admin
 from rest_framework import routers
 from rest_framework import permissions
@@ -46,5 +46,5 @@ for app in settings.MIDLANCER_APPS:
     router.registry.extend(_app.router.registry)
 
 urlpatterns += [
-    path('', include(router.urls)),
+    re_path(r'^/api/v1/', include(router.urls)),
 ]

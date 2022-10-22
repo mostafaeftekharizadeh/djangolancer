@@ -4,14 +4,13 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import authentication, permissions
-from .serializers import MaintainerSerializer
-from .serializers import UserRegisterSerializer
+from .serializers import  UserSerializer
 from .serializers import ChangePasswordSerializer
 from .serializers import UpdateUserSerializer
 from .serializers import ProfileSerializer,Profile_skillsSerializer,Profile_jobsSerializer,EducationSerializer
 from .serializers import CertificateSerializer,SpecialtySerializer,AchievementSerializer,ProfileLanguageSerializer
 from .serializers import WorkSampleSerializer,SocialMediaSerializer,VotingSerializer
-from .models import Maintainer,UserRegister,Profile,Profile_skills,Profile_jobs,Education,Certificate,Specialty,Achievement,ProfileLanguage,WorkSample,SocialMedia,Voting
+from .models import Profile, Skill, Job, Education,Certificate,Specialty,Achievement,Language,WorkSample,SocialMedia,Voting
 
 
 
@@ -36,35 +35,42 @@ class LoginView(ObtainAuthToken):
             'last_name' : user.last_name,
             'email': user.email
         })
-class RefreshView(generics.CreateAPIView):
+
+class UserView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
-    serializer_class = UserRegisterSerializer
-    allowed_methods = ('GET',)
-    def get(self,  format=json):
-        return Response("{status:200}")
-class VerifyView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (permissions.AllowAny,)
-    serializer_class = UserRegisterSerializer
-    allowed_methods = ('GET',)
-    def get(self,  format=json):
-        return Response("{status:200}")
+    serializer_class = UserSerializer
 
-class UserRegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (permissions.AllowAny,)
-    serializer_class = UserRegisterSerializer
-
-class UpdateUserView(generics.UpdateAPIView):
-    queryset = User.objects.all()
-    model = User
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = UpdateUserSerializer
-
-    def get_object(self):
-        return self.request.user
-
+#class RefreshView(generics.CreateAPIView):
+#    queryset = User.objects.all()
+#    permission_classes = (permissions.AllowAny,)
+#    serializer_class = UserRegisterSerializer
+#    allowed_methods = ('GET',)
+#    def get(self,  format=json):
+#        return Response("{status:200}")
+#
+#class VerifyView(generics.CreateAPIView):
+#    queryset = User.objects.all()
+#    permission_classes = (permissions.AllowAny,)
+#    serializer_class = UserRegisterSerializer
+#    allowed_methods = ('GET',)
+#    def get(self,  format=json):
+#        return Response("{status:200}")
+#
+#class UserRegisterView(generics.CreateAPIView):
+#    queryset = User.objects.all()
+#    permission_classes = (permissions.AllowAny,)
+#    serializer_class = UserRegisterSerializer
+#
+#class UpdateUserView(generics.UpdateAPIView):
+#    queryset = User.objects.all()
+#    model = User
+#    permission_classes = (permissions.IsAuthenticated,)
+#    serializer_class = UpdateUserSerializer
+#
+#    def get_object(self):
+#        return self.request.user
+#
 class ChangePasswordView(generics.UpdateAPIView):
     queryset = User.objects.all()
     model = User
@@ -74,31 +80,27 @@ class ChangePasswordView(generics.UpdateAPIView):
     def get_object(self):
         return self.request.user
 
-class MaintainerViewSet(viewsets.ModelViewSet):
-    queryset = Maintainer.objects.all()
-    serializer_class = MaintainerSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
-class UserRegisterViewSet(viewsets.ModelViewSet):
-    queryset = UserRegister.objects.all()
-    serializer_class = UserRegisterSerializer
-    permission_classes = [permissions.IsAuthenticated]
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
+
 class Profile_skillsViewSet(viewsets.ModelViewSet):
-    queryset = Profile_skills.objects.all()
+    queryset = Skill.objects.all()
     serializer_class = Profile_skillsSerializer
     permission_classes = [permissions.IsAuthenticated]
+
 class Profile_jobsViewSet(viewsets.ModelViewSet):
-    queryset = Profile_jobs.objects.all()
+    queryset = Job.objects.all()
     serializer_class = Profile_jobsSerializer
     permission_classes = [permissions.IsAuthenticated]
+
 class EducationViewSet(viewsets.ModelViewSet):
     queryset = Education.objects.all()
     serializer_class = EducationSerializer
     permission_classes = [permissions.IsAuthenticated]
+
 class CertificateViewSet(viewsets.ModelViewSet):
     queryset = Certificate.objects.all()
     serializer_class = CertificateSerializer
@@ -115,7 +117,7 @@ class AchievementViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 class ProfileLanguageViewSet(viewsets.ModelViewSet):
-    queryset = ProfileLanguage.objects.all()
+    queryset = Language.objects.all()
     serializer_class = ProfileLanguageSerializer
     permission_classes = [permissions.IsAuthenticated]
 
