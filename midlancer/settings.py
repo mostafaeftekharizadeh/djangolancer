@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'projects',
     'configuration',
     'complain',
+    'company',
     'count',
     #    'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
    'drf_yasg',
