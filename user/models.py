@@ -10,7 +10,7 @@ class Party(models.Model):
     #user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
     owner = models.OneToOneField('self', related_name="party_owner", null=True, blank=True, on_delete=models.CASCADE)
-    deleted_date = models.DateTimeField(default=datetime.now)
+    deleted_date = models.DateTimeField(null=True,blank=True)
 
 
 class Profile(models.Model):
