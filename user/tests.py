@@ -1,15 +1,33 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
+import json
 
 
 # Create your tests here.
 class UserTestCase(TestCase):
-    fixtures = ['users.json', 'auth.user']
+    fixtures = ['user.json']
+
     def setUp(self):
         pass
 
-    def login(self):
+
+    def test_register(self):
+        client = APIClient()
+        data = {
+            "username" : "testuser",
+            "password" : "arian1391",
+            "password2" : "arian1391",
+            "email" : "testuser@midlancer.ir",
+            "first_name" : "fname1",
+            "last_name" : "lname1"
+        }
+        response = client.post('/api/v1/user/user/', data, format='json')
+        assert response.status_code == 201
+
+
+
+    def test_login(self):
         client = APIClient()
         data = {
 	        "username" : "mid1",
@@ -19,22 +37,18 @@ class UserTestCase(TestCase):
 
         assert response.status_code == 200
 
-    def register(self):
+
+    def test_user_list(self):
         client = APIClient()
-        data = {
-            "username" : "mid1",
-            "password" : "arian1391",
-            "password2" : "arian1391",
-            "email" : "mid1@midlancer.ir",
-            "first_name" : "fname1",
-            "last_name" : "lname1"
-        }
-        #response = client.post('/api/v1/user/user/', data, format='json')
-        u = User.objects.get(username='mid1')
-        #assert response.status_code == 201
+        response = client.get('/api/v1/user/user/')
+        data = json.loads(response.content)
+        assert response.status_code == 200
+        self.assertEqual(len(data['results']), 10)
 
-    def test_1_register_new_user(self):
-        self.register()
-        self.login()
-
+    def test_user_delete(self):
+        user = User.objects.get(username='testuser7')
+        client = APIClient()
+        client.login(username='testuser7', password='testuser7')
+        response = client.delete('/api/v1/user/user/10/')
+        assert response.status_code == 204
 
