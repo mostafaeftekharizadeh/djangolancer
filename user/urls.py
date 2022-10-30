@@ -15,31 +15,32 @@ Including another URLconf
 """
 from django.urls import include, path
 from rest_framework import routers
-from . import views
+from . import views, profile_views
 
 
 urlpatterns = [
-    #path('api/user/register', views.UserRegisterView.as_view(), name='auth_register'),
-    #path('api/user/refresh', views.RefreshView.as_view(), name='auth_register'),
-    #path('api/user/verify', views.VerifyView.as_view(), name='auth_register'),
-    path('api/user/login', views.LoginView.as_view(), name='login_view'),
-    path('api/user/password', views.ChangePasswordView.as_view(), name='change_password_view'),
-    #path('api/user/update', views.UpdateUserView.as_view(), name='update_user_view'),
-    path('api/user/profile', views.ProfileViewSet, name='profile'),
-    path('api/user/profile_skills', views.Profile_skillsViewSet, name='profile_skills'),
-    path('api/user/profile_jobs', views.Profile_jobsViewSet, name='profile_jobs'),
-    path('api/user/education', views.EducationViewSet, name='education'),
-    path('api/user/certificate', views.CertificateViewSet, name='certificate'),
-    path('api/user/specialty', views.SpecialtyViewSet, name='specialty'),
-    path('api/user/achievement', views.AchievementViewSet, name='achievement'),
-    path('api/user/profile_language', views.ProfileLanguageViewSet, name='profile_language'),
-    path('api/user/work_sample', views.WorkSampleViewSet, name='work_sample'),
-    path('api/user/social_media', views.SocialMediaViewSet, name='social_media'),
-    path('api/user/voting', views.VotingViewSet, name='voting'),
+    path('api/v1/user/login/', views.LoginView.as_view(), name='login_view'),
+    path('api/v1/user/password/', views.ChangePasswordView.as_view(), name='change_password_view'),
+    ### profile urls
+    path('api/v1/user/profile/social_media/', profile_views.SocialMediaViewSet, name='social_media'),
+
+    path('api/v1/user/vote/', views.VoteViewSet, name='vote'),
 ]
 
 
 router = routers.DefaultRouter()
-#router.register(r'user/maintainer', views.MaintainerViewSet)
+router.register(r'user/user', views.UserViewSet, basename='user')
+router.register(r'user/party', views.PartyViewSet, basename='party')
+router.register(r'user/profile', profile_views.ProfileViewSet, basename='profile')
+router.register(r'user/profile/skill', profile_views.SkillViewSet, basename='skill')
+router.register(r'user/profile/job', profile_views.JobViewSet, basename='job')
+router.register(r'user/profile/education', profile_views.EducationViewSet, basename='education')
+router.register(r'user/profile/certificate', profile_views.CertificateViewSet, basename='certificate')
+router.register(r'user/profile/specialty', profile_views.SpecialtyViewSet, basename='specialty')
+router.register(r'user/profile/achievement', profile_views.AchievementViewSet, basename='achievement')
+router.register(r'user/profile/language', profile_views.LanguageViewSet, basename='language')
+router.register(r'user/profile/worksample', profile_views.WorkSampleViewSet, basename='worksample')
+router.register(r'user/profile/socialmedia', profile_views.SocialMediaViewSet, basename='socialmedia')
+
 
 

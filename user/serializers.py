@@ -2,17 +2,32 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-from .models import  Profile, Skill, Job, Education,Certificate,Specialty,Achievement,Language,WorkSample,SocialMedia,Voting
+from .models import  (Party,
+                      Profile,
+                      Skill,
+                      Job,
+                      Education,
+                      Certificate,
+                      Specialty,
+                      Achievement,
+                      Language,
+                      WorkSample,
+                      SocialMedia,
+                      Vote)
 
+
+class PartySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Party
+        fields = "__all__"
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,
             validators=[UniqueValidator(queryset=User.objects.all())]
             )
-
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(write_only=True, required=False, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
@@ -23,9 +38,12 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
-
+        instance = getattr(self, 'instance', None)
+        if instance == None:
+            if "password" not in attrs or "password2" not in attrs:
+                raise serializers.ValidationError({"password": "password/password2 requited."})
+            if attrs['password'] != attrs['password2']:
+                raise serializers.ValidationError({"password": "Password fields didn't match."})
         return attrs
 
     def create(self, validated_data):
@@ -35,15 +53,17 @@ class UserSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
-
-
         user.set_password(validated_data['password'])
         user.save()
-
-        profile = Profile.objects.create(user = user)
-
-
+        party = Party.objects.create(user = user)
         return user
+
+    def update(self, instance, validated_data):
+        instance.email=validated_data['email']
+        instance.first_name=validated_data['first_name']
+        instance.last_name=validated_data['last_name']
+        instance.save()
+        return instance
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
 
@@ -122,53 +142,56 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Profile
-        fields = ['name','user','profile_type','date_birth','age','gender','marital','vote_total','panel','panel_timeout','active','news']
+        fields = "__all__"
+        #fields = ['profile_type','date_birth','age','gender','marital','vote_total','panel','panel_timeout','active','news']
 
-class Profile_skillsSerializer(serializers.HyperlinkedModelSerializer):
+class SkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Skill
-        fields = ['profile','skill','level']
+        fields = ['skill','level']
 
-class Profile_jobsSerializer(serializers.HyperlinkedModelSerializer):
+class JobsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Job
-        fields = ['profile','title','company','description','date_start','date_end']
+        fields = ['title','company','description','date_start','date_end']
 
 class EducationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Education
-        fields = ['profile','degree','uni_name','description','date_start','date_end']
+        fields = ['degree','uni_name','description','date_start','date_end']
 
 class CertificateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Certificate
-        fields = ['profile','name','description','Institution_name','date_start','date_end']
+        fields = ['name','description','Institution_name','date_start','date_end']
 class SpecialtySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Specialty
-        fields = ['profile','level','description','Institution_name','date_start','date_end']
+        fields = ['level','description','Institution_name','date_start','date_end']
 class AchievementSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Achievement
-        fields = ['profile','title','event','description','date_start','date_end']
+        fields = ['title','event','description','date_start','date_end']
 
-class ProfileLanguageSerializer(serializers.HyperlinkedModelSerializer):
+class LanguageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Language
-        fields = ['profile','language','talking','writing','comprehension']
+        fields = ['language','talking','writing','comprehension']
 
 class WorkSampleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = WorkSample
-        fields = ['profile','title','skill','description']
+        fields = ['title','skill','description']
+
 class SocialMediaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SocialMedia
-        fields = ['profile','name','userid','phone','link','date_start','date_end']
-class VotingSerializer(serializers.HyperlinkedModelSerializer):
+        fields = ['name','userid','phone','link','date_start','date_end']
+
+class VoteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Voting
-        fields = ['user','voter','vot']
+        model = Vote
+        fields = ['user','voter','vote']
 
 
 

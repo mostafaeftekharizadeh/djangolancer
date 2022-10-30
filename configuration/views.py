@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework import authentication, permissions
 from django.shortcuts import render
 from .models import Estimate,ProfileType,BankName,Language,Level,ViewStatus,Currency,Status,Category,Skill,ComplainType,Degree
-from .serializers import EstimateSerializer,ProfileTypeSerializer,BankNameSerializer,LanguageSerializer,LevelSerializer,ViewStatusSerializer,CurrencySerializer,StatusSerializer,CategorySerializer,SkillSerializer,ComplainTypeSerializer,DegreeSerializer
+from .serializers import EstimateSerializer,ProfileTypeSerializer,BankNameSerializer,BaseLanguageSerializer,BaseLevelSerializer,ViewStatusSerializer,CurrencySerializer,StatusSerializer,CategorySerializer,BaseSkillSerializer,ComplainTypeSerializer,DegreeSerializer
 
 class EstimateViewSet(viewsets.ModelViewSet):
     queryset = Estimate.objects.all()
@@ -21,12 +21,12 @@ class BankNameViewSet(viewsets.ModelViewSet):
     allowed_methods = ('GET','POST')
 class LanguageViewSet(viewsets.ModelViewSet):
     queryset = Language.objects.all()
-    serializer_class = LanguageSerializer
+    serializer_class = BaseLanguageSerializer
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET','POST')
 class LevelViewSet(viewsets.ModelViewSet):
     queryset = Level.objects.all()
-    serializer_class = LevelSerializer
+    serializer_class = BaseLevelSerializer
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET','POST')
 class ViewStatusViewSet(viewsets.ModelViewSet):
@@ -43,7 +43,7 @@ class StatusViewSet(viewsets.ModelViewSet):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
     permission_classes = [permissions.IsAuthenticated]
-    allowed_methods = ('GET','POST')    
+    allowed_methods = ('GET','POST')
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -51,14 +51,14 @@ class CategoryViewSet(viewsets.ModelViewSet):
     allowed_methods = ('GET','POST')
 class SkillViewSet(viewsets.ModelViewSet):
     queryset = Skill.objects.all()
-    serializer_class = SkillSerializer
+    serializer_class = BaseSkillSerializer
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET','POST')
 class ComplainTypeViewSet(viewsets.ModelViewSet):
     queryset = ComplainType.objects.all()
     serializer_class = ComplainTypeSerializer
     permission_classes = [permissions.IsAuthenticated]
-    allowed_methods = ('GET','POST') 
+    allowed_methods = ('GET','POST')
 class DegreeViewSet(viewsets.ModelViewSet):
     queryset = Degree.objects.all()
     serializer_class = DegreeSerializer
@@ -66,8 +66,8 @@ class DegreeViewSet(viewsets.ModelViewSet):
     allowed_methods = ('GET','POST')
 
 
-class CategoryViewSet(viewsets.ModelViewSet):                                                              
-     queryset = Category.objects.all()                                                                      
-     serializer_class = CategorySerializer                                   
-     permission_classes = [permissions.IsAuthenticated  ]                                               
+class CategoryViewSet(viewsets.ModelViewSet):
+     queryset = Category.objects.all()
+     serializer_class = CategorySerializer
+     permission_classes = [permissions.IsAuthenticated  ]
     #  allowed_methods = ('GET','POST')

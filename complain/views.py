@@ -1,8 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import authentication, permissions
-from configuration.serializers import  SkillSerializer, CategorySerializer, LevelSerializer,EstimateSerializer
 from location.serializers import PlaceSerializer,CountrySerializer,StateSerializer,CitySerializer,PlaceSerializer
-from configuration.models import Skill, Category,Level,Estimate
 from location.models import Country,State,City,Place
 from rest_framework import generics
 from django_filters import rest_framework as filters

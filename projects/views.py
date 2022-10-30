@@ -1,8 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import authentication, permissions
-from configuration.serializers import  SkillSerializer, CategorySerializer, LevelSerializer,EstimateSerializer
 from location.serializers import PlaceSerializer,CountrySerializer,StateSerializer,CitySerializer,PlaceSerializer
-from configuration.models import Skill, Category,Level,Estimate
 from location.models import Country,State,City,Place
 from rest_framework import generics
 from django_filters import rest_framework as filters
@@ -16,7 +14,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('country', 'state', 'city', 'skills', 'user', 'level', 'place')
-    
+
     '''
     filter projects based on owner
     '''
@@ -54,7 +52,7 @@ class BudgetViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
 class NewViewSet(viewsets.ModelViewSet):
-    queryset = Budget.objects.all() 
+    queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
