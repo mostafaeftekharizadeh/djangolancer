@@ -139,7 +139,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
         return instance
 
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
