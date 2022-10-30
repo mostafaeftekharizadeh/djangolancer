@@ -44,20 +44,25 @@ class LoginView(ObtainAuthToken):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
     def list(self, request, *args, **kwargs):
         #if request.user.is_authenticated == False:
         #    return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)
         return super().list(request, args, kwargs)
+
     def update(self, request, *args, **kwargs):
-        if request.user.is_authenticated == False:
-            return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)
         instance = self.get_object()
-        if instance != request.user:
+        if request.user.is_authenticated == False or instance != request.user:
             return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)
         return super().update(request, args, kwargs)
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.user.is_authenticated == False or instance != request.user:
+            return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)
+        return super().destroy(request, args, kwargs)
 
 class ChangePasswordView(generics.UpdateAPIView):
     queryset = User.objects.all()
