@@ -30,7 +30,11 @@ class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ProfileSerializer
-
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.user.is_authenticated == False or instance.party.user != request.user:
+            return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)
+        return super().update(request, args, kwargs)
 
 class SkillViewSet(viewsets.ModelViewSet):
     queryset = Skill.objects.all()

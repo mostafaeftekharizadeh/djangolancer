@@ -5,6 +5,8 @@ from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import authentication, permissions
 from rest_framework import status
+from django_filters import rest_framework as filters
+import django_filters
 from .serializers import PartySerializer, UserSerializer
 from .serializers import ChangePasswordSerializer
 from .serializers import UpdateUserSerializer
@@ -44,13 +46,14 @@ class LoginView(ObtainAuthToken):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
-    def list(self, request, *args, **kwargs):
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ('username',"party")
+    #def list(self, request, *args, **kwargs):
         #if request.user.is_authenticated == False:
         #    return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)
-        return super().list(request, args, kwargs)
+    #    return super().list(request, args, kwargs)
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()

@@ -1,12 +1,13 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
+from user.models import Party
 import json
 
 
 # Create your tests here.
 class UserTestCase(TestCase):
-    fixtures = ['user.json']
+    fixtures = ['auth.json', 'user.json']
 
     def setUp(self):
         pass
@@ -25,13 +26,16 @@ class UserTestCase(TestCase):
         response = client.post('/api/v1/user/user/', data, format='json')
         assert response.status_code == 201
 
+        party = Party.objects.get(user__username="testuser")
+        assert party != None
+
 
 
     def test_login(self):
         client = APIClient()
         data = {
-	        "username" : "mid1",
-	        "password" : "arian1391"
+	        "username" : "testuser1",
+	        "password" : "testuser1"
         }
         response = client.post('/api/v1/user/login/', data, format='json')
 
@@ -49,6 +53,13 @@ class UserTestCase(TestCase):
         user = User.objects.get(username='testuser7')
         client = APIClient()
         client.login(username='testuser7', password='testuser7')
-        response = client.delete('/api/v1/user/user/10/')
+        response = client.delete('/api/v1/user/user/7/')
+        assert response.status_code == 204
+
+    def test_user_delete(self):
+        user = User.objects.get(username='testuser7')
+        client = APIClient()
+        client.login(username='testuser7', password='testuser7')
+        response = client.delete('/api/v1/user/user/7/')
         assert response.status_code == 204
 
