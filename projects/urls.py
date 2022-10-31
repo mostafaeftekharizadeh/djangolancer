@@ -16,7 +16,8 @@ Including another URLconf
 from rest_framework import routers
 from . import views
 
-
+urlpatterns = [
+]
 
 router = routers.DefaultRouter()
 router.register(r'project/project', views.ProjectViewSet, basename='project')
@@ -27,7 +28,6 @@ router.register(r'project/offer_level', views.OfferLevelViewSet, basename='offer
 router.register(r'project/budget', views.BudgetViewSet, basename='budget')
 router.register(r'project/test', views.NewViewSet, basename='test')
 
-urlpatterns = [
-]
+
 
 
