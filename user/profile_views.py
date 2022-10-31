@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters.profile import ProfileFilter
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import authentication, permissions
@@ -28,8 +30,10 @@ from .serializers import (ProfileSerializer,
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
-    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ProfileSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ProfileFilter
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         if request.user.is_authenticated == False or instance.party.user != request.user:
