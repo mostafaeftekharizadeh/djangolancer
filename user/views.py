@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import authentication, permissions
@@ -48,8 +49,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
-    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = ('username',"party", "profile__skill")
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ('username',"party", "party__skill")
     #def list(self, request, *args, **kwargs):
         #if request.user.is_authenticated == False:
         #    return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)

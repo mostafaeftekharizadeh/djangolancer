@@ -6,7 +6,7 @@ from user.models import Party
 
 
 class Project(models.Model):
-    party = models.ForeignKey(Party, on_delete=models.CASCADE)    
+    party = models.ForeignKey(Party ,on_delete=models.CASCADE)    
     category = models.ForeignKey(
         Category, null=False, on_delete=models.CASCADE)
     work = models.CharField(max_length=255)

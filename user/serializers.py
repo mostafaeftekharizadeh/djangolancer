@@ -143,11 +143,12 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
+        #fields = ['profile_type','date_birth','age','gender','marital','vote_total','panel','panel_timeout','active','news']
 
-class SkillSerializer(serializers.ModelSerializer):
+class SkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Skill
-        fields = ['party', 'skill','level']
+        fields = ['party','skill','level']
 
 class JobsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

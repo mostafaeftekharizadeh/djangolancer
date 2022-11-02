@@ -44,6 +44,8 @@ class SkillViewSet(viewsets.ModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('party','skill','level' )
 
 
 class JobViewSet(viewsets.ModelViewSet):

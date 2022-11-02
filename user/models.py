@@ -10,11 +10,11 @@ class Party(models.Model):
     #user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
     owner = models.OneToOneField('self', related_name="party_owner", null=True, blank=True, on_delete=models.CASCADE)
-    deleted_date = models.DateTimeField(null=True,blank=True)
+    deleted_date = models.DateTimeField(default=datetime.now)
 
 
 class Profile(models.Model):
-    party = models.OneToOneField(Party, related_name="party_profile", unique=True, on_delete=models.CASCADE)
+    party = models.OneToOneField(Party, related_name="party", unique=True, on_delete=models.CASCADE)
     date_birth = models.DateField(null=True,blank=True, auto_now=False, auto_now_add=False)
     age = models.IntegerField(default=0,null=True, blank=True)
     GENDER_CHOICES = [
@@ -64,8 +64,8 @@ class Contact(models.Model):
 
 
 class Skill(models.Model):
-    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_skill')
-    skill = models.ForeignKey(BaseSkill, on_delete=models.CASCADE)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    skill = models.ForeignKey(BaseSkill, on_delete=models.CASCADE,related_name='annotation_set')
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
 
 
