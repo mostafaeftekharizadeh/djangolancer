@@ -14,16 +14,16 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [permissions.IsAuthenticated]
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends =  [DjangoFilterBackend]
     filterset_fields = ('country', 'state', 'city',
-                        'skill', 'party', 'level', 'place')
+                        'skill', 'party', 'level', 'place','category')
 
     '''
     filter projects based on owner
     '''
 
     def get_queryset(self):
-        if self.request.GET.get('owner') == '1':
+        if self.request.GET.get('owner') == '1':            
             return Project.objects.filter(party__user=self.request.user)
         else:
             return Project.objects.all().exclude(party__user=self.request.user)
@@ -33,8 +33,8 @@ class FileViewSet(viewsets.ModelViewSet):
     queryset = File.objects.all()
     serializer_class = FileSerializer
     permission_classes = [permissions.IsAuthenticated]
-    filter_backends = (DjangoFilterBackend,)
-    # filterset_fields = ('project')
+    filter_backends =  [DjangoFilterBackend]
+    filterset_fields = ('id','project')
 
 
 class CostViewSet(viewsets.ModelViewSet):

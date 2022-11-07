@@ -12,7 +12,7 @@ class Project(models.Model):
     work = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     # file_upload_img = models.ForeignKey(Profile,on_delete=models.CASCADE)
-    skill = models.ForeignKey(BaseSkill, on_delete=models.CASCADE)
+    skill = models.ManyToManyField(BaseSkill)
     exp_time = models.TimeField()
     description = models.TextField()
     # file_upload_des = models.ForeignKey(Profile,on_delete=models.CASCADE)
