@@ -3,7 +3,7 @@ from rest_framework import authentication, permissions
 from django.shortcuts import render
 from .models import (Estimate,
                      ProfileType,
-                     BankName,
+                     Bank,
                      Language,
                      Level,
                      ViewStatus,
@@ -15,7 +15,7 @@ from .models import (Estimate,
                      Degree)
 from .serializers import (EstimateSerializer,
                           ProfileTypeSerializer,
-                          BankNameSerializer,
+                          BankSerializer,
                           BaseLanguageSerializer,
                           BaseLevelSerializer,
                           ViewStatusSerializer,
@@ -36,9 +36,9 @@ class ProfileTypeViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileTypeSerializer
     permission_classes = [permissions.IsAdminUser]
 
-class BankNameViewSet(viewsets.ModelViewSet):
-    queryset = BankName.objects.all()
-    serializer_class = BankNameSerializer
+class BankViewSet(viewsets.ModelViewSet):
+    queryset = Bank.objects.all()
+    serializer_class = BankSerializer
     permission_classes = [permissions.IsAdminUser]
 
 class LanguageViewSet(viewsets.ModelViewSet):

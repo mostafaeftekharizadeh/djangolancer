@@ -21,7 +21,7 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'configuration/estimate', views.EstimateViewSet, basename='configutaion_estimate')
 router.register(r'configuration/profile_type', views.ProfileTypeViewSet, basename='configuration_profile_type')
-router.register(r'configuration/bank_name', views.BankNameViewSet, basename='configuration_bank_name')
+router.register(r'configuration/bank', views.BankViewSet, basename='configuration_bank')
 router.register(r'configuration/language', views.LanguageViewSet, basename='configuration_language')
 router.register(r'configuration/level', views.LevelViewSet, basename='configuration_level')
 router.register(r'configuration/view_status', views.ViewStatusViewSet, basename='configuration_viewStatus')

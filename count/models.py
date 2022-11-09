@@ -1,7 +1,7 @@
 from datetime import datetime
 from email.policy import default
 from django.db import models
-from configuration.models import Status, BankName
+from configuration.models import Status, Bank
 from user.models import Party
 # Create your models here.
 
@@ -11,7 +11,7 @@ class Count(models.Model):
     sheba = models.CharField(max_length=26, unique=True)
     card = models.CharField(max_length=16, unique=True)
     name = models.CharField(max_length=255)
-    bankname = models.ForeignKey(BankName, on_delete=models.CASCADE)
+    bankname = models.ForeignKey(Bank, on_delete=models.CASCADE)
     active = models.TextField()
 
 

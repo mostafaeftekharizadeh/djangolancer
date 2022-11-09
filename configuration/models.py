@@ -5,23 +5,23 @@ class Estimate(models.Model):
     name = models.CharField(max_length=200)
     active=models.BooleanField(default=False)
     def __str__(self):
-        return self.name  
+        return self.name
 class ProfileType(models.Model):
     name = models.CharField(max_length=200)
     active=models.BooleanField(default=False)
     def __str__(self):
-        return self.name  
-class BankName(models.Model):
+        return self.name
+class Bank(models.Model):
     name = models.CharField(max_length=200)
     active=models.BooleanField(default=False)
     def __str__(self):
-        return self.name  
+        return self.name
 class Language(models.Model):
     name = models.CharField(max_length=200)
     symbol=models.CharField(max_length=2,null=True)
     active=models.BooleanField(default=False)
     def __str__(self):
-        return self.name  
+        return self.name
 class Level(models.Model):
     name = models.CharField(max_length=200)
     active=models.BooleanField(default=False)
@@ -57,7 +57,7 @@ class Category(models.Model):
     parent=models.ForeignKey('Category',null=True,on_delete=models.CASCADE)
     active=models.BooleanField(default=False)
     def __str__(self):
-        return self.name  
+        return self.name
 class Skill(models.Model):
     category= models.ForeignKey(Category,null=True,on_delete=models.CASCADE)
     name = models.CharField(max_length=200)

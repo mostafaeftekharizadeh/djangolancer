@@ -6,7 +6,7 @@ class EstimateAdmin(admin.ModelAdmin):
     pass
 class ProfileTypeAdmin(admin.ModelAdmin):
     pass
-class BankNameAdmin(admin.ModelAdmin):
+class BankAdmin(admin.ModelAdmin):
     pass
 class LanguageAdmin(admin.ModelAdmin):
     pass
@@ -26,7 +26,7 @@ class ComplainTypeAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Estimate, EstimateAdmin)
 admin.site.register(ProfileType, ProfileTypeAdmin)
-admin.site.register(BankName, BankNameAdmin)
+admin.site.register(Bank, BankAdmin)
 admin.site.register(Language, LanguageAdmin)
 admin.site.register(Level, LevelAdmin)
 admin.site.register(ViewStatus, ViewStatusAdmin)
@@ -35,6 +35,6 @@ admin.site.register(Status, StatusAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Skill, SkillAdmin)
 admin.site.register(ComplainType, ComplainTypeAdmin)
- 
 
- 
+
+
