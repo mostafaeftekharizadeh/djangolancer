@@ -21,10 +21,10 @@ from . import views
 
 
 router = routers.DefaultRouter()
-router.register('api/count/count', views.CountViewSet, basename='count')
-router.register('api/count/deposit', views.DepositViewSet, basename='deposit')
-router.register('api/count/withdraw', views.WithdrawViewSet, basename='withdraw')
-router.register('api/count/account', views.AccountViewSet, basename='account')
+router.register('count/count', views.CountViewSet, basename='count')
+router.register('count/deposit', views.DepositViewSet, basename='deposit')
+router.register('count/withdraw', views.WithdrawViewSet, basename='withdraw')
+router.register('count/account', views.AccountViewSet, basename='account')
 #router.register(r'user/maintainer', views.MaintainerViewSet)
 
 
