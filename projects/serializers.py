@@ -8,12 +8,12 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields =  [
-            'user',
+            'party',
                     'category',
                     'work',
                     'title', 
                     # 'file_upload_img',
-                    'skills',
+                    'skill',
                     'exp_time',
                     'description',
                     # 'file_upload_des',
