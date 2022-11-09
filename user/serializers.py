@@ -190,7 +190,7 @@ class VoteSerializer(ModelOwnerSerializer):
         model = Vote
         fields = ['user','voter','vote']
 
-class ProfileSerializer(serializers.ModelOwnerSerializer):
+class ProfileSerializer(ModelOwnerSerializer):
     skills = serializers.SerializerMethodField()
     jobs = serializers.SerializerMethodField()
     educations = serializers.SerializerMethodField()
