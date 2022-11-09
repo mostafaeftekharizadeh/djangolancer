@@ -1,13 +1,14 @@
 import json
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import authentication, permissions
 from rest_framework import status
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
 from django_filters import rest_framework as filters
-import django_filters
 from .serializers import PartySerializer, UserSerializer
 from .serializers import ChangePasswordSerializer
 from .serializers import UpdateUserSerializer
@@ -15,13 +16,6 @@ from .serializers import VoteSerializer
 from .models import (Party,
                      Profile,
                      Vote)
-
-
-
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-from rest_framework.decorators import permission_classes as permission_classes_decorator
 
 
 class PartyViewSet(viewsets.ModelViewSet):
@@ -49,8 +43,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ('username',"party", "party__skill")
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_fields = ('username',"party")
     #def list(self, request, *args, **kwargs):
         #if request.user.is_authenticated == False:
         #    return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)

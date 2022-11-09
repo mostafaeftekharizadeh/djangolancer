@@ -7,11 +7,10 @@ import json
 
 # Create your tests here.
 class UserTestCase(TestCase):
-    fixtures = ['auth.json', 'user.json']
+    fixtures = ['auth.json', 'location.json', 'configuration.json', 'user.json']
 
     def setUp(self):
         pass
-
 
     def test_register(self):
         client = APIClient()
@@ -25,11 +24,8 @@ class UserTestCase(TestCase):
         }
         response = client.post('/api/v1/user/user/', data, format='json')
         assert response.status_code == 201
-
         party = Party.objects.get(user__username="testuser")
         assert party != None
-
-
 
     def test_login(self):
         client = APIClient()
@@ -38,9 +34,7 @@ class UserTestCase(TestCase):
 	        "password" : "testuser1"
         }
         response = client.post('/api/v1/user/login/', data, format='json')
-
         assert response.status_code == 200
-
 
     def test_user_list(self):
         client = APIClient()
@@ -48,13 +42,6 @@ class UserTestCase(TestCase):
         data = json.loads(response.content)
         assert response.status_code == 200
         self.assertEqual(len(data['results']), 10)
-
-    def test_user_delete(self):
-        user = User.objects.get(username='testuser7')
-        client = APIClient()
-        client.login(username='testuser7', password='testuser7')
-        response = client.delete('/api/v1/user/user/7/')
-        assert response.status_code == 204
 
     def test_user_delete(self):
         user = User.objects.get(username='testuser7')

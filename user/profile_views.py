@@ -34,18 +34,35 @@ class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ProfileFilter
+
+
+    def create(self, request, *args, **kwargs):
+        request.data['party']=request.user.party.id
+        return super().create(request, args, kwargs)
+
     def update(self, request, *args, **kwargs):
+        request.data['party']=request.user.party.id
         instance = self.get_object()
         if request.user.is_authenticated == False or instance.party.user != request.user:
-            return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)
+            self.permission_denied(request,  message="Permission Denied", code=status.HTTP_400_BAD_REQUEST)
         return super().update(request, args, kwargs)
 
 class SkillViewSet(viewsets.ModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
     permission_classes = [permissions.IsAuthenticated]
-    filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('party','skill','level' )
+
+    def get_queryset(self):
+        return self.queryset.filter(party=self.request.user.party)
+
+    def check_object_permissions(self, request, obj):
+        if obj.party != request.user.party:
+            self.permission_denied(request,  message="Permission Denied", code=status.HTTP_400_BAD_REQUEST)
+        return super().check_object_permissions(request, obj)
+
+    def perform_create(self, serializer):
+        serializer.save(party=self.request.user.party)
+
 
 
 class JobViewSet(viewsets.ModelViewSet):
@@ -53,21 +70,64 @@ class JobViewSet(viewsets.ModelViewSet):
     serializer_class = JobsSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        return self.queryset.filter(party=self.request.user.party)
+
+    def check_object_permissions(self, request, obj):
+        if obj.party != request.user.party:
+            self.permission_denied(request,  message="Permission Denied", code=status.HTTP_400_BAD_REQUEST)
+        return super().check_object_permissions(request, obj)
+
+    def perform_create(self, serializer):
+        serializer.save(party=self.request.user.party)
 
 class EducationViewSet(viewsets.ModelViewSet):
     queryset = Education.objects.all()
     serializer_class = EducationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        return self.queryset.filter(party=self.request.user.party)
+
+    def check_object_permissions(self, request, obj):
+        if obj.party != request.user.party:
+            self.permission_denied(request,  message="Permission Denied", code=status.HTTP_400_BAD_REQUEST)
+        return super().check_object_permissions(request, obj)
+
+    def perform_create(self, serializer):
+        serializer.save(party=self.request.user.party)
+
 class CertificateViewSet(viewsets.ModelViewSet):
     queryset = Certificate.objects.all()
     serializer_class = CertificateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        return self.queryset.filter(party=self.request.user.party)
+
+    def check_object_permissions(self, request, obj):
+        if obj.party != request.user.party:
+            self.permission_denied(request,  message="Permission Denied", code=status.HTTP_400_BAD_REQUEST)
+        return super().check_object_permissions(request, obj)
+
+    def perform_create(self, serializer):
+        serializer.save(party=self.request.user.party)
+
 class SpecialtyViewSet(viewsets.ModelViewSet):
     queryset = Specialty.objects.all()
     serializer_class = SpecialtySerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return self.queryset.filter(party=self.request.user.party)
+
+    def check_object_permissions(self, request, obj):
+        if obj.party != request.user.party:
+            self.permission_denied(request,  message="Permission Denied", code=status.HTTP_400_BAD_REQUEST)
+        return super().check_object_permissions(request, obj)
+
+    def perform_create(self, serializer):
+        serializer.save(party=self.request.user.party)
 
 class AchievementViewSet(viewsets.ModelViewSet):
     queryset = Achievement.objects.all()
