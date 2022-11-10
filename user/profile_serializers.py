@@ -14,11 +14,12 @@ from .models import  (Profile,
 
 
 class SkillSerializer(ModelOwnerSerializer):
-    skill_name = serializers.CharField(read_only=True, source='skill.name')
-    level_name = serializers.CharField(read_only=True, source='level.name')
+    #skill_name = serializers.CharField(read_only=True, source='skill.name')
+    #level_name = serializers.CharField(read_only=True, source='level.name')
     class Meta:
         model = Skill
         fields = ['id', 'skill','level', 'skill_name', 'level_name']
+        fields = '__all__'
 
 class JobSerializer(ModelOwnerSerializer):
     class Meta:
@@ -74,31 +75,31 @@ class ProfileSerializer(ModelOwnerSerializer):
         model = Profile
         fields = "__all__"
     def get_skills(self, obj):
-        qs = Skill.objects.filter(party=obj.party)
+        qs = obj.party.party_skill.all()
         return SkillSerializer(qs, context=self.context, many=True).data
     def get_jobs(self, obj):
-        qs = Job.objects.filter(party=obj.party)
+        qs = obj.party.party_job.all()
         return JobSerializer(qs, context=self.context, many=True).data
     def get_educations(self, obj):
-        qs = Education.objects.filter(party=obj.party)
+        qs = obj.party.party_education.all()
         return EducationSerializer(qs, context=self.context, many=True).data
     def get_certificates(self, obj):
-        qs = Certificate.objects.filter(party=obj.party)
+        qs = obj.party.party_certificate.all()
         return CertificateSerializer(qs, context=self.context, many=True).data
     def get_specialties(self, obj):
-        qs = Specialty.objects.filter(party=obj.party)
+        qs = obj.party.party_speciality.all()
         return SpecialtySerializer(qs, context=self.context, many=True).data
     def get_achievements(self, obj):
-        qs = Achievement.objects.filter(party=obj.party)
+        qs = obj.party.party_achievement.all()
         return AchievementSerializer(qs, context=self.context, many=True).data
     def get_languages(self, obj):
-        qs = Language.objects.filter(party=obj.party)
+        qs = obj.party.party_language.all()
         return LanguageSerializer(qs, context=self.context, many=True).data
     def get_work_samples(self, obj):
-        qs = WorkSample.objects.filter(party=obj.party)
+        qs = obj.party.party_worksample.all()
         return WorkSampleSerializer(qs, context=self.context, many=True).data
     def get_social_medias(self, obj):
-        qs = SocialMedia.objects.filter(party=obj.party)
+        qs = obj.party.party_socialmedia.all()
         return SocialMediaSerializer(qs, context=self.context, many=True).data
     def get_user(self, obj):
         return UserSerializer(obj.party.user, context=self.context, many=False).data

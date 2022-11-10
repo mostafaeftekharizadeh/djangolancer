@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='offer',
             name='party',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
+            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -39,13 +39,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='party',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
+            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='project',
             name='skill',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='configuration.skill'),
+            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='configuration.skill'),
             preserve_default=False,
         ),
     ]

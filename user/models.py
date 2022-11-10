@@ -72,7 +72,7 @@ class Skill(models.Model):
 
 
 class Job(models.Model):
-    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_job')
     title = models.TextField()
     company = models.TextField()
     description = models.TextField()
@@ -81,7 +81,7 @@ class Job(models.Model):
 
 
 class Education(models.Model):
-    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_education')
     degree = models.OneToOneField(Degree , unique=True, on_delete=models.CASCADE)
     uni_name = models.TextField()
     description = models.TextField()
@@ -89,7 +89,7 @@ class Education(models.Model):
     date_end = models.DateTimeField( auto_now=False, auto_now_add=False)
 
 class Certificate(models.Model):
-    party = models.ForeignKey(Party,  on_delete=models.CASCADE)
+    party = models.ForeignKey(Party,  on_delete=models.CASCADE, related_name='party_certificate')
     name = models.TextField()
     description = models.TextField()
     Institution_name = models.TextField()
@@ -98,7 +98,7 @@ class Certificate(models.Model):
 
 
 class Specialty(models.Model):
-    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_speciality')
     name = models.TextField()
     level = models.TextField()
     description = models.TextField()
@@ -108,7 +108,7 @@ class Specialty(models.Model):
 
 
 class Achievement(models.Model):
-    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_achievement')
     title = models.TextField()
     event = models.TextField()
     description = models.TextField()
@@ -117,7 +117,7 @@ class Achievement(models.Model):
 
 
 class Language(models.Model):
-    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_language')
     language = models.ForeignKey(BaseLanguage, on_delete=models.CASCADE)
     talking = models.IntegerField(default=0, null=True, blank=True)
     writing = models.IntegerField(default=0, null=True, blank=True)
@@ -125,14 +125,14 @@ class Language(models.Model):
 
 
 class WorkSample(models.Model):
-    party = models.OneToOneField(Party, unique=True, on_delete=models.CASCADE)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_worksample')
     title = models.TextField()
     skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
     description = models.TextField()
 
 
 class SocialMedia(models.Model):
-    party = models.ForeignKey(Party,  on_delete=models.CASCADE)
+    party = models.ForeignKey(Party,  on_delete=models.CASCADE, related_name='party_socialmedia')
     name = models.TextField()
     userid = models.TextField()
     phone = models.TextField()

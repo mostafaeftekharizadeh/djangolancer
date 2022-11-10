@@ -33,25 +33,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='account',
             name='party',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
+            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='count',
             name='party',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
+            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='deposit',
             name='party',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
+            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='withdraw',
             name='party',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
+            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='user.party'),
             preserve_default=False,
         ),
         migrations.AlterField(

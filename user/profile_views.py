@@ -30,7 +30,15 @@ from .profile_serializers import (ProfileSerializer,
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.select_related('party__user').prefetch_related('party__party_skill')\
+                .prefetch_related('party__party_job')\
+                .prefetch_related('party__party_education')\
+                .prefetch_related('party__party_certificate')\
+                .prefetch_related('party__party_speciality')\
+                .prefetch_related('party__party_achievement')\
+                .prefetch_related('party__party_language')\
+                .prefetch_related('party__party_worksample')\
+                .prefetch_related('party__party_socialmedia')
     serializer_class = ProfileSerializer
     permission_classes = [IsOwnerOrReadOnly]
     filter_backends = (DjangoFilterBackend,)

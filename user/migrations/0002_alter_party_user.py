@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='party',
             name='user',
-            field=models.OneToOneField(default=0, on_delete=django.db.models.deletion.CASCADE, to='auth.user'),
+            field=models.OneToOneField(default=None, on_delete=django.db.models.deletion.CASCADE, to='auth.user'),
             preserve_default=False,
         ),
     ]
