@@ -17,7 +17,7 @@ from .models import (Profile,
                      Language,
                      WorkSample,
                      SocialMedia)
-from .serializers import (ProfileSerializer,
+from .profile_serializers import (ProfileSerializer,
                           SkillSerializer,
                           JobSerializer,
                           EducationSerializer,
