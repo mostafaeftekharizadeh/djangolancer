@@ -12,38 +12,38 @@ class ProfileType(models.Model):
     def __str__(self):
         return self.name
 class Bank(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True, null=False, blank=False)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 class Language(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     symbol=models.CharField(max_length=2,null=True)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 class Level(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 class ViewStatus(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 class Currency(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 class Status(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 class Category(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     TYPE_CHOICES = [
         ("w", 'Work'),
         ("p", 'Parent'),
@@ -60,17 +60,17 @@ class Category(models.Model):
         return self.name
 class Skill(models.Model):
     category= models.ForeignKey(Category,null=True,on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 class ComplainType(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 class Degree(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name

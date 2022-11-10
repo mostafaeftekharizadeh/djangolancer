@@ -29,6 +29,7 @@ from .serializers import (SiteSerializer,
                           ComplainTypeSerializer,
                           DegreeSerializer)
 
+
 class SiteViewSet(viewsets.ModelViewSet):
     queryset = Site.objects.all()
     serializer_class = SiteSerializer
