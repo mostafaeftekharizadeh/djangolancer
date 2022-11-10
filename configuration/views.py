@@ -1,7 +1,8 @@
 from rest_framework import viewsets
 from rest_framework import authentication, permissions
 from django.shortcuts import render
-from library.permissions import IsAdminOrAuthenticated
+from library.permissions import IsAdminOrAuthenticated, IsAdminOrReadOnly
+from django.contrib.sites.models import Site
 from .models import (Estimate,
                      ProfileType,
                      Bank,
@@ -14,7 +15,8 @@ from .models import (Estimate,
                      Skill,
                      ComplainType,
                      Degree)
-from .serializers import (EstimateSerializer,
+from .serializers import (SiteSerializer,
+                          EstimateSerializer,
                           ProfileTypeSerializer,
                           BankSerializer,
                           BaseLanguageSerializer,
@@ -26,6 +28,11 @@ from .serializers import (EstimateSerializer,
                           BaseSkillSerializer,
                           ComplainTypeSerializer,
                           DegreeSerializer)
+
+class SiteViewSet(viewsets.ModelViewSet):
+    queryset = Site.objects.all()
+    serializer_class = SiteSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 class EstimateViewSet(viewsets.ModelViewSet):
     queryset = Estimate.objects.all()

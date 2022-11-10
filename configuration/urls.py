@@ -19,6 +19,7 @@ from . import views
 
 
 router = routers.DefaultRouter()
+router.register(r'configuration/site', views.SiteViewSet, basename='configutaion_site')
 router.register(r'configuration/estimate', views.EstimateViewSet, basename='configutaion_estimate')
 router.register(r'configuration/profile_type', views.ProfileTypeViewSet, basename='configuration_profile_type')
 router.register(r'configuration/bank', views.BankViewSet, basename='configuration_bank')
