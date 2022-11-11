@@ -29,6 +29,8 @@ class ConfigurationTestCase(TestCase):
     def test_category(self):
         data = {
             "name" : "test category",
+            "type" : "w",
+            "parent" : null,
             "active" : True
         }
         client = APIClient()
@@ -43,21 +45,21 @@ class ConfigurationTestCase(TestCase):
         response = client.post('/api/v1/configuration/category/', data, format='json')
         assert response.status_code == 403
 
-    def test_complain_type(self):
+    def test_Complain_Type(self):
         data = {
-            "name" : "test complain_type",
+            "name" : "test Complain_Type",
             "active" : True
         }
         client = APIClient()
         client.login(username='service', password='ser12345')
-        response = client.post('/api/v1/configuration/complain_type/', data, format='json')
+        response = client.post('/api/v1/configuration/ComplainType/', data, format='json')
         assert response.status_code == 201
-        complain_type = complain_type.objects.get(name="test complain_type")
-        assert complain_type != None
+        Complain_Type = Complain_Type.objects.get(name="test Complain_Type")
+        assert Complain_Type != None
 
         client = APIClient()
         client.login(username='testuser1', password='testuser1')
-        response = client.post('/api/v1/configuration/complain_type/', data, format='json')
+        response = client.post('/api/v1/configuration/Complain_Type/', data, format='json')
         assert response.status_code == 403
 
     def test_currency(self):
@@ -114,6 +116,7 @@ class ConfigurationTestCase(TestCase):
     def test_language(self):
         data = {
             "name" : "test language",
+            "symbol" : "TL",
             "active" : True
         }
         client = APIClient()
@@ -147,7 +150,7 @@ class ConfigurationTestCase(TestCase):
     
     def test_profile_type(self):
         data = {
-            "name" : "test profile_type",
+            "name" : "test ProfileType",
             "active" : True
         }
         client = APIClient()
@@ -182,6 +185,7 @@ class ConfigurationTestCase(TestCase):
     
     def test_skill(self):
         data = {
+            "category" : null,
             "name" : "test skill",
             "active" : True
         }
