@@ -87,6 +87,8 @@ class Education(models.Model):
     description = models.TextField()
     date_start = models.DateTimeField( auto_now=False, auto_now_add=False)
     date_end = models.DateTimeField( auto_now=False, auto_now_add=False)
+    class Meta:
+        unique_together = ('party', 'degree',)
 
 class Certificate(models.Model):
     party = models.ForeignKey(Party,  on_delete=models.CASCADE, related_name='party_certificate')

@@ -30,7 +30,8 @@ from .profile_serializers import (ProfileSerializer,
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.select_related('party__user').prefetch_related('party__party_skill')\
+    queryset = Profile.objects.select_related('party__user')\
+                .prefetch_related('party__party_skill')\
                 .prefetch_related('party__party_job')\
                 .prefetch_related('party__party_education')\
                 .prefetch_related('party__party_certificate')\
