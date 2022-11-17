@@ -33,15 +33,18 @@ class LoginView(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        profile = ProfileSerializer(Profile.objects.filter(party=user.party), many=True).data
-        print(profile)
-        return Response({
+        data = {
             'token': token.key,
-            'first_name' : user.first_name,
-            'last_name' : user.last_name,
-            'email': user.email,
-            'profile' : profile[0]
-        })
+            'profile' : None,
+            'party' : None
+        }
+        if hasattr(user, 'party'):
+            data['party'] = user.party.id
+            profile = ProfileSerializer(Profile.objects.filter(party=user.party), many=True).data
+            if len(profile) > 0:
+                data['profile'] = profile[0]
+
+        return Response(data)
 
 
 class UserViewSet(viewsets.ModelViewSet):
