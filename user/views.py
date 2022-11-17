@@ -14,6 +14,7 @@ from .serializers import PartySerializer, UserSerializer
 from .serializers import ChangePasswordSerializer
 from .serializers import UpdateUserSerializer
 from .serializers import VoteSerializer
+from .profile_serializers import ProfileSerializer
 from .models import (Party,
                      Profile,
                      Vote)
@@ -32,11 +33,14 @@ class LoginView(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
+        profile = ProfileSerializer(Profile.objects.filter(party=user.party), many=True).data
+        print(profile)
         return Response({
             'token': token.key,
             'first_name' : user.first_name,
             'last_name' : user.last_name,
             'email': user.email,
+            'profile' : profile[0]
         })
 
 
