@@ -1,11 +1,10 @@
+import logging
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters.profile import ProfileFilter
-from rest_framework import viewsets
-from rest_framework import generics
-from rest_framework import authentication, permissions
 from rest_framework import status
+from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
 from .models import (Profile,
                      Skill,
@@ -17,6 +16,7 @@ from .models import (Profile,
                      Language,
                      WorkSample,
                      SocialMedia)
+
 from .profile_serializers import (ProfileSerializer,
                           SkillSerializer,
                           JobSerializer,
@@ -29,7 +29,9 @@ from .profile_serializers import (ProfileSerializer,
                           SocialMediaSerializer)
 
 
-class ProfileViewSet(viewsets.ModelViewSet):
+_logger = logging.getLogger("midlancer.api.user.profile")
+class ProfileViewSet(ModelViewSet):
+
     queryset = Profile.objects.select_related('party__user')\
                 .prefetch_related('party__party_skill')\
                 .prefetch_related('party__party_job')\
@@ -44,58 +46,68 @@ class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwnerOrReadOnly]
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ProfileFilter
+    logger = _logger
 
-class SkillViewSet(viewsets.ModelViewSet):
+class SkillViewSet(ModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 
-class JobViewSet(viewsets.ModelViewSet):
+class JobViewSet(ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 
-class EducationViewSet(viewsets.ModelViewSet):
+class EducationViewSet(ModelViewSet):
     queryset = Education.objects.all()
     serializer_class = EducationSerializer
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 
-class CertificateViewSet(viewsets.ModelViewSet):
+class CertificateViewSet(ModelViewSet):
     queryset = Certificate.objects.all()
     serializer_class = CertificateSerializer
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 
-class SpecialtyViewSet(viewsets.ModelViewSet):
+class SpecialtyViewSet(ModelViewSet):
     queryset = Specialty.objects.all()
     serializer_class = SpecialtySerializer
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 
-class AchievementViewSet(viewsets.ModelViewSet):
+class AchievementViewSet(ModelViewSet):
     queryset = Achievement.objects.all()
     serializer_class = AchievementSerializer
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 
-class LanguageViewSet(viewsets.ModelViewSet):
+class LanguageViewSet(ModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 
-class WorkSampleViewSet(viewsets.ModelViewSet):
+class WorkSampleViewSet(ModelViewSet):
     queryset = WorkSample.objects.all()
     serializer_class = WorkSampleSerializer
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 
-class SocialMediaViewSet(viewsets.ModelViewSet):
+class SocialMediaViewSet(ModelViewSet):
     queryset = SocialMedia.objects.all()
     serializer_class = SocialMediaSerializer
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 

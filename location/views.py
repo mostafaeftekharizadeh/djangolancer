@@ -1,26 +1,32 @@
-from rest_framework import viewsets
+import logging
+from library.viewsets import ModelViewSet
 from library.permissions import IsAdminOrReadOnly
 from django.shortcuts import render
 from .models import Place,Country,State,City
 from .serializers import PlaceSerializer,CountrySerializer,StateSerializer,CitySerializer
 
+_logger = logging.getLogger('midlancer.api.location')
 
-class PlaceViewSet(viewsets.ModelViewSet):
+class PlaceViewSet(ModelViewSet):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
     permission_classes = [IsAdminOrReadOnly]
+    logger = _logger
 
-class CountryViewSet(viewsets.ModelViewSet):
+class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
     permission_classes = [IsAdminOrReadOnly]
+    logger = _logger
 
-class StateViewSet(viewsets.ModelViewSet):
+class StateViewSet(ModelViewSet):
     queryset = State.objects.all()
     serializer_class = StateSerializer
     permission_classes = [IsAdminOrReadOnly]
+    logger = _logger
 
-class CityViewSet(viewsets.ModelViewSet):
+class CityViewSet(ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
     permission_classes = [IsAdminOrReadOnly]
+    logger = _logger

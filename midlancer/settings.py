@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.utils.log import DEFAULT_LOGGING
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -177,3 +179,36 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:3000",
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'midlancerFormatter': {
+            'format': '{name} {asctime} ({levelname}) {message}',
+            'style': '{',
+            "datefmt": "%Y-%m-%dT%H:%M:%S",
+        },
+    },
+    'handlers': {
+        'midlancerFile': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'log/midlancer-debug.log',
+            'formatter': 'midlancerFormatter',
+        },
+    },
+    'loggers': {
+        #'django': {
+        #    'filters': ['add_ip_address'],
+        ##    'handlers': ['django-file'],
+        #    'level': 'DEBUG',
+        #    'propagate': True,
+        #},
+        'midlancer': {
+            'handlers': ['midlancerFile'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
