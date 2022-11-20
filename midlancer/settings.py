@@ -185,7 +185,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'midlancerFormatter': {
-            'format': '{name} {asctime} ({levelname}) {message}',
+            'format': '{name:30s} {asctime} {levelname:7s} {message}',
             'style': '{',
             "datefmt": "%Y-%m-%dT%H:%M:%S",
         },

@@ -30,8 +30,8 @@ from .profile_serializers import (ProfileSerializer,
 
 
 _logger = logging.getLogger("midlancer.api.user.profile")
-class ProfileViewSet(ModelViewSet):
 
+class ProfileViewSet(ModelViewSet):
     queryset = Profile.objects.select_related('party__user')\
                 .prefetch_related('party__party_skill')\
                 .prefetch_related('party__party_job')\
