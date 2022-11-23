@@ -1,3 +1,4 @@
+import logging
 from rest_framework import viewsets
 from rest_framework import authentication, permissions
 from location.serializers import PlaceSerializer,CountrySerializer,StateSerializer,CitySerializer,PlaceSerializer
@@ -8,16 +9,21 @@ from django.contrib.auth.models import User
 
 from .models import Complain,ResultComplain
 from .serializers import ComplainSerializer,ResultComplainSerializer
+from library.viewsets import ModelViewSet
 
-# Create your views here.
-class ComplainViewSet(viewsets.ModelViewSet):
+_logger = logging.getLogger('midlancer.api.complain')
+
+
+class ComplainViewSet(ModelViewSet):
     queryset = Complain.objects.all()
     serializer_class = ComplainSerializer
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET',)
+    logger = _logger
 
-class ResultComplainViewSet(viewsets.ModelViewSet):
+class ResultComplainViewSet(ModelViewSet):
     queryset = ResultComplain.objects.all()
     serializer_class = ResultComplainSerializer
     permission_classes = [permissions.IsAuthenticated]
     allowed_methods = ('GET',)
+    logger = _logger
