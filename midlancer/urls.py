@@ -17,12 +17,12 @@ router = routers.DefaultRouter()
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="Midlancer API",
       default_version='v1',
-      description="Test description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
-      license=openapi.License(name="BSD License"),
+      description="",
+      #terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="info@midlancer.ir"),
+      #license=openapi.License(name="BSD License"),
    ),
    public=True,
    permission_classes=[permissions.AllowAny],
