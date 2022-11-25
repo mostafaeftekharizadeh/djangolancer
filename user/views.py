@@ -38,7 +38,7 @@ class LoginView(ObtainAuthToken):
             #print(error)
             if 'password' in request.data:
                 request.data['password'] = "**********"
-            logger.error('Login failed {}'.format(request.data))
+            _logger.error('Login failed {}'.format(request.data))
             raise serializers.ValidationError(serializer.errors)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
@@ -55,7 +55,7 @@ class LoginView(ObtainAuthToken):
         username = user.username if user else '<none>'
         if 'password' in request.data:
             request.data['password'] = "**********"
-        logger.info('Loged in {}.'.format(request.data))
+        _logger.info('Loged in {}.'.format(request.data))
         return Response(data)
 
 
