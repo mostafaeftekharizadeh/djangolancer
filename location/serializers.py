@@ -8,11 +8,11 @@ class CountrySerializer(serializers.HyperlinkedModelSerializer):
 class StateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = State
-        fields =  ['name','initials','code','active']
+        fields =  ['name','initials','code','country','active']
 class CitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = City
-        fields =  ['name','active']
+        fields =  ['name','state','active']
 class PlaceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Place

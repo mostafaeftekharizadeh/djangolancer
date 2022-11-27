@@ -2,18 +2,22 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from location.models import Country,State,City,Place
 from django.contrib.auth.models import User
+from django.core import serializers
 
 class ConfigurationTestCase(TestCase):
     fixtures = ['auth.json']
 
     def setUp(self):
+        Country.objects.create(name="Iran",initials="IR",code="+98",active=True)
+        country=Country.objects.get(name="Iran")
+        State.objects.create(name="Tehran",initials="TEH",code="21",active=True,country=country)
         pass
 
     def test_country(self):
         data = {
-            "name" : "Iran",
-            "initials": "IR",
-            "code" : "+98",
+            "name" : "Iraq",
+            "initials": "IQ",
+            "code" : "+97",
             "active" : True
         }
         client = APIClient()
@@ -29,18 +33,19 @@ class ConfigurationTestCase(TestCase):
         assert response.status_code == 403
 
     def test_state(self):
-        country_pk = Country.objects.get(name="Iran")
-        
+        country=Country.objects.get(name="Iran")
         data = {
             "name" : "Tehran",
             "code" : "021",
-            "country":country_pk,
+            "country": f"{country}",
             "initials": "TEH",            
             "active" : True
         }
         client = APIClient()
         client.login(username='service', password='ser12345')
+        print(f"{data}")
         response = client.post('/api/v1/location/state/', data, format='json')
+        print(response)
         assert response.status_code == 201
         state = State.objects.get(name="Tehran")
         assert state != None
@@ -55,7 +60,7 @@ class ConfigurationTestCase(TestCase):
              
         data = {
             "name" : "Tehran",
-            "state": state_pk,         
+            "state": f"{state_pk}",
             "active" : True
         }
         client = APIClient()
