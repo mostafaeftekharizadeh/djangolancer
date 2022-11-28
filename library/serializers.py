@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 class ModelOwnerSerializer(serializers.ModelSerializer):
-    def create(self, validated_data):
-        validated_data['party'] = self.context['request'].user.party
-        return super().create(validated_data)
+    # force object party to be set to current user party id
+    def to_internal_value(self, data):
+        data['party'] = self.context['request'].user.party.id
+        return super().to_internal_value(data)
