@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from user.models import Party, Profile, Skill
 import json
 
-
 class ProfileTestCase(TestCase):
     fixtures = ['auth.json', 'location.json', 'configuration.json', 'user.json']
 
@@ -12,6 +11,7 @@ class ProfileTestCase(TestCase):
         pass
 
     def test_create_profile(self):
+        user = User.objects.filter(username='testuser3')
         client = APIClient()
         client.login(username='testuser3', password='testuser3')
         data = {
@@ -24,13 +24,15 @@ class ProfileTestCase(TestCase):
             "panel_timeout": "2022-11-05T16:18:48.543Z",
             "active": True,
             "news": True,
-            #"party": 0,
             "country": 1,
             "state": 1,
             "city": 1
         }
         response = client.post('/api/v1/user/profile/profile/', data, format='json')
         assert response.status_code == 201
+        profile = Profile.objects.filter(party=user[0].party)
+
+
 
     def test_update_profile(self):
         client = APIClient()
@@ -46,6 +48,7 @@ class ProfileTestCase(TestCase):
         assert profile.age == 50
 
 
+
     def test_update_profile_permission(self):
         client = APIClient()
         client.login(username='testuser3', password='testuser3')
@@ -59,17 +62,17 @@ class ProfileTestCase(TestCase):
             "panel_timeout": "2022-11-05T16:18:48.543Z",
             "active": True,
             "news": True,
-            "party": 1,
             "country": 1,
             "state": 1,
             "city": 1
         }
         response = client.put('/api/v1/user/profile/profile/1/', data, format='json')
+        print(response.content)
         assert response.status_code == 403
 
     def test_add_skill(self):
         client = APIClient()
-        client.login(username='testuser2', password='testuser2')
+        client.login(username='testuser3', password='testuser3')
         data = {
             "skill": 1,
             "level": 1
@@ -87,7 +90,8 @@ class ProfileTestCase(TestCase):
         # user can't delete others skill
         url = '/api/v1/user/profile/skill/1/'
         response = client.delete( url , format='json')
-        assert response.status_code == 404
+        assert response.status_code == 403
+
 
 
 

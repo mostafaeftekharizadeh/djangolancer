@@ -15,22 +15,22 @@ Including another URLconf
 """
 from django.urls import include, path
 from rest_framework import routers
-from . import views, profile_views
+from . import user_views, profile_views
 
 
 urlpatterns = [
-    path('api/v1/user/login/', views.LoginView.as_view(), name='login_view'),
-    path('api/v1/user/password/', views.ChangePasswordView.as_view(), name='change_password_view'),
+    path('api/v1/user/login/', user_views.LoginView.as_view(), name='login_view'),
+    path('api/v1/user/password/', user_views.ChangePasswordView.as_view(), name='change_password_view'),
     ### profile urls
     path('api/v1/user/profile/social_media/', profile_views.SocialMediaViewSet, name='social_media'),
 
-    path('api/v1/user/vote/', views.VoteViewSet, name='vote'),
+    path('api/v1/user/vote/', user_views.VoteViewSet, name='vote'),
 ]
 
 
 router = routers.DefaultRouter()
-router.register(r'user/user', views.UserViewSet, basename='user')
-router.register(r'user/party', views.PartyViewSet, basename='party')
+router.register(r'user/user', user_views.UserViewSet, basename='user')
+router.register(r'user/party', user_views.PartyViewSet, basename='party')
 router.register(r'user/profile/profile', profile_views.ProfileViewSet, basename='profile')
 router.register(r'user/profile/skill', profile_views.SkillViewSet, basename='skill')
 router.register(r'user/profile/job', profile_views.JobViewSet, basename='job')

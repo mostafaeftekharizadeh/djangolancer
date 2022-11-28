@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from library.serializers import ModelOwnerSerializer
-from user.views import UserSerializer
+from .user_serializers import UserSerializer
 from .models import  (Profile,
                       Skill,
                       Job,
@@ -18,7 +18,6 @@ class SkillSerializer(ModelOwnerSerializer):
     #level_name = serializers.CharField(read_only=True, source='level.name')
     class Meta:
         model = Skill
-        fields = ['id', 'skill','level', 'skill_name', 'level_name']
         fields = '__all__'
 
 class JobSerializer(ModelOwnerSerializer):

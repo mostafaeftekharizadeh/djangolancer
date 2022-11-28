@@ -11,6 +11,7 @@ class PartySerializer(serializers.ModelSerializer):
         model = Party
         fields = "__all__"
 
+
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,

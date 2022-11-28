@@ -12,10 +12,11 @@ from rest_framework.response import Response
 from django_filters import rest_framework as filters
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
-from .serializers import PartySerializer, UserSerializer
-from .serializers import ChangePasswordSerializer
-from .serializers import UpdateUserSerializer
-from .serializers import VoteSerializer
+from .user_serializers import  (UserSerializer,
+                           PartySerializer,
+                           ChangePasswordSerializer,
+                           UpdateUserSerializer,
+                           VoteSerializer)
 from .profile_serializers import ProfileSerializer
 from .models import (Party,
                      Profile,

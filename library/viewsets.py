@@ -8,7 +8,6 @@ class ModelViewSet(viewsets.ModelViewSet):
     logger = _logger
 
     def finalize_response(self, request, response, *args, **kwargs):
-        print('is', status.is_success(response.status_code))
         user_ip_address = request.META.get('HTTP_X_FORWARDED_FOR')
         if user_ip_address:
             ip = user_ip_address.split(',')[0]
