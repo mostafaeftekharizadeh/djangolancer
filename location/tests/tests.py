@@ -34,11 +34,6 @@ class ConfigurationTestCase(TestCase):
         assert response.status_code == 403
 
     def test_state(self):
-        countries = Country.objects.all()
-        print(countries)
-        for c in countries:
-            print(c.name)
-
         country=Country.objects.get(name="Iran")
         data = {
             "name" : "Karaj",
@@ -49,10 +44,9 @@ class ConfigurationTestCase(TestCase):
         }
         client = APIClient()
         client.login(username='service', password='ser12345')
-        print(f"{data}")
         response = client.post('/api/v1/location/state/', data, format='json')
-        print(response.content)
         assert response.status_code == 201
+        irint(response.content)
         state = State.objects.get(name="Tehran")
         assert state != None
 
