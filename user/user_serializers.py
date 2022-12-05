@@ -1,16 +1,54 @@
+import random
+import datetime
+from django.conf import settings
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from library.serializers import ModelOwnerSerializer
-from .models import  Party, Profile, Vote
+from rest_framework.authtoken.models import Token
+from .models import  Otp, Party, Profile, Vote
 
+
+class OtpSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(write_only=True, required=True)
+    code = serializers.CharField(write_only=True, required=False)
+    created_at = serializers.DateTimeField(read_only=True)
+    class Meta:
+        model = Otp
+        fields = ['token', 'code', 'created_at']
+    def create(self, validated_data):
+        token, created = Token.objects.get_or_create(key=validated_data['token'])
+        if 'code' in validated_data:
+            try:
+                otp = Otp.objects.get(user=token.user, code=validated_data['code'],
+                                      activated_at__isnull=True,
+                                      created_at__gte = datetime.datetime.now() -  datetime.timedelta(minutes=settings.OTP_EXPIRE_TIME))
+                otp.activated_at = datetime.datetime.now()
+                otp.save()
+                user = token.user
+                user.is_active = True
+                user.save()
+            except:
+                raise serializers.ValidationError({"no_feild_erros": "otp/token not valid."})
+            return otp
+        else:
+            if settings.DEBUG:
+                code = 12345
+            else:
+                code = random.randint(10000,99999)
+            otp_count = Otp.objects.filter(user=token.user,
+                                    activated_at__isnull=True,
+                                    created_at__gte = datetime.datetime.now() -  datetime.timedelta(minutes=settings.OTP_EXPIRE_TIME)).count()
+            if otp_count > 0:
+                raise serializers.ValidationError({"no_feild_erros": "otp rate limit reached."})
+            otp = Otp.objects.create(user=token.user, code=code, activated_at=None)
+        return otp
 
 class PartySerializer(serializers.ModelSerializer):
     class Meta:
         model = Party
         fields = "__all__"
-
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -45,7 +83,9 @@ class UserSerializer(serializers.ModelSerializer):
             last_name=validated_data['last_name']
         )
         user.set_password(validated_data['password'])
+        user.active = False
         user.save()
+
         party = Party.objects.create(user = user)
         return user
 

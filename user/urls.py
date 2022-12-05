@@ -30,6 +30,7 @@ urlpatterns = [
 
 router = routers.DefaultRouter()
 router.register(r'user/user', user_views.UserViewSet, basename='user')
+router.register(r'user/otp', user_views.OtpViewSet, basename='otp')
 router.register(r'user/party', user_views.PartyViewSet, basename='party')
 router.register(r'user/profile/profile', profile_views.ProfileViewSet, basename='profile')
 router.register(r'user/profile/skill', profile_views.SkillViewSet, basename='skill')

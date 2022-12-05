@@ -2,10 +2,11 @@ import logging
 import json
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import authentication, permissions
 from rest_framework import status
-from rest_framework import serializers
+from rest_framework import serializers, viewsets
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -13,16 +14,25 @@ from django_filters import rest_framework as filters
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
 from .user_serializers import  (UserSerializer,
-                           PartySerializer,
-                           ChangePasswordSerializer,
-                           UpdateUserSerializer,
-                           VoteSerializer)
+                                OtpSerializer,
+                                PartySerializer,
+                                ChangePasswordSerializer,
+                                UpdateUserSerializer,
+                                VoteSerializer)
 from .profile_serializers import ProfileSerializer
-from .models import (Party,
+from .models import (Otp,
+                     Party,
                      Profile,
                      Vote)
 
 _logger = logging.getLogger('midlancer.api.user.user')
+
+class OtpViewSet(viewsets.ModelViewSet):
+    queryset = Otp.objects.all()
+    serializer_class = OtpSerializer
+    permission_classes = (permissions.AllowAny,)
+    http_method_names = ['post']
+
 
 class PartyViewSet(ModelViewSet):
     queryset = Party.objects.all()

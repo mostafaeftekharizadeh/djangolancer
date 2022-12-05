@@ -214,3 +214,6 @@ LOGGING = {
         },
     },
 }
+
+# expire otp code in minutes
+OTP_EXPIRE_TIME=2

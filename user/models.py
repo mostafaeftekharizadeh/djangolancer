@@ -12,6 +12,11 @@ class Party(models.Model):
     owner = models.OneToOneField('self', related_name="party_owner", null=True, blank=True, on_delete=models.CASCADE)
     deleted_date = models.DateTimeField(null=True,blank=True)
 
+class Otp(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=False, blank=False)
+    code = models.CharField(max_length=255, blank=False, null=False )
+    created_at = models.DateTimeField(default=datetime.now())
+    activated_at = models.DateTimeField(blank=True, null=True)
 
 class Profile(models.Model):
     party = models.OneToOneField(Party, related_name="party_profile", unique=True, on_delete=models.CASCADE)
@@ -45,6 +50,7 @@ class Profile(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE,null=True, blank=True)
     state = models.ForeignKey(State, on_delete=models.CASCADE,null=True, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE,null=True, blank=True)
+
 
 
 class Contact(models.Model):
