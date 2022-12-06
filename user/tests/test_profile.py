@@ -67,7 +67,6 @@ class ProfileTestCase(TestCase):
             "city": 1
         }
         response = client.put('/api/v1/user/profile/profile/1/', data, format='json')
-        print(response.content)
         assert response.status_code == 403
 
     def test_add_skill(self):

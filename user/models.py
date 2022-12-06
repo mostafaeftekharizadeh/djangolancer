@@ -1,3 +1,6 @@
+import os
+import binascii
+import random
 from django.db import models
 from django.contrib.auth.models import User
 from location.models import City, State, Country
@@ -15,8 +18,24 @@ class Party(models.Model):
 class Otp(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=False, blank=False)
     code = models.CharField(max_length=255, blank=False, null=False )
+    token = models.CharField(default='', max_length=255, blank=False, null=False )
     created_at = models.DateTimeField(default=datetime.now())
     activated_at = models.DateTimeField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.token:
+            self.token = self.generate_token()
+        if not self.code:
+            self.code = self.generate_code()
+        return super().save(*args, **kwargs)
+
+    @classmethod
+    def generate_token(cls):
+        return binascii.hexlify(os.urandom(20)).decode()
+
+    @classmethod
+    def generate_code(cls):
+        return random.randint(10000, 99999)
 
 class Profile(models.Model):
     party = models.OneToOneField(Party, related_name="party_profile", unique=True, on_delete=models.CASCADE)

@@ -27,7 +27,7 @@ from .models import (Otp,
 
 _logger = logging.getLogger('midlancer.api.user.user')
 
-class OtpViewSet(viewsets.ModelViewSet):
+class OtpViewSet(ModelViewSet):
     queryset = Otp.objects.all()
     serializer_class = OtpSerializer
     permission_classes = (permissions.AllowAny,)
@@ -45,8 +45,6 @@ class LoginView(ObtainAuthToken):
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
         if not serializer.is_valid(raise_exception=False):
-            #error = serializer.erros.keys()
-            #print(error)
             if 'password' in request.data:
                 request.data['password'] = "**********"
             _logger.error('Login failed {}'.format(request.data))
