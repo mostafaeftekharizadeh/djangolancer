@@ -69,17 +69,17 @@ class UserTestCase(TestCase):
         user_data = json.loads(response.content)
         # request for otp
         data = {
-            "token" : user_data['token']
+            "email" : user_data['email']
         }
-        response = client.post('/api/v1/user/otp/', data)
-        assert response.status_code == 201
+        response_otp = client.post('/api/v1/user/otp/', data)
+        assert response_otp.status_code == 201
         # otp rate limit check
-        response = client.post('/api/v1/user/otp/', data)
-        assert response.status_code == 400
+        response_rate_limit = client.post('/api/v1/user/otp/', data)
+        assert response_rate_limit.status_code == 400
         otp = Otp.objects.get(user__username=user_data['username'])
         # otp confirm
         data = {
-            'token' : user_data['token'],
+            'token' : otp.token,
             'code' : otp.code
         }
         response = client.post('/api/v1/user/otp/', data)
