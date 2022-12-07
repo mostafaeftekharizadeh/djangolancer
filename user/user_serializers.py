@@ -60,10 +60,11 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=False)
     token = serializers.CharField(read_only=True, required=False)
+    otp_token = serializers.CharField(read_only=True, required=False)
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'token')
+        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'token', 'otp_token')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
@@ -92,6 +93,11 @@ class UserSerializer(serializers.ModelSerializer):
         party = Party.objects.create(user = user)
         token, created = Token.objects.get_or_create(user=user)
         user.token = token.key
+        otp_serializer = OtpSerializer(data={"email" : validated_data['email']})
+        if otp_serializer.is_valid():
+            otp_serializer.save()
+            user.otp_token = otp_serializer.data['token']
+
         return user
 
     def update(self, instance, validated_data):
