@@ -67,23 +67,22 @@ class UserTestCase(TestCase):
         # register new user
         response = client.post('/api/v1/user/user/', self.new_user_data, format='json')
         user_data = json.loads(response.content)
-        # request for otp
-        data = {
-            "email" : user_data['email']
-        }
-        response_otp = client.post('/api/v1/user/otp/', data)
-        assert response_otp.status_code == 201
-        # otp rate limit check
-        response_rate_limit = client.post('/api/v1/user/otp/', data)
-        assert response_rate_limit.status_code == 400
-        otp = Otp.objects.get(user__username=user_data['username'])
         # otp confirm
+        otp = Otp.objects.get(user__username=user_data['username'])
         data = {
-            'token' : otp.token,
+            'token' : user_data['otp_token'],
             'code' : otp.code
         }
         response = client.post('/api/v1/user/otp/', data)
         assert response.status_code == 201
+        request_data = {
+            'email' : self.new_user_data['email']
+        }
+        # otp rate limit check
+        response_rate_limit = client.post('/api/v1/user/otp/', request_data)
+        rate_limit_data = json.loads(response_rate_limit.content)
+        assert rate_limit_data['no_feild_erros'] == "otp rate limit reached."
+        # check if user is active after otp validation
         user = User.objects.get(username=user_data['username'])
         assert user.is_active == True
         # otp expires after first use
