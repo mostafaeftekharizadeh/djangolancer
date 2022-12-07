@@ -216,4 +216,4 @@ LOGGING = {
 }
 
 # expire otp code in minutes
-OTP_EXPIRE_TIME=2
+OTP_EXPIRE_TIME=300
