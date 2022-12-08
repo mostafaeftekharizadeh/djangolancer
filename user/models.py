@@ -16,15 +16,14 @@ class Party(models.Model):
     deleted_date = models.DateTimeField(null=True,blank=True)
 
 class Otp(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=False, blank=False)
+    email = models.CharField(max_length=255, blank=False, null=False )
     code = models.CharField(max_length=255, blank=False, null=False )
     token = models.CharField(default='', max_length=255, blank=False, null=False )
     created_at = models.DateTimeField(default=datetime.now())
     activated_at = models.DateTimeField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        if not self.token:
-            self.token = self.generate_token()
+        self.token = self.generate_token()
         if not self.code:
             self.code = self.generate_code()
         return super().save(*args, **kwargs)

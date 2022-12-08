@@ -1,5 +1,7 @@
 import random
 import datetime
+from django.utils.timezone import get_current_timezone
+from django.utils import timezone
 from django.conf import settings
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -17,35 +19,28 @@ class OtpSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(read_only=True)
     class Meta:
         model = Otp
-        fields = ['token', 'code', 'email', 'created_at']
+        fields = ['email', 'token', 'code', 'created_at']
     def create(self, validated_data):
         if 'code' in validated_data:
-            try:
+            #try:
+            if 1==1:
                 otp = Otp.objects.get(code=validated_data['code'],
                                 token=validated_data['token'],
                                 activated_at__isnull = True,
-                                created_at__gte = datetime.datetime.now() -  datetime.timedelta(minutes=settings.OTP_EXPIRE_TIME)
+                                created_at__gte = datetime.datetime.now(tz=get_current_timezone()) -  datetime.timedelta(minutes=settings.OTP_EXPIRE_TIME)
                                 )
-                otp.activated_at = datetime.datetime.now()
+                otp.activated_at = datetime.datetime.now(tz=get_current_timezone())
                 otp.save()
-                user = otp.user
-                user.is_active = True
-                user.save()
-            except Exception as e:
-                raise serializers.ValidationError({"no_feild_erros": "otp/token not valid."})
+            #except Exception as e:
+            #    raise serializers.ValidationError({"no_feild_erros": "otp/token not valid."})
             return otp
         else:
             if settings.DEBUG:
                 code = 12345
             else:
                 code = None
-            user = User.objects.get(email=validated_data['email'])
-            otp_count = Otp.objects.filter(user=user,
-                                    created_at__gte = datetime.datetime.now() -  datetime.timedelta(minutes=settings.OTP_EXPIRE_TIME)).count()
-            if otp_count > 0:
-                raise serializers.ValidationError({"no_feild_erros": "otp rate limit reached."})
-            otp = Otp.objects.create(user=user, code=code)
-        return otp
+            otp = Otp.objects.create(email=validated_data['email'], code=code)
+            return otp
 
 class PartySerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,6 +48,9 @@ class PartySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class UserSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=True,
+                                    validators=[UniqueValidator(queryset=User.objects.all())]
+                                    )
     email = serializers.EmailField(
             required=True,
             validators=[UniqueValidator(queryset=User.objects.all())]
@@ -60,7 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=False)
     token = serializers.CharField(read_only=True, required=False)
-    otp_token = serializers.CharField(read_only=True, required=False)
+    otp_token = serializers.CharField(required=False)
 
     class Meta:
         model = User
@@ -80,25 +78,35 @@ class UserSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = User.objects.create(
+        user = User(
             username=validated_data['username'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
-        user.set_password(validated_data['password'])
-        user.is_active = False
-        user.save()
+        if 'otp_token' in validated_data:
+            try:
+                # check if otp token is valid, then expire otp_token
+                otp = Otp.objects.get(email=validated_data['email'],
+                                      token=validated_data['otp_token'],
+                                      activated_at__isnull=False)
+                otp.save()
+            except:
+                raise serializers.ValidationError({"otp_token": "invalid"})
+            user.set_password(validated_data['password'])
+            user.is_active = True
+            user.save()
 
-        party = Party.objects.create(user = user)
-        token, created = Token.objects.get_or_create(user=user)
-        user.token = token.key
-        otp_serializer = OtpSerializer(data={"email" : validated_data['email']})
-        if otp_serializer.is_valid():
-            otp_serializer.save()
+            party = Party.objects.create(user = user)
+            token, created = Token.objects.get_or_create(user=user)
+            user.token = token.key
+        else:
+            otp_serializer = OtpSerializer(data={'email' : validated_data['email']})
+            if otp_serializer.is_valid():
+                otp_serializer.save()
             user.otp_token = otp_serializer.data['token']
-
         return user
+
 
     def update(self, instance, validated_data):
         instance.email=validated_data['email']
