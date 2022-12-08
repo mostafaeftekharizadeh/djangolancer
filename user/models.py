@@ -37,9 +37,10 @@ class Otp(models.Model):
         return random.randint(10000, 99999)
 
 class Profile(models.Model):
-    party = models.OneToOneField(Party, related_name="party_profile", unique=True, on_delete=models.CASCADE)
+    party = models.OneToOneField(Party, primary_key=True, related_name="party_profile", unique=True, on_delete=models.CASCADE)
     date_birth = models.DateField(null=True,blank=True, auto_now=False, auto_now_add=False)
     age = models.IntegerField(default=0,null=True, blank=True)
+    about_me = models.TextField(default="",null=True, blank=True)
     GENDER_CHOICES = [
         ("f", 'Female'),
         ("m", 'Male'),
