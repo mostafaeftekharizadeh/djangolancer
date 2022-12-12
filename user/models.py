@@ -86,7 +86,7 @@ class Profile(models.Model):
 
 
 class Contact(models.Model):
-    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_contact')
     CONTACT_TYPE_CHOICES = [
         ("p", 'Phone'),
         ("m", 'Mobile'),

@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from library.serializers import ModelOwnerSerializer
-from .user_serializers import UserSerializer
+from .user_serializers import UserSerializer, PartySerializer
 from .models import  (Profile,
+                      Contact,
                       Skill,
                       Job,
                       Education,
@@ -13,12 +14,15 @@ from .models import  (Profile,
                       SocialMedia)
 
 
+class ContactSerializer(ModelOwnerSerializer):
+    class Meta:
+        model = Contact
+        fields = ['contact_type', 'party', 'contact']
+
 class SkillSerializer(ModelOwnerSerializer):
-    #skill_name = serializers.CharField(read_only=True, source='skill.name')
-    #level_name = serializers.CharField(read_only=True, source='level.name')
     class Meta:
         model = Skill
-        fields = '__all__'
+        fields = ['id', 'skill', 'party', 'level']
 
 class JobSerializer(ModelOwnerSerializer):
     class Meta:
@@ -67,6 +71,7 @@ class AvatarSerializer(ModelOwnerSerializer):
         return super().update(instance, validated_data)
 
 class ProfileSerializer(ModelOwnerSerializer):
+    contacts = serializers.SerializerMethodField()
     skills = serializers.SerializerMethodField()
     jobs = serializers.SerializerMethodField()
     educations = serializers.SerializerMethodField()
@@ -75,11 +80,13 @@ class ProfileSerializer(ModelOwnerSerializer):
     achievements = serializers.SerializerMethodField()
     languages = serializers.SerializerMethodField()
     work_samples = serializers.SerializerMethodField()
-    social_medias = serializers.SerializerMethodField()
     user = serializers.SerializerMethodField()
     class Meta:
         model = Profile
         fields = "__all__"
+    def get_contacts(self, obj):
+        qs = obj.party.party_contact.all()
+        return ContactSerializer(qs, context=self.context, many=True).data
     def get_skills(self, obj):
         qs = obj.party.party_skill.all()
         return SkillSerializer(qs, context=self.context, many=True).data

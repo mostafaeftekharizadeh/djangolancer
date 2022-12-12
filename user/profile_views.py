@@ -10,6 +10,7 @@ from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
 from rest_framework.parsers import FormParser, MultiPartParser
 from .models import (Profile,
+                     Contact,
                      Skill,
                      Job,
                      Education,
@@ -22,6 +23,7 @@ from .models import (Profile,
 
 from .profile_serializers import (ProfileSerializer,
                                   AvatarSerializer,
+                                  ContactSerializer,
                                   SkillSerializer,
                                   JobSerializer,
                                   EducationSerializer,
@@ -60,6 +62,13 @@ class AvatarView(generics.UpdateAPIView):
     parser_classes = (FormParser, MultiPartParser)
     def get_object(self):
         return self.request.user.party.party_profile
+
+class ContactViewSet(ModelViewSet):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+    http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
 
 class SkillViewSet(ModelViewSet):
     queryset = Skill.objects.all()

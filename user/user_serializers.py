@@ -72,7 +72,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance = getattr(self, 'instance', None)
         if instance == None:
             if "password" not in attrs or "password2" not in attrs:
-                raise serializers.ValidationError({"password": "password/password2 requited."})
+                raise serializers.ValidationError({"password": "password/password2 required."})
             if attrs['password'] != attrs['password2']:
                 raise serializers.ValidationError({"password": "Password fields didn't match."})
         return attrs
@@ -117,13 +117,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
 
+    username = serializers.CharField(read_only=True, required=False)
     old_password = serializers.CharField(write_only=True, required=True)
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
-        fields = ('old_password', 'password', 'password2')
+        fields = ('username', 'old_password', 'password', 'password2')
 
     def validate(self, attrs):
         if self.context['request'].user.check_password(attrs['old_password']) == False:
