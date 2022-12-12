@@ -19,7 +19,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
             return True
         return request.user.is_staff
 
-# only staff users can add/delete/put, authenticated user can read
+# only staff users can add/delete/put, Authenticated user can read
 class IsAdminOrAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
