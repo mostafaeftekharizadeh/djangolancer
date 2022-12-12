@@ -1,8 +1,11 @@
 import os
 import binascii
 import random
+import hashlib
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 from location.models import City, State, Country
 from configuration.models import ProfileType, Level, Degree, Language as BaseLanguage
 from configuration.models import Skill as BaseSkill
@@ -19,7 +22,7 @@ class Otp(models.Model):
     email = models.CharField(max_length=255, blank=False, null=False )
     code = models.CharField(max_length=255, blank=False, null=False )
     token = models.CharField(default='', max_length=255, blank=False, null=False )
-    created_at = models.DateTimeField(default=datetime.now())
+    created_at = models.DateTimeField(default=timezone.now)
     activated_at = models.DateTimeField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -37,8 +40,18 @@ class Otp(models.Model):
         return random.randint(10000, 99999)
 
 class Profile(models.Model):
+    def hash_upload(instance, filename):
+        # delete old avatar if exists
+        this = Profile.objects.get(party=instance.party)
+        try:
+            this.avatar.delete()
+        except:
+            pass
+        fname, ext = os.path.splitext(filename)
+        return "avatar/{0}{1}".format(hashlib.md5(fname.encode('utf-8')).hexdigest(), ext)
     party = models.OneToOneField(Party, primary_key=True, related_name="party_profile", unique=True, on_delete=models.CASCADE)
     date_birth = models.DateField(null=True,blank=True, auto_now=False, auto_now_add=False)
+    avatar = models.ImageField(upload_to=hash_upload, null=True, blank=True)
     age = models.IntegerField(default=0,null=True, blank=True)
     about_me = models.TextField(default="",null=True, blank=True)
     GENDER_CHOICES = [

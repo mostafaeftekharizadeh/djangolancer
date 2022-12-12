@@ -58,6 +58,13 @@ class SocialMediaSerializer(ModelOwnerSerializer):
         model = SocialMedia
         fields = ['name','userid','phone','link','date_start','date_end']
 
+class AvatarSerializer(ModelOwnerSerializer):
+    avatar = serializers.ImageField(write_only=True, required=True)
+    class Meta:
+        model = Profile
+        fields = ['avatar']
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
 
 class ProfileSerializer(ModelOwnerSerializer):
     skills = serializers.SerializerMethodField()

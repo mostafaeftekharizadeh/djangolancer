@@ -3,9 +3,12 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters.profile import ProfileFilter
+from rest_framework import generics
+from rest_framework import permissions
 from rest_framework import status
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
+from rest_framework.parsers import FormParser, MultiPartParser
 from .models import (Profile,
                      Skill,
                      Job,
@@ -18,15 +21,16 @@ from .models import (Profile,
                      SocialMedia)
 
 from .profile_serializers import (ProfileSerializer,
-                          SkillSerializer,
-                          JobSerializer,
-                          EducationSerializer,
-                          CertificateSerializer,
-                          SpecialtySerializer,
-                          AchievementSerializer,
-                          LanguageSerializer,
-                          WorkSampleSerializer,
-                          SocialMediaSerializer)
+                                  AvatarSerializer,
+                                  SkillSerializer,
+                                  JobSerializer,
+                                  EducationSerializer,
+                                  CertificateSerializer,
+                                  SpecialtySerializer,
+                                  AchievementSerializer,
+                                  LanguageSerializer,
+                                  WorkSampleSerializer,
+                                  SocialMediaSerializer)
 
 
 _logger = logging.getLogger("midlancer.api.user.profile")
@@ -47,6 +51,15 @@ class ProfileViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ProfileFilter
     logger = _logger
+
+class AvatarView(generics.UpdateAPIView):
+    queryset = Profile.objects.all()
+    model = Profile
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = AvatarSerializer
+    parser_classes = (FormParser, MultiPartParser)
+    def get_object(self):
+        return self.request.user.party.party_profile
 
 class SkillViewSet(ModelViewSet):
     queryset = Skill.objects.all()
