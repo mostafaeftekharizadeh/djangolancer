@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/v1/user/password/', user_views.ChangePasswordView.as_view(), name='change_password_view'),
     ### profile urls
     path('api/v1/user/profile/social_media/', profile_views.SocialMediaViewSet, name='social_media'),
+    path('api/v1/user/profile/avatar/', profile_views.AvatarView.as_view(), name='avatar_view'),
 
     path('api/v1/user/vote/', user_views.VoteViewSet, name='vote'),
 ]
