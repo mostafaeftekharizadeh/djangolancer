@@ -54,7 +54,6 @@ class ProfileViewSet(ModelViewSet):
     filterset_class = ProfileFilter
     logger = _logger
     def get_object(self):
-        print(self.kwargs['pk'])
         if self.kwargs['pk'] == "0":
             self.kwargs['pk']  = self.request.user.party.id
         return super(ProfileViewSet, self).get_object()

@@ -1,6 +1,7 @@
 import logging
 from rest_framework import viewsets
 from rest_framework import authentication, permissions
+from rest_framework.parsers import FormParser, MultiPartParser
 from location.serializers import PlaceSerializer, CountrySerializer, StateSerializer, CitySerializer, PlaceSerializer
 from location.models import Country, State, City, Place
 from rest_framework import generics
@@ -10,13 +11,15 @@ from .serializers import ProjectSerializer, FileSerializer, CostSerializer, Offe
 from .models import  Project, File, Cost, Offer, OfferLevel, Budget
 from django_filters.rest_framework import DjangoFilterBackend
 from library.viewsets import ModelViewSet
+from library.permissions import IsOwnerOrReadOnly
 
 _logger = logging.getLogger('midlancer.api.projetcs')
 
 class ProjectViewSet(ModelViewSet):
-    queryset = Project.objects.all()
+    queryset = Project.objects.select_related('party__user')\
+                                    .prefetch_related('skill')
     serializer_class = ProjectSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
     filter_backends =  [DjangoFilterBackend]
     filterset_fields = ('country', 'state', 'city',
                         'skill', 'party', 'level', 'place','category')
@@ -25,9 +28,8 @@ class ProjectViewSet(ModelViewSet):
     '''
     filter projects based on owner
     '''
-
     def get_queryset(self):
-        if self.request.GET.get('owner') == '1':            
+        if self.request.GET.get('owner') == '1':
             return Project.objects.filter(party__user=self.request.user)
         else:
             return Project.objects.all().exclude(party__user=self.request.user)
@@ -36,9 +38,9 @@ class ProjectViewSet(ModelViewSet):
 class FileViewSet(ModelViewSet):
     queryset = File.objects.all()
     serializer_class = FileSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    filter_backends =  [DjangoFilterBackend]
-    filterset_fields = ('id','project')
+    permission_classes = [IsOwnerOrReadOnly]
+    parser_classes = (FormParser, MultiPartParser)
+    http_method_names = ['post', 'head', 'delete']
     logger = _logger
 
 

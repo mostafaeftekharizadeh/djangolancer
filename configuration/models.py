@@ -54,7 +54,7 @@ class Category(models.Model):
         default='w',
         null=True, blank=True
     )
-    parent=models.ForeignKey('Category',null=True,on_delete=models.CASCADE)
+    parent=models.ForeignKey('Category', blank=True, null=True, on_delete=models.CASCADE)
     active=models.BooleanField(default=False)
     def __str__(self):
         return self.name

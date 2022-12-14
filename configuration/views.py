@@ -5,6 +5,8 @@ from django.shortcuts import render
 from library.viewsets import ModelViewSet
 from library.permissions import IsAdminOrAuthenticated, IsAdminOrReadOnly
 from django.contrib.sites.models import Site
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters.category import CategoryFilter
 from .models import (Estimate,
                      ProfileType,
                      Bank,
@@ -87,12 +89,6 @@ class StatusViewSet(ModelViewSet):
     permission_classes = [IsAdminOrAuthenticated]
     logger = _logger
 
-class CategoryViewSet(ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    permission_classes = [IsAdminOrAuthenticated]
-    logger = _logger
-
 class SkillViewSet(ModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = BaseSkillSerializer
@@ -116,4 +112,6 @@ class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [IsAdminOrAuthenticated]
     logger = _logger
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = CategoryFilter
 

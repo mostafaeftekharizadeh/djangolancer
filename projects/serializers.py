@@ -1,47 +1,30 @@
-from .models import Project,File,Cost,Offer,OfferLevel,Budget
 from rest_framework import serializers
+from .models import Project,File,Cost,Offer,OfferLevel,Budget
+from library.serializers import ModelOwnerSerializer
+from user.user_serializers import UserSerializer
 
 
 
 
-class ProjectSerializer(serializers.ModelSerializer):
+class ProjectSerializer(ModelOwnerSerializer):
+    user = serializers.SerializerMethodField()
     class Meta:
         model = Project
-        fields =  [
-            'party',
-                    'category',
-                    'work',
-                    'title', 
-                    # 'file_upload_img',
-                    'skill',
-                    'exp_time',
-                    'description',
-                    # 'file_upload_des',
-                    'currency',
-                    'budget_min',
-                    'budget_max',
-                    'tag',
-                    'cre_price', 
-                    'budget_total', 
-                    'expire_date',
-                    'discount' ,
-                    'date' ,
-                    'status', 
-                    'level' ,
-                    'place' ,
-                    'country', 
-                    'state' ,
-                    'city' ,
-                    ]
+        fields = '__all__'
         ordering_fields = ['title']
         nested_depth = 2
-class FileSerializer(serializers.ModelSerializer):
+    def get_user(self, obj):
+        return UserSerializer(obj.party.user, context=self.context, many=False).data
+
+class FileSerializer(ModelOwnerSerializer):
     class Meta:
         model = File
-        fields =  ['project'
-                    ]
-        # ordering_fields = ['title']
-        # nested_depth = 2
+        fields =  ['party', 'project', 'project_file']
+    def validate(self, attrs):
+        if attrs['project'].party != self.context['request'].user.party:
+            raise serializers.ValidationError('permission denied.')
+        return super(FileSerializer, self).validate(attrs)
+
 class CostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cost

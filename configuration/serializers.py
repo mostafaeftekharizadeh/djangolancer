@@ -7,7 +7,6 @@ from .models import (Estimate,
                      ViewStatus,
                      Currency,
                      Status,
-                     Category,
                      Skill,
                      ComplainType,
                      Degree,
@@ -52,12 +51,6 @@ class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Status
         fields =  ['id', 'name', 'active']
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields =  ['id', 'name', 'active']
-
 
 class BaseSkillSerializer(serializers.ModelSerializer):
     class Meta:
