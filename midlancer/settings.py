@@ -67,6 +67,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+
 ]
 
 ROOT_URLCONF = 'midlancer.urls'
@@ -220,4 +222,11 @@ OTP_EXPIRE_TIME=120
 MEDIA_ROOT = BASE_DIR / "media/"
 MEDIA_URL =  "/media/"
 AUTH_USER_MODEL = 'user.User'
-
+LOCALE_PATHS = [
+    'locale'
+]
+LANGUAGES = (
+    ('en-us', 'English'),
+    ('fa-IR', 'Persian'),
+)
+LANGUAGE_CODE = "fa-IR"
