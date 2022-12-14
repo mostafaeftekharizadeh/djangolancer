@@ -1,7 +1,7 @@
 import logging
 import json
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import authentication, permissions
@@ -20,11 +20,12 @@ from .user_serializers import  (UserSerializer,
                                 UpdateUserSerializer,
                                 VoteSerializer)
 from .profile_serializers import ProfileSerializer
-from .models import (Otp,
-                     Party,
+from .user_models import Otp
+from .profile_models import (Party,
                      Profile,
                      Vote)
 
+User = get_user_model()
 _logger = logging.getLogger('midlancer.api.user.user')
 
 class OtpViewSet(ModelViewSet):
@@ -73,7 +74,7 @@ class UserViewSet(ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_fields = ('username',"party")
+    filterset_fields = ('mobile',"party")
     logger = _logger
     #def list(self, request, *args, **kwargs):
         #if request.user.is_authenticated == False:

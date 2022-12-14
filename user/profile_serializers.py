@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from library.serializers import ModelOwnerSerializer
 from .user_serializers import UserSerializer, PartySerializer
-from .models import  (Profile,
+from .profile_models import  (Profile,
                       Contact,
                       Skill,
                       Job,

@@ -1,43 +1,12 @@
-import os
-import binascii
-import random
-import hashlib
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
+from .user_models import Party
 from location.models import City, State, Country
 from configuration.models import ProfileType, Level, Degree, Language as BaseLanguage
 from configuration.models import Skill as BaseSkill
-from datetime import datetime
 
 
-class Party(models.Model):
-    #user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
-    user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
-    owner = models.OneToOneField('self', related_name="party_owner", null=True, blank=True, on_delete=models.CASCADE)
-    deleted_date = models.DateTimeField(null=True,blank=True)
-
-class Otp(models.Model):
-    email = models.CharField(max_length=255, blank=False, null=False )
-    code = models.CharField(max_length=255, blank=False, null=False )
-    token = models.CharField(default='', max_length=255, blank=False, null=False )
-    created_at = models.DateTimeField(default=timezone.now)
-    activated_at = models.DateTimeField(blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        self.token = self.generate_token()
-        if not self.code:
-            self.code = self.generate_code()
-        return super().save(*args, **kwargs)
-
-    @classmethod
-    def generate_token(cls):
-        return binascii.hexlify(os.urandom(20)).decode()
-
-    @classmethod
-    def generate_code(cls):
-        return random.randint(10000, 99999)
 
 class Profile(models.Model):
     def hash_upload(instance, filename):

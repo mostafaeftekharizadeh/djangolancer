@@ -219,3 +219,5 @@ LOGGING = {
 OTP_EXPIRE_TIME=120
 MEDIA_ROOT = BASE_DIR / "media/"
 MEDIA_URL =  "/media/"
+AUTH_USER_MODEL = 'user.User'
+

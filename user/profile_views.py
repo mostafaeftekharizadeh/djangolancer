@@ -9,7 +9,7 @@ from rest_framework import status
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
 from rest_framework.parsers import FormParser, MultiPartParser
-from .models import (Profile,
+from .profile_models import (Profile,
                      Contact,
                      Skill,
                      Job,

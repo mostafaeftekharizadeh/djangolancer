@@ -2,7 +2,7 @@ from datetime import datetime
 from email.policy import default
 from django.db import models
 from configuration.models import Status, Bank
-from user.models import Party
+from user.user_models import Party
 # Create your models here.
 
 

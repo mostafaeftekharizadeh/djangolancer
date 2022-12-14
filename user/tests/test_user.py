@@ -1,9 +1,10 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
-from user.models import Party, Otp
+from user.user_models import Party, Otp
 import json
 
+User = get_user_model()
 
 class UserTestCase(TestCase):
     fixtures = ['auth.json', 'location.json', 'configuration.json', 'user.json']
@@ -13,7 +14,7 @@ class UserTestCase(TestCase):
             "username" : "testuser",
             "password" : "arian1391",
             "password2" : "arian1391",
-            "email" : "testuser@midlancer.ir",
+            "mobile" : "989121000001",
             "first_name" : "fname1",
             "last_name" : "lname1"
         }

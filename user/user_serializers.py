@@ -4,22 +4,26 @@ from django.utils.timezone import get_current_timezone
 from django.utils import timezone
 from django.conf import settings
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from library.serializers import ModelOwnerSerializer
 from rest_framework.authtoken.models import Token
-from .models import  Otp, Party, Profile, Vote
+from .user_models import   Party, Otp
+from .profile_models import  Profile, Vote
+
+User = get_user_model()
+
 
 
 class OtpSerializer(serializers.ModelSerializer):
-    email = serializers.CharField(write_only=True, required=False)
+    mobile = serializers.CharField(write_only=True, required=False)
     token = serializers.CharField(required=False)
     code = serializers.CharField(write_only=True, required=False)
     created_at = serializers.DateTimeField(read_only=True)
     class Meta:
         model = Otp
-        fields = ['email', 'token', 'code', 'created_at']
+        fields = ['mobile', 'token', 'code', 'created_at']
     def create(self, validated_data):
         if 'code' in validated_data:
             #try:
@@ -39,7 +43,7 @@ class OtpSerializer(serializers.ModelSerializer):
                 code = 12345
             else:
                 code = None
-            otp = Otp.objects.create(email=validated_data['email'], code=code)
+            otp = Otp.objects.create(mobile=validated_data['mobile'], code=code)
             return otp
 
 class PartySerializer(serializers.ModelSerializer):
@@ -48,11 +52,14 @@ class PartySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class UserSerializer(serializers.ModelSerializer):
+    mobile = serializers.CharField(required=True,
+                                    validators=[UniqueValidator(queryset=User.objects.all())]
+                                    )
     username = serializers.CharField(required=True,
                                     validators=[UniqueValidator(queryset=User.objects.all())]
                                     )
     email = serializers.EmailField(
-            required=True,
+            required=False,
             validators=[UniqueValidator(queryset=User.objects.all())]
             )
     password = serializers.CharField(write_only=True, required=False, validators=[validate_password])
@@ -62,7 +69,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'token', 'otp_token')
+        fields = ('mobile', 'username', 'password', 'password2', 'email', 'first_name', 'last_name', 'token', 'otp_token')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
@@ -79,15 +86,15 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User(
+            mobile=validated_data['mobile'],
             username=validated_data['username'],
-            email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
         if 'otp_token' in validated_data:
             try:
                 # check if otp token is valid, then expire otp_token
-                otp = Otp.objects.get(email=validated_data['email'],
+                otp = Otp.objects.get(mobile=validated_data['mobile'],
                                       token=validated_data['otp_token'],
                                       activated_at__isnull=False)
                 otp.save()
@@ -101,7 +108,7 @@ class UserSerializer(serializers.ModelSerializer):
             token, created = Token.objects.get_or_create(user=user)
             user.token = token.key
         else:
-            otp_serializer = OtpSerializer(data={'email' : validated_data['email']})
+            otp_serializer = OtpSerializer(data={'mobile' : validated_data['mobile']})
             if otp_serializer.is_valid():
                 otp_serializer.save()
             user.otp_token = otp_serializer.data['token']
@@ -109,7 +116,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
     def update(self, instance, validated_data):
-        instance.email=validated_data['email']
+        instance.mobile=validated_data['mobile']
         instance.first_name=validated_data['first_name']
         instance.last_name=validated_data['last_name']
         instance.save()

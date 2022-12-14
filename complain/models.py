@@ -1,14 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
-from user.models import Profile
+from user.profile_models import Profile
 from configuration.models import Skill,Status,Level
 from configuration.models import ComplainType,ViewStatus,Status
 from projects.models import Project
+from user.user_models import Party
 # Create your models here.
 class Complain(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    owner= models.ForeignKey(User, on_delete=models.CASCADE,related_name="complain_owner")
-    user= models.ForeignKey(User, on_delete=models.CASCADE,related_name="complain_user")
+    owner= models.ForeignKey(Party, on_delete=models.CASCADE,related_name="complain_owner")
+    user= models.ForeignKey(Party, on_delete=models.CASCADE,related_name="complain_user")
     date = models.DateField()
     complain_type=models.ForeignKey(ComplainType, on_delete=models.CASCADE)
     price =models.IntegerField()

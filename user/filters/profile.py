@@ -1,7 +1,7 @@
 from django_filters import FilterSet
 from django_filters import rest_framework as filters
 from library.filters import CharInFilter
-from user.models import Profile
+from user.profile_models import Profile
 
 
 
