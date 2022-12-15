@@ -231,5 +231,6 @@ LANGUAGES = (
 )
 LANGUAGE_CODE = "fa-IR"
 AUTHENTICATION_BACKENDS = [
-    'library.backends.MidlancerBackend'
+    'library.backends.MidlancerBackend',
+    'django.contrib.auth.backends.ModelBackend'
 ]

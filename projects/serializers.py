@@ -11,6 +11,15 @@ class ProjectSerializer(ModelOwnerSerializer):
     class Meta:
         model = Project
         fields = '__all__'
+        fields = ['category',
+                  'sub_category',
+                  'title',
+                  'description',
+                  'level',
+                  'budget_min',
+                  'budget_max',
+                  'user',
+                  ]
         ordering_fields = ['title']
         nested_depth = 2
     def get_user(self, obj):
