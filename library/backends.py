@@ -6,8 +6,10 @@ from django.core.exceptions import ValidationError
 User = get_user_model()
 class MidlancerBackend(BaseBackend):
     def authenticate(self, request, mobile=None, password=None):
-        user = User.objects.get(mobile=mobile)
-        print(mobile, password)
+        try:
+            user = User.objects.get(mobile=mobile)
+        except:
+            return
         if not user.is_active or not user.check_password(password):
             return
         return user
