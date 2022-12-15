@@ -1,8 +1,10 @@
 import random
 import datetime
+from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import get_current_timezone
 from django.utils import timezone
 from django.conf import settings
+from django.contrib.auth import authenticate
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.validators import UniqueValidator
@@ -195,6 +197,31 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         profile.save()
 
         return instance
+
+class AuthTokenSerializer(serializers.Serializer):
+    mobile = serializers.CharField(label=_("Mobile"))
+    password = serializers.CharField(label=_("Password"), style={'input_type': 'password'})
+
+    def validate(self, attrs):
+        mobile = attrs.get('mobile')
+        password = attrs.get('password')
+
+        if mobile and password:
+            user = authenticate(mobile=mobile, password=password)
+
+            if user:
+                if not user.is_active:
+                    msg = _('User account is disabled.')
+                    raise serializers.ValidationError(msg)
+            else:
+                msg = _('Unable to log in with provided credentials.')
+                raise serializers.ValidationError(msg)
+        else:
+            msg = _('Must include "mobile" and "password".')
+            raise serializers.ValidationError(msg)
+
+        attrs['user'] = user
+        return attrs
 
 class VoteSerializer(ModelOwnerSerializer):
     class Meta:

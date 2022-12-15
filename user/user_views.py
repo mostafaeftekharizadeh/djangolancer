@@ -14,6 +14,7 @@ from django_filters import rest_framework as filters
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
 from .user_serializers import  (UserSerializer,
+                                AuthTokenSerializer,
                                 OtpSerializer,
                                 PartySerializer,
                                 ChangePasswordSerializer,
@@ -41,7 +42,9 @@ class PartyViewSet(ModelViewSet):
     serializer_class = PartySerializer
     logger = _logger
 
-class LoginView(ObtainAuthToken):
+#class LoginView(ObtainAuthToken):
+class LoginView(generics.CreateAPIView):
+    serializer_class = AuthTokenSerializer
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})

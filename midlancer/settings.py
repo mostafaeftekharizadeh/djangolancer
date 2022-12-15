@@ -230,3 +230,6 @@ LANGUAGES = (
     ('fa-IR', 'Persian'),
 )
 LANGUAGE_CODE = "fa-IR"
+AUTHENTICATION_BACKENDS = [
+    'library.backends.MidlancerBackend'
+]
