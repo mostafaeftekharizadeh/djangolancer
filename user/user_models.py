@@ -2,12 +2,14 @@ import os
 import binascii
 import random
 import hashlib
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from library.models import BaseModel
 
 
 class UserManager(BaseUserManager):
@@ -52,7 +54,7 @@ class User(AbstractUser):
     def __str__(self):
         return self.mobile
 
-class Party(models.Model):
+class Party(BaseModel):
     user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE)
     owner = models.OneToOneField('self', related_name="party_owner", null=True, blank=True, on_delete=models.CASCADE)
     deleted_date = models.DateTimeField(null=True,blank=True)

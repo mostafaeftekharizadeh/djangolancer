@@ -1,12 +1,13 @@
 from datetime import datetime
 from email.policy import default
 from django.db import models
+from library.models import BaseModel
 from configuration.models import Status, Bank
 from user.user_models import Party
 # Create your models here.
 
 
-class Count(models.Model):
+class Count(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     sheba = models.CharField(max_length=26, unique=True)
     card = models.CharField(max_length=16, unique=True)
@@ -14,8 +15,7 @@ class Count(models.Model):
     bankname = models.ForeignKey(Bank, on_delete=models.CASCADE)
     active = models.TextField()
 
-
-class Deposit(models.Model):
+class Deposit(BaseModel):
     count = models.ForeignKey(Count, on_delete=models.CASCADE)
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     amount = models.IntegerField()
@@ -23,8 +23,7 @@ class Deposit(models.Model):
     transaction = models.IntegerField()
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
 
-
-class Withdraw(models.Model):
+class Withdraw(BaseModel):
     count = models.ForeignKey(Count, on_delete=models.CASCADE)
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     amount = models.IntegerField()
@@ -34,8 +33,7 @@ class Withdraw(models.Model):
     acc_name = models.CharField(max_length=255)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
 
-
-class Account(models.Model):
+class Account(BaseModel):
     count = models.ForeignKey(Count, on_delete=models.CASCADE)
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     email = models.CharField(max_length=255)
@@ -53,5 +51,4 @@ class Account(models.Model):
         default='d',
         null=True, blank=True
     )
-
     balance = models.IntegerField()

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+from library.models import BaseModel
 from .user_models import Party
 from location.models import City, State, Country
 from configuration.models import ProfileType, Level, Degree, Language as BaseLanguage
@@ -54,7 +55,7 @@ class Profile(models.Model):
 
 
 
-class Contact(models.Model):
+class Contact(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_contact')
     CONTACT_TYPE_CHOICES = [
         ("p", 'Phone'),
@@ -70,7 +71,7 @@ class Contact(models.Model):
     contact = models.TextField()
 
 
-class Skill(models.Model):
+class Skill(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_skill')
     skill = models.ForeignKey(BaseSkill, on_delete=models.CASCADE)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
@@ -78,7 +79,7 @@ class Skill(models.Model):
         unique_together = ('party', 'skill',)
 
 
-class Job(models.Model):
+class Job(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_job')
     title = models.TextField()
     company = models.TextField()
@@ -87,7 +88,7 @@ class Job(models.Model):
     date_end = models.DateTimeField( auto_now=False, auto_now_add=False)
 
 
-class Education(models.Model):
+class Education(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_education')
     degree = models.OneToOneField(Degree , unique=True, on_delete=models.CASCADE)
     uni_name = models.TextField()
@@ -97,7 +98,7 @@ class Education(models.Model):
     class Meta:
         unique_together = ('party', 'degree',)
 
-class Certificate(models.Model):
+class Certificate(BaseModel):
     party = models.ForeignKey(Party,  on_delete=models.CASCADE, related_name='party_certificate')
     name = models.TextField()
     description = models.TextField()
@@ -106,7 +107,7 @@ class Certificate(models.Model):
     date_end = models.DateTimeField( auto_now=False, auto_now_add=False)
 
 
-class Specialty(models.Model):
+class Specialty(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_speciality')
     name = models.TextField()
     level = models.TextField()
@@ -116,7 +117,7 @@ class Specialty(models.Model):
     date_end = models.DateTimeField(auto_now=False, auto_now_add=False)
 
 
-class Achievement(models.Model):
+class Achievement(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_achievement')
     title = models.TextField()
     event = models.TextField()
@@ -125,7 +126,7 @@ class Achievement(models.Model):
     date_end = models.DateTimeField( auto_now=False, auto_now_add=False)
 
 
-class Language(models.Model):
+class Language(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_language')
     language = models.ForeignKey(BaseLanguage, on_delete=models.CASCADE)
     talking = models.IntegerField(default=0, null=True, blank=True)
@@ -133,14 +134,14 @@ class Language(models.Model):
     comprehension = models.IntegerField(default=0, null=True, blank=True)
 
 
-class WorkSample(models.Model):
+class WorkSample(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_worksample')
     title = models.TextField()
     skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
     description = models.TextField()
 
 
-class SocialMedia(models.Model):
+class SocialMedia(BaseModel):
     party = models.ForeignKey(Party,  on_delete=models.CASCADE, related_name='party_socialmedia')
     name = models.TextField()
     userid = models.TextField()
@@ -150,7 +151,7 @@ class SocialMedia(models.Model):
     date_end = models.DateTimeField(auto_now=False, auto_now_add=False)
 
 
-class Vote(models.Model):
+class Vote(BaseModel):
     party = models.OneToOneField(Party, related_name="vote_party", unique=True, on_delete=models.CASCADE)
     owner = models.OneToOneField(Party, related_name="vote_owner", unique=True, on_delete=models.CASCADE)
     vote = models.IntegerField(default=0, null=True, blank=True)

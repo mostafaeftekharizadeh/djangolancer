@@ -1,12 +1,13 @@
 import os
 import hashlib
+from django.db import models
+from library.models import BaseModel
 from configuration.models import (Category, Currency, Estimate, Level, Skill as BaseSkill,
                                   Status)
-from django.db import models
 from location.models import City, Country, Place, State
 from user.user_models import Party
 
-class Project(models.Model):
+class Project(BaseModel):
     party = models.ForeignKey(Party ,on_delete=models.CASCADE)
     category = models.ForeignKey(Category,
                                     null=False,
@@ -68,7 +69,7 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-class File(models.Model):
+class File(BaseModel):
     def hash_upload(instance, filename):
         try:
             # delete old avatar if exists
@@ -82,14 +83,14 @@ class File(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     project_file = models.ImageField(upload_to=hash_upload, null=True, blank=True)
 
-class Cost(models.Model):
+class Cost(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     calculate_cost = models.IntegerField()
     pay_cost = models.IntegerField()
     pay_date = models.DateTimeField()
 
 
-class Offer(models.Model):
+class Offer(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     total_level = models.IntegerField()
@@ -103,7 +104,7 @@ class Offer(models.Model):
         return self.description
 
 
-class OfferLevel(models.Model):
+class OfferLevel(BaseModel):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     time = models.IntegerField()
@@ -114,7 +115,7 @@ class OfferLevel(models.Model):
         return self.title
 
 
-class Budget(models.Model):
+class Budget(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     currency = models.ForeignKey(
         Currency, null=False, on_delete=models.CASCADE)
