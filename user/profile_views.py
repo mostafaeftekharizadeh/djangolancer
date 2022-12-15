@@ -93,7 +93,7 @@ class EducationViewSet(ModelViewSet):
     queryset = Education.objects.all()
     serializer_class = EducationSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    http_method_names = ['get', 'post', 'head', 'delete']
+    #http_method_names = ['get', 'post', 'head', 'delete']
     logger = _logger
 
 class CertificateViewSet(ModelViewSet):
