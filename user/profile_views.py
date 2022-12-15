@@ -19,6 +19,7 @@ from .profile_models import (Profile,
                      Achievement,
                      Language,
                      WorkSample,
+                     Experience,
                      SocialMedia)
 
 from .profile_serializers import (ProfileSerializer,
@@ -32,6 +33,7 @@ from .profile_serializers import (ProfileSerializer,
                                   AchievementSerializer,
                                   LanguageSerializer,
                                   WorkSampleSerializer,
+                                  ExperienceSerializer,
                                   SocialMediaSerializer)
 
 
@@ -128,7 +130,14 @@ class WorkSampleViewSet(ModelViewSet):
     queryset = WorkSample.objects.all()
     serializer_class = WorkSampleSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    http_method_names = ['get', 'post', 'head', 'delete']
+    #http_method_names = ['get', 'post', 'head', 'delete']
+    logger = _logger
+
+class ExperienceViewSet(ModelViewSet):
+    queryset = Experience.objects.all()
+    serializer_class = ExperienceSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+    #http_method_names = ['get', 'post', 'head', 'delete']
     logger = _logger
 
 class SocialMediaViewSet(ModelViewSet):

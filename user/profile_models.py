@@ -133,13 +133,17 @@ class Language(BaseModel):
     writing = models.IntegerField(default=0, null=True, blank=True)
     comprehension = models.IntegerField(default=0, null=True, blank=True)
 
-
 class WorkSample(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_worksample')
     title = models.TextField()
     skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
     description = models.TextField()
 
+class Experience(BaseModel):
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_experience')
+    title = models.TextField()
+    skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
+    description = models.TextField()
 
 class SocialMedia(BaseModel):
     party = models.ForeignKey(Party,  on_delete=models.CASCADE, related_name='party_socialmedia')
@@ -149,7 +153,6 @@ class SocialMedia(BaseModel):
     link = models.TextField()
     date_start = models.DateTimeField(auto_now=False, auto_now_add=False)
     date_end = models.DateTimeField(auto_now=False, auto_now_add=False)
-
 
 class Vote(BaseModel):
     party = models.OneToOneField(Party, related_name="vote_party", unique=True, on_delete=models.CASCADE)

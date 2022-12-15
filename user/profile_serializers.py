@@ -11,6 +11,7 @@ from .profile_models import  (Profile,
                       Achievement,
                       Language,
                       WorkSample,
+                      Experience,
                       SocialMedia)
 
 
@@ -57,6 +58,11 @@ class WorkSampleSerializer(ModelOwnerSerializer):
         model = WorkSample
         fields = ['title','skill','description']
 
+class ExperienceSerializer(ModelOwnerSerializer):
+    class Meta:
+        model = Experience
+        fields = ['title','skill','description']
+
 class SocialMediaSerializer(ModelOwnerSerializer):
     class Meta:
         model = SocialMedia
@@ -80,6 +86,7 @@ class ProfileSerializer(ModelOwnerSerializer):
     achievements = serializers.SerializerMethodField()
     languages = serializers.SerializerMethodField()
     work_samples = serializers.SerializerMethodField()
+    experience = serializers.SerializerMethodField()
     user = serializers.SerializerMethodField()
     class Meta:
         model = Profile
@@ -111,6 +118,9 @@ class ProfileSerializer(ModelOwnerSerializer):
     def get_work_samples(self, obj):
         qs = obj.party.party_worksample.all()
         return WorkSampleSerializer(qs, context=self.context, many=True).data
+    def get_experience(self, obj):
+        qs = obj.party.party_experience.all()
+        return ExperienceSerializer(qs, context=self.context, many=True).data
     def get_social_medias(self, obj):
         qs = obj.party.party_socialmedia.all()
         return SocialMediaSerializer(qs, context=self.context, many=True).data

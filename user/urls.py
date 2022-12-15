@@ -43,6 +43,7 @@ router.register(r'user/profile/specialty', profile_views.SpecialtyViewSet, basen
 router.register(r'user/profile/achievement', profile_views.AchievementViewSet, basename='achievement')
 router.register(r'user/profile/language', profile_views.LanguageViewSet, basename='language')
 router.register(r'user/profile/worksample', profile_views.WorkSampleViewSet, basename='worksample')
+router.register(r'user/profile/experience', profile_views.ExperienceViewSet, basename='experience')
 router.register(r'user/profile/socialmedia', profile_views.SocialMediaViewSet, basename='socialmedia')
 
 
