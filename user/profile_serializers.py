@@ -33,7 +33,7 @@ class JobSerializer(ModelOwnerSerializer):
 class EducationSerializer(ModelOwnerSerializer):
     class Meta:
         model = Education
-        fields = ['degree','uni_name','description','date_start','date_end']
+        fields = ['degree','uni_name','major','date_start','date_end']
 
 class CertificateSerializer(ModelOwnerSerializer):
     class Meta:
