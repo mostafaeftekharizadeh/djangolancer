@@ -117,6 +117,7 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
 
             party = Party.objects.create(user = user)
+            profile = Profile.objects.create(party = party)
             token, created = Token.objects.get_or_create(user=user)
             user.token = token.key
         else:
