@@ -17,7 +17,12 @@ from .profile_models import  Profile, Vote
 User = get_user_model()
 
 
-
+def mobile_check(value):
+    if not value.startswith("98"):
+        if value.startswith("0"):
+            value = value[1:]
+        value = "98{}".format(value)
+    return value
 class OtpSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(write_only=True, required=False)
     token = serializers.CharField(required=False)
@@ -55,7 +60,7 @@ class PartySerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(required=True,
-                                    validators=[UniqueValidator(queryset=User.objects.all())]
+                                    validators=[]
                                     )
     username = serializers.CharField(required=True,
                                     validators=[UniqueValidator(queryset=User.objects.all())]
@@ -76,6 +81,11 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name': {'required': True},
             'last_name': {'required': True}
         }
+    def validate_mobile(self, value):
+        value = mobile_check(value)
+        if User.objects.filter(mobile=value).count() > 0:
+            raise serializers.ValidationError(_('This field must be unique.'))
+        return value
 
     def validate(self, attrs):
         instance = getattr(self, 'instance', None)
@@ -189,7 +199,6 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         profile = Profile.objects.get(user=instance)
         if validated_data.get("city"):
             profile.city = validated_data.get("city")
-            print(profile.city)
         if validated_data.get("gender"):
             profile.gender = validated_data.get("gender")
         if validated_data.get("age"):
@@ -203,7 +212,7 @@ class AuthTokenSerializer(serializers.Serializer):
     password = serializers.CharField(label=_("Password"), style={'input_type': 'password'})
 
     def validate(self, attrs):
-        mobile = attrs.get('mobile')
+        mobile = mobile_check(attrs.get('mobile'))
         password = attrs.get('password')
 
         if mobile and password:
