@@ -2,8 +2,11 @@ from rest_framework import serializers
 
 class ModelSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
-        if kwargs['context']['request'].method == "PATCH":
-            kwargs['partial'] = True
+        try:
+            if kwargs['context']['request'].method == "PATCH":
+                kwargs['partial'] = True
+        except:
+            pass
         super(ModelSerializer, self).__init__(*args, **kwargs)
 
 class ModelOwnerSerializer(ModelSerializer):
