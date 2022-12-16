@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import *
 # Register your models here.
 
+class DegreeAdmin(admin.ModelAdmin):
+    pass
 class EstimateAdmin(admin.ModelAdmin):
     pass
 class ProfileTypeAdmin(admin.ModelAdmin):
@@ -24,6 +26,7 @@ class SkillAdmin(admin.ModelAdmin):
     pass
 class ComplainTypeAdmin(admin.ModelAdmin):
     pass
+admin.site.register(Degree, DegreeAdmin)
 admin.site.register(Estimate, EstimateAdmin)
 admin.site.register(ProfileType, ProfileTypeAdmin)
 admin.site.register(Bank, BankAdmin)

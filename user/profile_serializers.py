@@ -18,7 +18,7 @@ from .profile_models import  (Profile,
 class ContactSerializer(ModelOwnerSerializer):
     class Meta:
         model = Contact
-        fields = ['contact_type', 'party', 'contact']
+        fields = ['id', 'contact_type', 'party', 'contact']
 
 class SkillSerializer(ModelOwnerSerializer):
     class Meta:
@@ -28,51 +28,51 @@ class SkillSerializer(ModelOwnerSerializer):
 class JobSerializer(ModelOwnerSerializer):
     class Meta:
         model = Job
-        fields = ['title','company','description','date_start','date_end']
+        fields = ['id', 'title','company','description','date_start','date_end']
 
 class EducationSerializer(ModelOwnerSerializer):
     class Meta:
         model = Education
-        fields = ['degree','uni_name','major','date_start','date_end']
+        fields = ['id', 'party', 'degree','uni_name','major','date_start','date_end']
 
 class CertificateSerializer(ModelOwnerSerializer):
     class Meta:
         model = Certificate
-        fields = ['name','description','Institution_name','date_start','date_end']
+        fields = ['id', 'party', 'name','description','Institution_name','date_start','date_end']
 class SpecialtySerializer(ModelOwnerSerializer):
     class Meta:
         model = Specialty
-        fields = ['level','description','Institution_name','date_start','date_end']
+        fields = ['id', 'party', 'level','description','Institution_name','date_start','date_end']
 class AchievementSerializer(ModelOwnerSerializer):
     class Meta:
         model = Achievement
-        fields = ['title','event','description','date_start','date_end']
+        fields = ['id', 'party', 'title','event','description','date_start','date_end']
 
 class LanguageSerializer(ModelOwnerSerializer):
     class Meta:
         model = Language
-        fields = ['language','talking','writing','comprehension']
+        fields = ['id', 'party', 'language','talking','writing','comprehension']
 
 class WorkSampleSerializer(ModelOwnerSerializer):
     class Meta:
         model = WorkSample
-        fields = ['title','skill','description']
+        fields = ['id', 'party', 'title','skill','description']
 
 class ExperienceSerializer(ModelOwnerSerializer):
     class Meta:
         model = Experience
-        fields = ['title','skill','description']
+        fields = ['id', 'party', 'title','skill','description']
 
 class SocialMediaSerializer(ModelOwnerSerializer):
     class Meta:
         model = SocialMedia
-        fields = ['name','userid','phone','link','date_start','date_end']
+        fields = ['id', 'party', 'name','userid','phone','link','date_start','date_end']
 
 class AvatarSerializer(ModelOwnerSerializer):
     avatar = serializers.ImageField(write_only=True, required=True)
     class Meta:
         model = Profile
-        fields = ['avatar']
+        fields = ['party', 'avatar']
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
 
