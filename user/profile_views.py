@@ -66,9 +66,13 @@ class AvatarView(generics.UpdateAPIView):
     model = Profile
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = AvatarSerializer
-    parser_classes = (FormParser, MultiPartParser)
+    parser_classes = (MultiPartParser,)
     def get_object(self):
         return self.request.user.party.party_profile
+    def patch(self, request):
+        response = super().patch(request)
+        print(response)
+        return Response(status=204)
 
 class ContactViewSet(ModelViewSet):
     queryset = Contact.objects.all()

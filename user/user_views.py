@@ -18,7 +18,7 @@ from .user_serializers import  (UserSerializer,
                                 OtpSerializer,
                                 PartySerializer,
                                 ChangePasswordSerializer,
-                                UpdateUserSerializer,
+                                #UpdateUserSerializer,
                                 VoteSerializer)
 from .profile_serializers import ProfileSerializer
 from .user_models import Otp
@@ -56,6 +56,7 @@ class LoginView(generics.CreateAPIView):
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         data = {
+            'id' : user.id,
             'token': token.key,
             'profile' : None,
             'party' : None

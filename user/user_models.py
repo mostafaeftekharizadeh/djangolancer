@@ -44,6 +44,10 @@ class UserManager(BaseUserManager):
         return self.create_user(mobile, password, **extra_fields)
 
 class User(AbstractUser):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False)
     mobile = models.CharField(_('mobile number'), max_length=12, unique=True)
 
     USERNAME_FIELD = 'mobile'

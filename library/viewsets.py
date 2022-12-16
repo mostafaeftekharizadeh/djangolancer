@@ -25,3 +25,8 @@ class ModelViewSet(viewsets.ModelViewSet):
         else:
             self.logger.warning(msg)
         return super(ModelViewSet, self).finalize_response(request, response, args, kwargs)
+
+    def update(self, request, response, *args, **kwargs):
+        if request.method == 'PATCH':
+            kwargs['partial'] = True
+        return super(ModelViewSet, self).update(request, response, args, kwargs)

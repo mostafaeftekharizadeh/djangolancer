@@ -9,7 +9,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-from library.serializers import ModelOwnerSerializer
+from library.serializers import ModelSerializer, ModelOwnerSerializer
 from rest_framework.authtoken.models import Token
 from .user_models import   Party, Otp
 from .profile_models import  Profile, Vote
@@ -58,7 +58,7 @@ class PartySerializer(serializers.ModelSerializer):
         model = Party
         fields = "__all__"
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(ModelSerializer):
     mobile = serializers.CharField(required=True,
                                     validators=[]
                                     )
@@ -76,7 +76,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('mobile', 'username', 'password', 'password2', 'email', 'first_name', 'last_name', 'token', 'otp_token')
+        fields = ('id', 'mobile', 'username', 'password', 'password2', 'email', 'first_name', 'last_name', 'token', 'otp_token')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
@@ -128,13 +128,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-    def update(self, instance, validated_data):
-        instance.mobile=validated_data['mobile']
-        instance.first_name=validated_data['first_name']
-        instance.last_name=validated_data['last_name']
-        instance.save()
-        return instance
-
 class ChangePasswordSerializer(serializers.ModelSerializer):
 
     username = serializers.CharField(read_only=True, required=False)
@@ -161,52 +154,52 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
         return instance
 
-class UpdateUserSerializer(serializers.ModelSerializer):
-    '''
-    email = serializers.EmailField(
-            required=True,
-            validators=[UniqueValidator(queryset=User.objects.all())]
-            )
-            '''
-
-    class Meta:
-        model = User
-        fields = ('email', 'first_name', 'last_name')#, 'city', 'gender', 'age')
-        '''
-        extra_kwargs = {
-            'first_name': {'required': True},
-            'last_name': {'required': True}
-        }
-        '''
-
-    def validate(self, attrs):
-        _user = self.context['request'].user
-        if ('email' in attrs and
-            _user.email != attrs['email'] and
-            len(User.objects.filter(email=attrs['email'])) > 1):
-            raise serializers.ValidationError({"email": "This field must be unique."})
-
-        return attrs
-
-    def update(self, instance, validated_data):
-        if validated_data.get('first_name'):
-            instance.first_name = validated_data.get("first_name")
-        if validated_data.get('last_name'):
-            instance.last_name = validated_data.get("last_name")
-        if validated_data.get('email'):
-            instance.email = validated_data.get("email")
-        instance.save()
-
-        profile = Profile.objects.get(user=instance)
-        if validated_data.get("city"):
-            profile.city = validated_data.get("city")
-        if validated_data.get("gender"):
-            profile.gender = validated_data.get("gender")
-        if validated_data.get("age"):
-            profile.age = validated_data.get("age")
-        profile.save()
-
-        return instance
+#class UpdateUserSerializer(serializers.ModelSerializer):
+#    '''
+#    email = serializers.EmailField(
+#            required=True,
+#            validators=[UniqueValidator(queryset=User.objects.all())]
+#            )
+#            '''
+#
+#    class Meta:
+#        model = User
+#        fields = ('email', 'first_name', 'last_name')#, 'city', 'gender', 'age')
+#        '''
+#        extra_kwargs = {
+#            'first_name': {'required': True},
+#            'last_name': {'required': True}
+#        }
+#        '''
+#
+#    def validate(self, attrs):
+#        _user = self.context['request'].user
+#        if ('email' in attrs and
+#            _user.email != attrs['email'] and
+#            len(User.objects.filter(email=attrs['email'])) > 1):
+#            raise serializers.ValidationError({"email": "This field must be unique."})
+#
+#        return attrs
+#
+#    def update(self, instance, validated_data):
+#        if validated_data.get('first_name'):
+#            instance.first_name = validated_data.get("first_name")
+#        if validated_data.get('last_name'):
+#            instance.last_name = validated_data.get("last_name")
+#        if validated_data.get('email'):
+#            instance.email = validated_data.get("email")
+#        instance.save()
+#
+#        profile = Profile.objects.get(user=instance)
+#        if validated_data.get("city"):
+#            profile.city = validated_data.get("city")
+#        if validated_data.get("gender"):
+#            profile.gender = validated_data.get("gender")
+#        if validated_data.get("age"):
+#            profile.age = validated_data.get("age")
+#        profile.save()
+#
+#        return instance
 
 class AuthTokenSerializer(serializers.Serializer):
     mobile = serializers.CharField(label=_("Mobile"))
