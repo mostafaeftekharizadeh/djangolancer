@@ -1,3 +1,4 @@
+from datetime import date
 import os
 import hashlib
 from django.conf import settings
@@ -144,8 +145,11 @@ class WorkSample(BaseModel):
 class Experience(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_experience')
     title = models.TextField()
+    work_place = models.TextField(default="")
     skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
     description = models.TextField()
+    date_start = models.DateTimeField(auto_now=False, auto_now_add=False,default=date.today())
+    date_end = models.DateTimeField(auto_now=False, auto_now_add=False,default=date.today())
 
 class SocialMedia(BaseModel):
     party = models.ForeignKey(Party,  on_delete=models.CASCADE, related_name='party_socialmedia')
