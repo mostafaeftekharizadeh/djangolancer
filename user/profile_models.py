@@ -146,6 +146,10 @@ class Experience(BaseModel):
     title = models.TextField()
     skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
     description = models.TextField()
+    place = models.CharField(default="", max_length=255)
+    date_start = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    date_end = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+
 
 class SocialMedia(BaseModel):
     party = models.ForeignKey(Party,  on_delete=models.CASCADE, related_name='party_socialmedia')
