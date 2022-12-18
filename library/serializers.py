@@ -3,6 +3,7 @@ from rest_framework import serializers
 class ModelSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         try:
+            # force partial update on PATCH request
             if kwargs['context']['request'].method == "PATCH":
                 kwargs['partial'] = True
         except:

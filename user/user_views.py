@@ -63,7 +63,7 @@ class LoginView(generics.CreateAPIView):
         }
         if hasattr(user, 'party'):
             data['party'] = user.party.id
-            profile = ProfileSerializer(Profile.objects.filter(party=user.party), many=True).data
+            profile = ProfileSerializer(Profile.objects.filter(party=user.party), context={'request': request}, many=True).data
             if len(profile) > 0:
                 data['profile'] = profile[0]
         username = user.username if user else '<none>'
