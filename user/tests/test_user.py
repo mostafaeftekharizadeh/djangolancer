@@ -7,7 +7,8 @@ import json
 User = get_user_model()
 
 class UserTestCase(TestCase):
-    fixtures = ['auth.json', 'location.json', 'configuration.json', 'user.json']
+    # fixtures = ['auth.json', 'location.json', 'configuration.json', 'user.json']
+    fixtures = ['compleated.json']
 
     def setUp(self):
         self.new_user_data = {

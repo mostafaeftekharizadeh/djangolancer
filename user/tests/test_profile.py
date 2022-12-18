@@ -1,19 +1,27 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
-from user.models import Party, Profile, Skill
+from user.profile_models import Party, Profile, Skill
 import json
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 
 class ProfileTestCase(TestCase):
-    fixtures = ['auth.json', 'location.json', 'configuration.json', 'user.json']
+    # fixtures = ['auth.json', 'location.json', 'configuration.json', 'user.json']
+    fixtures = ['compleated.json']
 
     def setUp(self):
         pass
 
     def test_create_profile(self):
+        print('-------------------------')
+        print('-------------------------')        
         user = User.objects.filter(username='testuser3')
         client = APIClient()
         client.login(username='testuser3', password='testuser3')
+        
+        test_image = SimpleUploadedFile("test_image.jpg", "file_content", content_type="image/jpg")
+        
         data = {
             "date_birth": "2022-11-05",
             "age": 50,
@@ -26,7 +34,10 @@ class ProfileTestCase(TestCase):
             "news": True,
             "country": 1,
             "state": 1,
-            "city": 1
+            "city": 1,
+            "about_me":"I'm a test",
+            
+            "avatar":test_image
         }
         response = client.post('/api/v1/user/profile/profile/', data, format='json')
         assert response.status_code == 201
