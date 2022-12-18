@@ -4,19 +4,23 @@ from django.contrib.auth.models import User
 from user.profile_models import Party, Profile, Skill
 import json
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.auth import get_user_model
 
 
 class ProfileTestCase(TestCase):
     # fixtures = ['auth.json', 'location.json', 'configuration.json', 'user.json']
     fixtures = ['compleated.json']
+    
 
     def setUp(self):
         pass
 
     def test_create_profile(self):
-        print('-------------------------')
-        print('-------------------------')        
+        User = get_user_model()
         user = User.objects.filter(username='testuser3')
+        print('-------------------------------------')
+        print(user)
+        print('-------------------------------------')
         client = APIClient()
         client.login(username='testuser3', password='testuser3')
         
