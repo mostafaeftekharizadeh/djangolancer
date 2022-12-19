@@ -24,6 +24,7 @@ urlpatterns = [
     ### profile urls
     path('api/v1/user/profile/social_media/', profile_views.SocialMediaViewSet, name='social_media'),
     path('api/v1/user/profile/avatar/', profile_views.AvatarView.as_view(), name='avatar_view'),
+#    path('api/v1/user/profile/worksample_file/', profile_views.WorkSampleFileView.as_view(), name='worksample_file_view'),
 
     path('api/v1/user/vote/', user_views.VoteViewSet, name='vote'),
 ]
@@ -43,6 +44,7 @@ router.register(r'user/profile/specialty', profile_views.SpecialtyViewSet, basen
 router.register(r'user/profile/achievement', profile_views.AchievementViewSet, basename='achievement')
 router.register(r'user/profile/language', profile_views.LanguageViewSet, basename='language')
 router.register(r'user/profile/worksample', profile_views.WorkSampleViewSet, basename='worksample')
+router.register(r'user/profile/worksample_file', profile_views.WorkSampleFileViewSet, basename='worksample_file')
 router.register(r'user/profile/experience', profile_views.ExperienceViewSet, basename='experience')
 router.register(r'user/profile/socialmedia', profile_views.SocialMediaViewSet, basename='socialmedia')
 

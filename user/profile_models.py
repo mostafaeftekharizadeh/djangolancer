@@ -1,4 +1,3 @@
-from datetime import date
 import os
 import hashlib
 from django.conf import settings
@@ -137,14 +136,24 @@ class Language(BaseModel):
     comprehension = models.IntegerField(default=0, null=True, blank=True)
 
 class WorkSample(BaseModel):
+    def hash_upload(instance, filename):
+        # delete old avatar if exists
+        this = WorkSample.objects.get(party=instance.party)
+        try:
+            this.avatar.delete()
+        except:
+            pass
+        fname, ext = os.path.splitext(filename)
+        return "worksample/{0}{1}".format(hashlib.md5(fname.encode('utf-8')).hexdigest(), ext)
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_worksample')
     title = models.TextField()
     skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
     description = models.TextField()
+    work_file = models.FileField(upload_to=hash_upload, null=True, blank=True)
 
 class Experience(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_experience')
-    title = models.TextField()    
+    title = models.TextField()
     skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
     description = models.TextField()
     place = models.CharField(default="", max_length=255)

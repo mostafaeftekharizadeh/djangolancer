@@ -33,6 +33,7 @@ from .profile_serializers import (ProfileSerializer,
                                   AchievementSerializer,
                                   LanguageSerializer,
                                   WorkSampleSerializer,
+                                  WorkSampleFileSerializer,
                                   ExperienceSerializer,
                                   SocialMediaSerializer)
 
@@ -71,7 +72,6 @@ class AvatarView(generics.UpdateAPIView):
         return self.request.user.party.party_profile
     def patch(self, request):
         response = super().patch(request)
-        print(response)
         return Response(status=204)
 
 class ContactViewSet(ModelViewSet):
@@ -136,6 +136,17 @@ class WorkSampleViewSet(ModelViewSet):
     permission_classes = [IsOwnerOrReadOnly]
     #http_method_names = ['get', 'post', 'head', 'delete']
     logger = _logger
+
+class WorkSampleFileViewSet(ModelViewSet):
+    queryset = WorkSample.objects.all()
+    model = WorkSample
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = WorkSampleFileSerializer
+    parser_classes = (MultiPartParser,)
+    http_method_names = ['head', 'delete', 'put', 'patch']
+    def patch(self, request):
+        response = super().patch(request)
+        return Response(status=204)
 
 class ExperienceViewSet(ModelViewSet):
     queryset = Experience.objects.all()

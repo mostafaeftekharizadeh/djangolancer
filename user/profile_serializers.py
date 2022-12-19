@@ -58,6 +58,14 @@ class WorkSampleSerializer(ModelOwnerSerializer):
         model = WorkSample
         fields = ['id', 'party', 'title','skill','description']
 
+class WorkSampleFileSerializer(ModelOwnerSerializer):
+    #work_file = serializers.FileField(write_only=True, required=True)
+    class Meta:
+        model = WorkSample
+        fields = ['id', 'work_file']
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
+
 class ExperienceSerializer(ModelOwnerSerializer):
     class Meta:
         model = Experience
@@ -69,7 +77,6 @@ class SocialMediaSerializer(ModelOwnerSerializer):
         fields = ['id', 'party', 'name','userid','phone','link','date_start','date_end']
 
 class AvatarSerializer(ModelOwnerSerializer):
-    avatar = serializers.ImageField(write_only=True, required=True)
     class Meta:
         model = Profile
         fields = ['party', 'avatar']
