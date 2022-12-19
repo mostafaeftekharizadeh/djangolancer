@@ -61,7 +61,7 @@ class WorkSampleSerializer(ModelOwnerSerializer):
 class ExperienceSerializer(ModelOwnerSerializer):
     class Meta:
         model = Experience
-        fields = ['id', 'party', 'title','skill','description', 'place', 'date_start', 'date_end']
+        fields = ['id', 'party', 'title','description', 'place', 'date_start', 'date_end']
 
 class SocialMediaSerializer(ModelOwnerSerializer):
     class Meta:
