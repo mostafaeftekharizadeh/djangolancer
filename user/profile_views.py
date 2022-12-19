@@ -33,7 +33,7 @@ from .profile_serializers import (ProfileSerializer,
                                   AchievementSerializer,
                                   LanguageSerializer,
                                   WorkSampleSerializer,
-                                  WorkSampleFileSerializer,
+                                  WorkSampleImageSerializer,
                                   ExperienceSerializer,
                                   SocialMediaSerializer)
 
@@ -62,17 +62,16 @@ class ProfileViewSet(ModelViewSet):
         return super(ProfileViewSet, self).get_object()
 
 
-class AvatarView(generics.UpdateAPIView):
+class AvatarViewSet(ModelViewSet):
     queryset = Profile.objects.all()
     model = Profile
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = AvatarSerializer
     parser_classes = (MultiPartParser,)
+    http_method_names = ['put', 'patch', 'head', 'delete']
     def get_object(self):
-        return self.request.user.party.party_profile
-    def patch(self, request):
-        response = super().patch(request)
-        return Response(status=204)
+        self.kwargs['pk']  = self.request.user.party.id
+        return super(AvatarViewSet, self).get_object()
 
 class ContactViewSet(ModelViewSet):
     queryset = Contact.objects.all()
@@ -137,16 +136,13 @@ class WorkSampleViewSet(ModelViewSet):
     #http_method_names = ['get', 'post', 'head', 'delete']
     logger = _logger
 
-class WorkSampleFileViewSet(ModelViewSet):
+class WorkSampleImageViewSet(ModelViewSet):
     queryset = WorkSample.objects.all()
     model = WorkSample
     permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = WorkSampleFileSerializer
+    serializer_class = WorkSampleImageSerializer
     parser_classes = (MultiPartParser,)
     http_method_names = ['head', 'delete', 'put', 'patch']
-    def patch(self, request):
-        response = super().patch(request)
-        return Response(status=204)
 
 class ExperienceViewSet(ModelViewSet):
     queryset = Experience.objects.all()

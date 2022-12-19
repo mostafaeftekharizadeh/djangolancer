@@ -1,5 +1,6 @@
 import os
 import hashlib
+from django.utils import timezone
 from django.db import models
 from library.models import BaseModel
 from configuration.models import (Category, Currency, Estimate, Level, Skill as BaseSkill,
@@ -19,7 +20,7 @@ class Project(BaseModel):
                                  related_name='project_sub_category')
     work = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
-    skill = models.ManyToManyField(BaseSkill)
+    skill = models.ManyToManyField(BaseSkill, related_name='project_skill')
     exp_time = models.DateTimeField(null=True, blank=True)
     description = models.TextField(null=True,blank=True)
     currency = models.ForeignKey(Currency,
@@ -34,7 +35,7 @@ class Project(BaseModel):
     budget_total = models.IntegerField(null=True, blank=True)
     expire_date = models.DateTimeField(null=True, blank=True)
     discount = models.IntegerField(null=True, blank=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
     status = models.ForeignKey(Status,
                                on_delete=models.CASCADE,
                                null=True,

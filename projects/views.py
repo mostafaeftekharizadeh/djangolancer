@@ -6,34 +6,22 @@ from location.serializers import PlaceSerializer, CountrySerializer, StateSerial
 from location.models import Country, State, City, Place
 from rest_framework import generics
 from django_filters import rest_framework as filters
-from django.contrib.auth.models import User
-from .serializers import ProjectSerializer, FileSerializer, CostSerializer, OfferSerializer, OfferLevelSerializer, BudgetSerializer
-from .models import  Project, File, Cost, Offer, OfferLevel, Budget
 from django_filters.rest_framework import DjangoFilterBackend
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
+from .serializers import ProjectSerializer, FileSerializer, CostSerializer, OfferSerializer, OfferLevelSerializer, BudgetSerializer
+from .models import  Project, File, Cost, Offer, OfferLevel, Budget
+from .filters.project import ProjectFilter
 
 _logger = logging.getLogger('midlancer.api.projetcs')
 
 class ProjectViewSet(ModelViewSet):
-    queryset = Project.objects.select_related('party__user')\
-                                    .prefetch_related('skill')
+    queryset = Project.objects.select_related('party__user')
     serializer_class = ProjectSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    filter_backends =  [DjangoFilterBackend]
-    filterset_fields = ('country', 'state', 'city',
-                        'skill', 'party', 'level', 'place','category')
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ProjectFilter
     logger = _logger
-
-    '''
-    filter projects based on owner
-    '''
-    def get_queryset(self):
-        if self.request.GET.get('owner') == '1':
-            return Project.objects.filter(party__user=self.request.user)
-        else:
-            return Project.objects.all().exclude(party__user=self.request.user)
-
 
 class FileViewSet(ModelViewSet):
     queryset = File.objects.all()
@@ -43,14 +31,12 @@ class FileViewSet(ModelViewSet):
     http_method_names = ['post', 'head', 'delete']
     logger = _logger
 
-
 class CostViewSet(ModelViewSet):
     queryset = Cost.objects.all()
     serializer_class = CostSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (DjangoFilterBackend,)
     logger = _logger
-
 
 class OfferViewSet(ModelViewSet):
     queryset = Offer.objects.all()
@@ -59,7 +45,6 @@ class OfferViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     logger = _logger
 
-
 class OfferLevelViewSet(ModelViewSet):
     queryset = OfferLevel.objects.all()
     serializer_class = OfferLevelSerializer
@@ -67,14 +52,12 @@ class OfferLevelViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     logger = _logger
 
-
 class BudgetViewSet(ModelViewSet):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (DjangoFilterBackend,)
     logger = _logger
-
 
 class NewViewSet(ModelViewSet):
     queryset = Budget.objects.all()

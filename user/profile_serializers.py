@@ -54,22 +54,22 @@ class LanguageSerializer(ModelOwnerSerializer):
         fields = ['id', 'party', 'language','talking','writing','comprehension']
 
 class WorkSampleSerializer(ModelOwnerSerializer):
+    image = serializers.FileField(read_only=True)
     class Meta:
         model = WorkSample
-        fields = ['id', 'party', 'title','skill','description']
+        fields = ['id', 'party', 'title','image', 'skill','description']
 
-class WorkSampleFileSerializer(ModelOwnerSerializer):
-    #work_file = serializers.FileField(write_only=True, required=True)
+class WorkSampleImageSerializer(ModelOwnerSerializer):
     class Meta:
         model = WorkSample
-        fields = ['id', 'work_file']
+        fields = ['id', 'image']
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
 
 class ExperienceSerializer(ModelOwnerSerializer):
     class Meta:
         model = Experience
-        fields = ['id', 'party', 'title','skill','description', 'place', 'date_start', 'date_end']
+        fields = ['id', 'party', 'title', 'description', 'place', 'date_start', 'date_end']
 
 class SocialMediaSerializer(ModelOwnerSerializer):
     class Meta:

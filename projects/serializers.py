@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Project,File,Cost,Offer,OfferLevel,Budget
 from library.serializers import ModelOwnerSerializer
 from user.user_serializers import UserSerializer
+from configuration.serializers import BaseSkillSerializer
 
 
 
@@ -11,17 +12,19 @@ class ProjectSerializer(ModelOwnerSerializer):
     class Meta:
         model = Project
         fields = '__all__'
-        fields = ['category',
+        fields = ['id',
+                  'party',
+                  'category',
                   'sub_category',
                   'title',
                   'description',
+                  'skill',
                   'level',
                   'budget_min',
                   'budget_max',
                   'user',
                   ]
         ordering_fields = ['title']
-        nested_depth = 2
     def get_user(self, obj):
         return UserSerializer(obj.party.user, context=self.context, many=False).data
 

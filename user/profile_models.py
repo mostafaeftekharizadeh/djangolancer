@@ -149,12 +149,11 @@ class WorkSample(BaseModel):
     title = models.TextField()
     skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
     description = models.TextField()
-    work_file = models.FileField(upload_to=hash_upload, null=True, blank=True)
+    image = models.ImageField(upload_to=hash_upload, null=True, blank=True)
 
 class Experience(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_experience')
     title = models.TextField()
-    skill = models.OneToOneField(BaseSkill, unique=True, on_delete=models.CASCADE)
     description = models.TextField()
     place = models.CharField(default="", max_length=255)
     date_start = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
