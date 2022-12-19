@@ -95,7 +95,10 @@ class UserViewSet(ModelViewSet):
         instance = self.get_object()
         if request.user.is_authenticated == False or instance != request.user:
             return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)
-        return super().destroy(request, args, kwargs)
+        instance.is_active = False
+        instance.save()
+
+        return super().update(request, args, kwargs)
 
 class ChangePasswordView(generics.UpdateAPIView):
     queryset = User.objects.all()
