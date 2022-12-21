@@ -12,6 +12,16 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         return obj.party.user == request.user
 
+# only authenticated user can add/read, only owner can delete/put,
+class IsOwnerOrAuthenticated(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.party.user == request.user
+
 # only staff users can add/delete/put, AnyOne can read
 class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):

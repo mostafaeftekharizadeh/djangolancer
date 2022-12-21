@@ -59,8 +59,9 @@ class PartySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class UserSerializer(ModelSerializer):
-    mobile = serializers.CharField(required=True,
-                                    validators=[]
+    mobile = serializers.CharField(write_only=True,
+                                   required=True,
+                                   validators=[]
                                     )
     username = serializers.CharField(required=True,
                                     validators=[UniqueValidator(queryset=User.objects.all())]

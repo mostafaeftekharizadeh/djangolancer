@@ -1,5 +1,6 @@
 import os
 import hashlib
+from datetime import timedelta
 from django.utils import timezone
 from django.db import models
 from library.models import BaseModel
@@ -94,30 +95,43 @@ class Cost(BaseModel):
 class Offer(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
-    total_level = models.IntegerField()
-    total_time = models.IntegerField()
-    total_price = models.IntegerField()
-    promotion = models.IntegerField()
-    description = models.TextField()
-    state = models.BooleanField()
+    title = models.CharField(default="", max_length=200)
+    duration = models.DurationField(default=timedelta)
+    cost = models.IntegerField(default=0)
+    description = models.TextField(default="")
+    STATE_CHOICES = [
+        ("a", 'Accept'),
+        ("r", 'Reject'),
+        ("n", 'Not Set'),
+    ]
+    state = models.CharField(
+        max_length=1,
+        choices=STATE_CHOICES,
+        default='n',
+        null=True, blank=True
+    )
+    created_at = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
-        return self.description
-
-
-class OfferLevel(BaseModel):
-    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    time = models.IntegerField()
-    optional = models.BooleanField()
-    cost = models.IntegerField()
+    class Meta:
+        unique_together = ('project', 'party',)
 
     def __str__(self):
         return self.title
 
 
+class OfferStep(BaseModel):
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, null=False, blank=False)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, null=False, blank=False)
+    title = models.CharField(max_length=200)
+    duration = models.DurationField(default=timedelta)
+    optional = models.BooleanField(default=False, blank=True, null=True)
+    cost = models.IntegerField()
+
+    def __str__(self):
+        return self.title
+
 class Budget(BaseModel):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='offers')
     currency = models.ForeignKey(
         Currency, null=False, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)

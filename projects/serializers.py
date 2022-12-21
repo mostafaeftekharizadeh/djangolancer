@@ -1,10 +1,13 @@
 from rest_framework import serializers
-from .models import Project,File,Cost,Offer,OfferLevel,Budget
+from .models import (Project,
+                     File,
+                     Cost,
+                     Offer,
+                     OfferStep,
+                     Budget)
 from library.serializers import ModelOwnerSerializer
 from user.user_serializers import UserSerializer
 from configuration.serializers import BaseSkillSerializer
-
-
 
 
 class ProjectSerializer(ModelOwnerSerializer):
@@ -47,31 +50,34 @@ class CostSerializer(serializers.ModelSerializer):
                     ]
         # ordering_fields = ['title']
         # nested_depth = 2
-class OfferSerializer(serializers.ModelSerializer):
+
+class OfferSerializer(ModelOwnerSerializer):
+    offersteps = serializers.SerializerMethodField()
     class Meta:
         model = Offer
-        fields =  ['project',
-                    # 'profile',
-                    'total_level',
-                    'total_time',
-                    'total_price',
-                    'promotion',
-                    'description',
-                    'state'
-                    ]
-        ordering_fields = ['total_price']
-        nested_depth = 2
-class OfferLevelSerializer(serializers.ModelSerializer):
+        fields =  "__all__"
+    def get_offersteps(self, obj):
+        qs = obj.offerstep_set.all()
+        return OfferStepSerializer(qs, context=self.context, many=True).data
+
+    def create(self, validated_data):
+        offer = super().create(validated_data)
+        offerStep = OfferStep(
+            offer=offer,
+            party=offer.party,
+            duration=offer.duration,
+            title=offer.title,
+            cost=offer.cost
+        )
+        offerStep.save()
+        return offer
+
+
+class OfferStepSerializer(serializers.ModelSerializer):
     class Meta:
-        model = OfferLevel
-        fields =  ['offer',
-                    'title',
-                    'time',
-                    'optional',
-                    'cost'
-                    ]
-        ordering_fields = ['title']
-        nested_depth = 2
+        model = OfferStep
+        fields =  "__all__"
+
 class BudgetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Budget
