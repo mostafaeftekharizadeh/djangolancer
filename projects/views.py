@@ -33,8 +33,12 @@ class FileViewSet(ModelViewSet):
     serializer_class = FileSerializer
     permission_classes = [IsOwnerOrReadOnly]
     parser_classes = (FormParser, MultiPartParser)
-    http_method_names = ['post', 'head', 'delete']
+    http_method_names = ['get', 'post', 'head', 'delete']
     logger = _logger
+
+    def get_queryset(self):
+        query_set = self.queryset.filter(project=self.kwargs['project'])
+        return query_set
 
 class CostViewSet(ModelViewSet):
     queryset = Cost.objects.all()
