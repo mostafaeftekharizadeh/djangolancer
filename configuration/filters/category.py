@@ -6,7 +6,7 @@ from configuration.models import Category
 
 
 class CategoryFilter(FilterSet):
-    parent = filters.NumberFilter(field_name="parent")
+    parent = filters.CharFilter(field_name="parent")
     root = filters.BooleanFilter(field_name='parent',
                                  lookup_expr='isnull',
                                  help_text='set it to 1 if you want to get root objects')
