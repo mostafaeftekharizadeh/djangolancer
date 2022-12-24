@@ -220,6 +220,7 @@ LOGGING = {
 # expire otp code in minutes
 OTP_EXPIRE_TIME=120
 MEDIA_ROOT = BASE_DIR / "media/"
+STATIC_ROOT = BASE_DIR / "static/"
 MEDIA_URL =  "/media/"
 AUTH_USER_MODEL = 'user.User'
 LOCALE_PATHS = [
