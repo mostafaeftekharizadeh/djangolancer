@@ -74,14 +74,12 @@ class UserSerializer(ModelSerializer):
     password2 = serializers.CharField(write_only=True, required=False)
     token = serializers.CharField(read_only=True, required=False)
     otp_token = serializers.CharField(required=False)
+    first_name = serializers.CharField(required=False, default="")
+    last_name = serializers.CharField(required=False, default="")
 
     class Meta:
         model = User
         fields = ('id', 'mobile', 'username', 'password', 'password2', 'email', 'first_name', 'last_name', 'token', 'otp_token')
-        extra_kwargs = {
-            'first_name': {'required': True},
-            'last_name': {'required': True}
-        }
     def validate_mobile(self, value):
         value = mobile_check(value)
         if User.objects.filter(mobile=value).count() > 0:
