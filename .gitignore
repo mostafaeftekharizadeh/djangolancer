@@ -7,3 +7,5 @@ media
 .*.swp
 .*.swo
 .vscode
+.env
+static
