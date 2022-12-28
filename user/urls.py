@@ -22,10 +22,9 @@ urlpatterns = [
     path('api/v1/user/login/', user_views.LoginView.as_view(), name='login_view'),
     path('api/v1/user/password/', user_views.ChangePasswordView.as_view(), name='change_password_view'),
     ### profile urls
-    path('api/v1/user/profile/social_media/', profile_views.SocialMediaViewSet, name='social_media'),
 #    path('api/v1/user/profile/worksample_file/', profile_views.WorkSampleFileView.as_view(), name='worksample_file_view'),
 
-    path('api/v1/user/vote/', user_views.VoteViewSet, name='vote'),
+    #path('api/v1/user/vote/', user_views.VoteViewSet, name='vote'),
 ]
 
 
