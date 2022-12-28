@@ -51,6 +51,9 @@ class OtpSerializer(serializers.ModelSerializer):
             else:
                 code = None
             otp = Otp.objects.create(mobile=validated_data['mobile'], code=code)
+
+            if not settings.DEBUG:
+                otp.send_sms()
             return otp
 
 class PartySerializer(serializers.ModelSerializer):

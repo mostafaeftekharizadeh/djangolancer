@@ -3,6 +3,7 @@ import binascii
 import random
 import hashlib
 import uuid
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -10,7 +11,10 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from library.models import BaseModel
+from ippanel import Client
 
+
+sms = Client(settings.IPPANEL_SECRET)
 
 class UserManager(BaseUserManager):
     """
@@ -83,3 +87,11 @@ class Otp(models.Model):
     @classmethod
     def generate_code(cls):
         return random.randint(10000, 99999)
+
+    def send_sms(self):
+        sms.send_pattern('npqwr55s7rr23wk',
+                         '+983000505',
+                         self.mobile,
+                         {'verification-code' : self.code}
+                         )
+        return True
