@@ -143,7 +143,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'otp_minute': '1/min',
+        'otp_hour': '10/hour'
+    }
 }
 
 MIDLANCER_APPS = [

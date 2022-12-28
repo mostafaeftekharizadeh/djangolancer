@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from django_filters import rest_framework as filters
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
+from library.throttle import OTPMinuteRateThrottle, OTPHourRateThrottle
 from .user_serializers import  (UserSerializer,
                                 AuthTokenSerializer,
                                 OtpSerializer,
@@ -34,6 +35,7 @@ class OtpViewSet(ModelViewSet):
     serializer_class = OtpSerializer
     permission_classes = (permissions.AllowAny,)
     http_method_names = ['post']
+    throttle_classes = [OTPMinuteRateThrottle, OTPHourRateThrottle]
 
 
 class PartyViewSet(ModelViewSet):
@@ -80,6 +82,7 @@ class UserViewSet(ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = ('mobile',"party")
     logger = _logger
+    throttle_classes = [OTPMinuteRateThrottle, OTPHourRateThrottle]
     #def list(self, request, *args, **kwargs):
         #if request.user.is_authenticated == False:
         #    return Response({'error': "Permission Denied"}, status=status.HTTP_400_BAD_REQUEST)
