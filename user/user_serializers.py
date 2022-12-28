@@ -33,17 +33,17 @@ class OtpSerializer(serializers.ModelSerializer):
         fields = ['mobile', 'token', 'code', 'created_at']
     def create(self, validated_data):
         if 'code' in validated_data:
-            #try:
-            if 1==1:
-                otp = Otp.objects.get(code=validated_data['code'],
+            try:
+                otp = Otp.objects.get(mobile=validated_data['mobile'],
+                                code=validated_data['code'],
                                 token=validated_data['token'],
                                 activated_at__isnull = True,
                                 created_at__gte = datetime.datetime.now(tz=get_current_timezone()) -  datetime.timedelta(minutes=settings.OTP_EXPIRE_TIME)
                                 )
                 otp.activated_at = datetime.datetime.now(tz=get_current_timezone())
                 otp.save()
-            #except Exception as e:
-            #    raise serializers.ValidationError({"no_feild_erros": "otp/token not valid."})
+            except Exception as e:
+                raise serializers.ValidationError({"no_feild_erros": "otp/token not valid."})
             return otp
         else:
             if settings.DEBUG:
@@ -131,30 +131,36 @@ class UserSerializer(ModelSerializer):
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
-
-    username = serializers.CharField(read_only=True, required=False)
-    old_password = serializers.CharField(write_only=True, required=True)
+    mobile = serializers.CharField(required=True)
+    otp_token = serializers.CharField(write_only=True, required=True)
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
-        fields = ('username', 'old_password', 'password', 'password2')
+        fields = ('mobile', 'otp_token', 'password', 'password2')
 
     def validate(self, attrs):
-        if self.context['request'].user.check_password(attrs['old_password']) == False:
-            raise serializers.ValidationError({"old_password": "Old Password is incorrect."})
-
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
 
         return attrs
 
     def update(self, instance, validated_data):
-        instance.set_password(validated_data.get("password"))
-        instance.save()
+        try:
+            # check if otp token is valid, then expire otp_token
+            otp = Otp.objects.get(mobile=validated_data['mobile'],
+                                    token=validated_data['otp_token'],
+                                    activated_at__isnull=False)
+            otp.save()
+        except:
+            raise serializers.ValidationError({"otp_token": "invalid"})
+        print(otp.mobile)
+        user = User.objects.get(mobile=otp.mobile)
+        user.set_password(validated_data.get("password"))
+        user.save()
 
-        return instance
+        return user
 
 #class UpdateUserSerializer(serializers.ModelSerializer):
 #    '''

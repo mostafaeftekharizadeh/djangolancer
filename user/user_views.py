@@ -103,7 +103,7 @@ class UserViewSet(ModelViewSet):
 class ChangePasswordView(generics.UpdateAPIView):
     queryset = User.objects.all()
     model = User
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     serializer_class = ChangePasswordSerializer
     def get_object(self):
         return self.request.user
