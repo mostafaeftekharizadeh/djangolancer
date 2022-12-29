@@ -103,6 +103,7 @@ class Offer(BaseModel):
         ("a", 'Accept'),
         ("r", 'Reject'),
         ("n", 'Not Set'),
+        ("p", 'Paid'),
     ]
     state = models.CharField(
         max_length=1,

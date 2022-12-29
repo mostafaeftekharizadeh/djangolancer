@@ -1,10 +1,13 @@
 import logging
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+
 from rest_framework import status
 from rest_framework import viewsets
 
 _logger = logging.getLogger('midlancer.api')
 
 class ModelViewSet(viewsets.ModelViewSet):
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
     logger = _logger
 
     def finalize_response(self, request, response, *args, **kwargs):

@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'configuration',
     'complain',
     'company',
-    'count',
+    'money',
     #    'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
    'drf_yasg',
 ]
@@ -144,9 +144,15 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
     'DEFAULT_THROTTLE_RATES': {
         'otp_minute': '1/min',
-        'otp_hour': '10/hour'
+        'otp_hour': '10/hour',
+        'anon': '20/min',
+        'user': '40/min'
     }
 }
 
@@ -155,7 +161,7 @@ MIDLANCER_APPS = [
     'location',
     'projects',
     'configuration',
-    'count',
+    'money',
     'complain',
     # 'FileUploader'
 

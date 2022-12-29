@@ -13,6 +13,7 @@ from library.serializers import ModelSerializer, ModelOwnerSerializer
 from rest_framework.authtoken.models import Token
 from .user_models import   Party, Otp
 from .profile_models import  Profile, Vote
+from money.models import  Wallet
 
 User = get_user_model()
 
@@ -120,6 +121,7 @@ class UserSerializer(ModelSerializer):
 
             party = Party.objects.create(user = user)
             profile = Profile.objects.create(party = party)
+            wallet = Wallet.objects.create(party = party)
             token, created = Token.objects.get_or_create(user=user)
             user.token = token.key
         else:

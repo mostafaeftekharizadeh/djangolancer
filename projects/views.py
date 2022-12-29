@@ -84,6 +84,24 @@ class OfferViewSet(ModelViewSet):
                                            context={'request': request})
         return Response(serializer.data)
 
+    @action(detail=True, methods=['get'])
+    def payment(self, request, project,  pk=None):
+        offer = self.get_object()
+        if offer.project.party != request.user.party:
+            raise serializers.ValidationError('Permission Denied!')
+        wallet = offer.project.party.wallet_set.all().first()
+        print(wallet.balance)
+        print(offer.cost)
+        target = offer.party.wallet_set.all().first()
+        if wallet.transfer(target, offer.cost) == False:
+            raise serializers.ValidationError('Payment Error!')
+        offer.state = 'p'
+        offer.save()
+        serializer = self.serializer_class(instance=offer,
+                                           context={'request': request})
+        return Response(serializer.data)
+
+
 class OfferStepViewSet(ModelViewSet):
     queryset = OfferStep.objects.prefetch_related('offerstep_set')
     serializer_class = OfferStepSerializer
