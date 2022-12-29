@@ -7,10 +7,11 @@ User = get_user_model()
 class Command(BaseCommand):
     help = 'create user wallet if not exists'
     def handle(self, **options):
-        user = User.objects.all()
-        try:
-            if len(user.party.wallet_set.all()) == 0:
-                wallet = Wallet.objects.create(party = user.party)
-        except:
-            pass
-        print("Wallets created!")
+        users = User.objects.all()
+        for user in users:
+            try:
+                if len(user.party.wallet_set.all()) == 0:
+                    wallet = Wallet.objects.create(party = user.party)
+                    print("wallet {} created!".format(user.mobile))
+            except:
+                pass
