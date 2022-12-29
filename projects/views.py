@@ -90,10 +90,8 @@ class OfferViewSet(ModelViewSet):
         if offer.project.party != request.user.party:
             raise serializers.ValidationError('Permission Denied!')
         wallet = offer.project.party.wallet_set.all().first()
-        print(wallet.balance)
-        print(offer.cost)
         target = offer.party.wallet_set.all().first()
-        if wallet.transfer(target, offer.cost) == False:
+        if wallet.transfer(target, offer.cost, offer.project) == False:
             raise serializers.ValidationError('Payment Error!')
         offer.state = 'p'
         offer.save()
