@@ -9,7 +9,7 @@ class Command(BaseCommand):
         parser.add_argument('mobile', nargs='+', type=str)
         parser.add_argument('amount', nargs='+', type=int)
     def handle(self, **options):
-        if options['mobile'][0] == 0:
+        if options['mobile'][0] == "0":
             users = User.objects.all()
         else:
             users = User.objects.filter(mobile=options['mobile'][0])
