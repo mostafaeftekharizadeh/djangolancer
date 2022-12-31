@@ -3,9 +3,12 @@ from library.serializers import ModelOwnerSerializer
 from .models import Wallet, Transaction, CardTransfer
 
 class CardTransferSerializer(ModelOwnerSerializer):
+    state = serializers.CharField(read_only=True)
+    created_at = serializers.DateTimeField(read_only=True)
+    transfered_at = serializers.DateTimeField(read_only=True)
     class Meta:
         model = CardTransfer
-        fields = ['id', 'party', 'number', 'shaba', 'value', 'created_at']
+        fields = ['id', 'party', 'number', 'shaba', 'value', 'state', 'created_at', 'transfered_at']
     def create(self, validated_data):
         obj = super().create(validated_data)
         if obj.created_at == None:
