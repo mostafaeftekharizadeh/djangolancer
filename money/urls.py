@@ -23,6 +23,7 @@ from . import views
 router = routers.DefaultRouter()
 router.register('money/wallet', views.WalletViewSet, basename='wallet')
 router.register('money/transaction', views.TransactionViewSet, basename='transaction')
+router.register('money/transfer', views.CardTransferViewSet, basename='transfer')
 #router.register(r'user/maintainer', views.MaintainerViewSet)
 
 
