@@ -208,8 +208,8 @@ OTP_EXPIRE_TIME=120
 IPPANEL_SECRET=env('IPPANEL_SECRET', default='')
 
 MEDIA_ROOT = BASE_DIR / "media/"
-STATIC_ROOT = BASE_DIR / "static/"
 MEDIA_URL =  "/media/"
+STATIC_ROOT = BASE_DIR / "static/"
 AUTH_USER_MODEL = 'user.User'
 LOCALE_PATHS = [
     'locale'
