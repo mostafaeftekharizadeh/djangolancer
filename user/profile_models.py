@@ -92,7 +92,7 @@ class Job(BaseModel):
 
 class Education(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='party_education')
-    degree = models.OneToOneField(Degree , unique=True, on_delete=models.CASCADE)
+    degree = models.ForeignKey(Degree ,  on_delete=models.CASCADE)
     uni_name = models.TextField(default="")
     major = models.TextField(default="")
     date_start = models.DateTimeField( auto_now=False, auto_now_add=False)
