@@ -149,8 +149,8 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'otp_minute': '1/min',
-        'otp_hour': '10/hour',
+        'otp_minute': '6/min',
+        'otp_hour': '60/hour',
         'anon': '20/min',
         'user': '40/min'
     }
