@@ -83,6 +83,10 @@ class AvatarSerializer(ModelOwnerSerializer):
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
 
+class ProfileShortSerializer(ModelOwnerSerializer):
+    class Meta:
+        model = Profile
+        fields = "__all__"
 class ProfileSerializer(ModelOwnerSerializer):
     contacts = serializers.SerializerMethodField()
     skills = serializers.SerializerMethodField()

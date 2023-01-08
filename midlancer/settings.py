@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'complain',
     'company',
     'money',
+    'chat',
     #    'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
    'drf_yasg',
 ]
@@ -163,6 +164,7 @@ MIDLANCER_APPS = [
     'configuration',
     'money',
     'complain',
+    'chat',
     # 'FileUploader'
 
 ]
