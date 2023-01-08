@@ -20,7 +20,7 @@ User = get_user_model()
 
 
 def format_mobile_number(value):
-    return re.sub(r'^([0\+]+(98)?)|^0?', '98', value)
+    return re.sub(r'^([0\+]+(98)?)|^98|^0?', '98', value)
 class OtpSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(write_only=True, required=False)
     token = serializers.CharField(required=False)
@@ -84,6 +84,7 @@ class UserSerializer(ModelSerializer):
         fields = ('id', 'mobile', 'username', 'password', 'password2', 'email', 'first_name', 'last_name', 'token', 'otp_token')
     def validate_mobile(self, value):
         value = format_mobile_number(value)
+        print(value)
         if User.objects.filter(mobile=value).count() > 0:
             raise serializers.ValidationError(_('This field must be unique.'))
         return value
