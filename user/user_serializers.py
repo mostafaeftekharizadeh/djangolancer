@@ -214,7 +214,7 @@ class AuthTokenSerializer(serializers.Serializer):
     password = serializers.CharField(label=_("Password"), style={'input_type': 'password'})
 
     def validate(self, attrs):
-        mobile = mobile_check(attrs.get('mobile'))
+        mobile = format_mobile_number(attrs.get('mobile'))
         password = attrs.get('password')
 
         if mobile and password:
