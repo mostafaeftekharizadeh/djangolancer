@@ -1,5 +1,6 @@
 import random
 import datetime
+import re
 from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import get_current_timezone
 from django.utils import timezone
@@ -18,12 +19,8 @@ from money.models import  Wallet
 User = get_user_model()
 
 
-def mobile_check(value):
-    if not value.startswith("98"):
-        if value.startswith("0"):
-            value = value[1:]
-        value = "98{}".format(value)
-    return value
+def format_mobile_number(value):
+    return re.sub(r'^([0\+]+(98)?)|0+', '98', value)
 class OtpSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(write_only=True, required=False)
     token = serializers.CharField(required=False)
@@ -33,9 +30,10 @@ class OtpSerializer(serializers.ModelSerializer):
         model = Otp
         fields = ['mobile', 'token', 'code', 'created_at']
     def create(self, validated_data):
+        mobile = format_mobile_number(validated_data['mobile'])
         if 'code' in validated_data:
             try:
-                otp = Otp.objects.get(mobile=validated_data['mobile'],
+                otp = Otp.objects.get(mobile=mobile,
                                 code=validated_data['code'],
                                 token=validated_data['token'],
                                 activated_at__isnull = True,
@@ -47,11 +45,11 @@ class OtpSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({"no_feild_erros": "otp/token not valid."})
             return otp
         else:
-            if settings.DEBUG or validated_data['mobile'].startswith("988"):
+            if settings.DEBUG or mobile.startswith("988"):
                 code = 12345
             else:
                 code = None
-            otp = Otp.objects.create(mobile=validated_data['mobile'], code=code)
+            otp = Otp.objects.create(mobile=mobile, code=code)
 
             if not settings.DEBUG:
                 otp.send_sms()
@@ -85,7 +83,7 @@ class UserSerializer(ModelSerializer):
         model = User
         fields = ('id', 'mobile', 'username', 'password', 'password2', 'email', 'first_name', 'last_name', 'token', 'otp_token')
     def validate_mobile(self, value):
-        value = mobile_check(value)
+        value = format_mobile_number(value)
         if User.objects.filter(mobile=value).count() > 0:
             raise serializers.ValidationError(_('This field must be unique.'))
         return value
@@ -101,7 +99,7 @@ class UserSerializer(ModelSerializer):
 
     def create(self, validated_data):
         user = User(
-            mobile=validated_data['mobile'],
+            mobile=format_mobile_number(validated_data['mobile']),
             username=validated_data['username'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
@@ -109,7 +107,7 @@ class UserSerializer(ModelSerializer):
         if 'otp_token' in validated_data:
             try:
                 # check if otp token is valid, then expire otp_token
-                otp = Otp.objects.get(mobile=validated_data['mobile'],
+                otp = Otp.objects.get(mobile=format_mobile_number(validated_data['mobile']),
                                       token=validated_data['otp_token'],
                                       activated_at__isnull=False)
                 otp.save()
@@ -125,7 +123,7 @@ class UserSerializer(ModelSerializer):
             token, created = Token.objects.get_or_create(user=user)
             user.token = token.key
         else:
-            otp_serializer = OtpSerializer(data={'mobile' : validated_data['mobile']})
+            otp_serializer = OtpSerializer(data={'mobile' : format_mobile_number(validated_data['mobile'])})
             if otp_serializer.is_valid():
                 otp_serializer.save()
             user.otp_token = otp_serializer.data['token']
@@ -151,13 +149,12 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         try:
             # check if otp token is valid, then expire otp_token
-            otp = Otp.objects.get(mobile=validated_data['mobile'],
+            otp = Otp.objects.get(mobile=format_mobile_number(validated_data['mobile']),
                                     token=validated_data['otp_token'],
                                     activated_at__isnull=False)
             otp.save()
         except:
             raise serializers.ValidationError({"otp_token": "invalid"})
-        print(otp.mobile)
         user = User.objects.get(mobile=otp.mobile)
         user.set_password(validated_data.get("password"))
         user.save()
