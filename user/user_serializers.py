@@ -20,7 +20,7 @@ User = get_user_model()
 
 
 def format_mobile_number(value):
-    return re.sub(r'^([0\+]+(98)?)|0+', '98', value)
+    return re.sub(r'^([0\+]+(98)?)|^0?', '98', value)
 class OtpSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(write_only=True, required=False)
     token = serializers.CharField(required=False)
