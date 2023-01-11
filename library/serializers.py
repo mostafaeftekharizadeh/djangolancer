@@ -13,8 +13,14 @@ class ModelSerializer(serializers.ModelSerializer):
 class ModelOwnerSerializer(ModelSerializer):
     # force party to be set to current user party id
     def to_internal_value(self, data):
-        _mutable = data._mutable
-        data._mutable = True
+        try:
+            _mutable = data._mutable
+            data._mutable = True
+        except:
+            pass
         data['party'] = self.context['request'].user.party.id
-        data._mutable = _mutable
+        try:
+            data._mutable = _mutable
+        except:
+            pass
         return super().to_internal_value(data)
