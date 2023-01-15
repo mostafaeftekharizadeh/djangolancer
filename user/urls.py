@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import include, path
 from rest_framework import routers
-from . import user_views, profile_views
+from . import user_views, profile_views, dashboard_views
 
 
 urlpatterns = [
@@ -46,6 +46,7 @@ router.register(r'user/profile/worksample', profile_views.WorkSampleViewSet, bas
 router.register(r'user/profile/worksample_image', profile_views.WorkSampleImageViewSet, basename='worksample_image')
 router.register(r'user/profile/experience', profile_views.ExperienceViewSet, basename='experience')
 router.register(r'user/profile/socialmedia', profile_views.SocialMediaViewSet, basename='socialmedia')
+router.register(r'user/dashboard', dashboard_views.DashboardViewSet, basename='dashboard')
 
 
 

@@ -12,7 +12,7 @@ from projects.models import Project
 class Room(BaseModel):
     party = models.ForeignKey(Party, null=False, related_name="chat_room", on_delete=models.CASCADE)
     user = models.ForeignKey(Party, null=False, related_name="chat_user", on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE, related_name='room')
     created_at = models.DateTimeField(default=timezone.now, null=True, blank=True)
 
 class Participate(BaseModel):

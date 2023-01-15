@@ -93,7 +93,7 @@ class Cost(BaseModel):
 
 
 class Offer(BaseModel):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='offers')
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     title = models.CharField(default="", max_length=200)
     duration = models.DurationField(default=timedelta)
@@ -121,7 +121,7 @@ class Offer(BaseModel):
 
 
 class OfferStep(BaseModel):
-    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, null=False, blank=False)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, null=False, blank=False, related_name='offersteps')
     party = models.ForeignKey(Party, on_delete=models.CASCADE, null=False, blank=False)
     title = models.CharField(max_length=200)
     duration = models.DurationField(default=timedelta)
@@ -132,7 +132,7 @@ class OfferStep(BaseModel):
         return self.title
 
 class Budget(BaseModel):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='offers')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='budgets')
     currency = models.ForeignKey(
         Currency, null=False, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)

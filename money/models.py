@@ -8,7 +8,7 @@ from projects.models import Project
 
 
 class Wallet(BaseModel):
-    party = models.ForeignKey(Party, on_delete=models.CASCADE)
+    party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='wallet')
     balance = models.BigIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     def deposit(self, value, target=None, project=None, card=None):
@@ -76,14 +76,14 @@ class CardTransfer(BaseModel):
             return False
 
 class Transaction(BaseModel):
-    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
+    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name='transaction')
     target = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name='target', null=True, blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     card = models.ForeignKey(CardTransfer, on_delete=models.CASCADE, null=True)
     value = models.BigIntegerField(default=0)
     balance = models.BigIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return "{} : amount {}".format(self.wallet.user.first_name, self.value)
+    #def __str__(self):
+    #    return "{} : amount {}".format(self.wallet.user.first_name, self.value)
 
 

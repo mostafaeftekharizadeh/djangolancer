@@ -74,8 +74,10 @@ class OfferViewSet(ModelViewSet):
         return super().update(request, project)
 
     @action(detail=True, methods=['get'])
-    def accept(self, request, project, args, kwargs,  pk=None):
+    def accept(self, request, project,  pk=None):
         offer = self.get_object()
+        print(offer.project.party.user)
+        print(request.user.party)
         if offer.project.party != request.user.party:
             raise serializers.ValidationError('Permission Denied!')
         offer.state = 'a'
