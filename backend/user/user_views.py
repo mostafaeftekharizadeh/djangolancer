@@ -20,6 +20,8 @@ from .profile_serializers import ProfileSerializer
 from .user_models import Otp
 from .profile_models import Party, Profile, Vote
 
+# pylint: disable=too-many-ancestors
+
 User = get_user_model()
 _logger = logging.getLogger("midlancer.api.user.user")
 
