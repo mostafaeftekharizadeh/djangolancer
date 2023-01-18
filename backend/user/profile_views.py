@@ -69,8 +69,8 @@ class ProfileViewSet(ModelViewSet):
 
     def get_object(self):
         if self.kwargs["pk"] == "0":
-            self.kwargs["pk"] = self.request.user.party.id
-        return super().get_object()
+            self.kwargs["pk"] = self.request.user.party.id  # type: ignore
+            return super().get_object()
 
 
 class AvatarViewSet(ModelViewSet):
@@ -86,7 +86,7 @@ class AvatarViewSet(ModelViewSet):
     http_method_names = ["put", "patch", "head", "delete"]
 
     def get_object(self):
-        self.kwargs["pk"] = self.request.user.party.id
+        self.kwargs["pk"] = self.request.user.party.id  # type: ignore
         return super().get_object()
 
 

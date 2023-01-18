@@ -1,6 +1,13 @@
+"""
+User App
+"""
 from django.apps import AppConfig
 
 
 class UserConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'user'
+    """
+    App User Config
+    """
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "user"
