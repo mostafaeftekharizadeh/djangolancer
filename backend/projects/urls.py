@@ -16,18 +16,15 @@ Including another URLconf
 from rest_framework import routers
 from . import views
 
-urlpatterns = [
-]
+urlpatterns = []
 
 router = routers.DefaultRouter()
-router.register(r'project/project', views.ProjectViewSet, basename='project')
-router.register(r'project/file/(?P<project>[^/]+)', views.FileViewSet, basename='file')
-router.register(r'project/cost', views.CostViewSet, basename='cost')
-router.register(r'project/offer/(?P<project>[^/]+)', views.OfferViewSet, basename='offer')
-router.register(r'project/offer_step', views.OfferStepViewSet, basename='offer_step')
-router.register(r'project/budget', views.BudgetViewSet, basename='budget')
-router.register(r'project/test', views.NewViewSet, basename='test')
-
-
-
-
+router.register(r"project/project", views.ProjectViewSet, basename="project")
+router.register(r"project/file/(?P<project>[^/]+)", views.FileViewSet, basename="file")
+router.register(r"project/cost", views.CostViewSet, basename="cost")
+router.register(
+    r"project/offer/(?P<project>[^/]+)", views.OfferViewSet, basename="offer"
+)
+router.register(r"project/offer_step", views.OfferStepViewSet, basename="offer_step")
+router.register(r"project/budget", views.BudgetViewSet, basename="budget")
+router.register(r"project/test", views.NewViewSet, basename="test")
