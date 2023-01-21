@@ -16,7 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      working-directory: ./backend
       uses: actions/setup-python@v3   
       with:
         python-version: ${{ matrix.python-version }}
@@ -25,9 +24,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt 
         pip install pylint pylint-django
+      working-directory: ./backend
     - name: Analysing the code with pylint
       run: |
         pylint --load-plugins pylint_django --fail-under=9 --django-settings-module=midlancer.settings  midlancer/urls.py
+      working-directory: ./backend
   test:
     needs: syntax_check 
     runs-on: ubuntu-latest
@@ -38,7 +39,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      working-directory: ./backend
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
@@ -46,6 +46,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+      working-directory: ./backend
 
   pull-request:
     needs: test
@@ -53,7 +54,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: pull-request
-      working-directory: ./backend
       uses: repo-sync/pull-request@v2
       with:
         destination_branch: "main"
