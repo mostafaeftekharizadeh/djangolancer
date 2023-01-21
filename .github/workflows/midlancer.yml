@@ -1,0 +1,57 @@
+name: Midlancer 
+                               
+on:
+  push:
+    branches-ignore: ["main", "master"]
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  syntax_check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8"]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3   
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies    
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt 
+        pip install pylint pylint-django
+    - name: Analysing the code with pylint
+      run: |
+        pylint --load-plugins pylint_django --fail-under=9 --django-settings-module=midlancer.settings  midlancer/urls.py
+  test:
+    needs: syntax_check 
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.8]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+  pull-request:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: pull-request
+      uses: repo-sync/pull-request@v2
+      with:
+        destination_branch: "main"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
