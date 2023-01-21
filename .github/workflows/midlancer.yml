@@ -16,6 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
+      working-directory: ./backend
       uses: actions/setup-python@v3   
       with:
         python-version: ${{ matrix.python-version }}
@@ -37,6 +38,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
+      working-directory: ./backend
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
@@ -51,6 +53,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: pull-request
+      working-directory: ./backend
       uses: repo-sync/pull-request@v2
       with:
         destination_branch: "main"
