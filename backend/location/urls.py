@@ -17,13 +17,11 @@ from rest_framework import routers
 from . import views
 
 
-
 router = routers.DefaultRouter()
-router.register(r'location/country', views.CountryViewSet, basename='country')
-router.register(r'location/state', views.StateViewSet, basename='state')
-router.register(r'location/city', views.CityViewSet, basename='city')
-router.register(r'location/place', views.PlaceViewSet, basename='place')
+router.register(r"location/country", views.CountryViewSet, basename="country")
+router.register(r"location/state", views.StateViewSet, basename="state")
+router.register(r"location/city", views.CityViewSet, basename="city")
+router.register(r"location/place", views.PlaceViewSet, basename="place")
 
 
-urlpatterns = [
-]
+urlpatterns = []

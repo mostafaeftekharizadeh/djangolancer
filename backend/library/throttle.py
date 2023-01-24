@@ -1,8 +1,20 @@
+"""
+throttle
+"""
 from rest_framework.throttling import AnonRateThrottle
 
+
 class OTPMinuteRateThrottle(AnonRateThrottle):
-    scope = 'otp_minute'
+    """
+    OTPMinuteRate
+    """
+
+    scope = "otp_minute"
+
 
 class OTPHourRateThrottle(AnonRateThrottle):
-    scope = 'otp_hour'
+    """
+    OTPHourRate
+    """
 
+    scope = "otp_hour"
