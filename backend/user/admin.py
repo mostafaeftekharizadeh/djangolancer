@@ -24,8 +24,6 @@ from user.user_models import User, Party, Otp
 admin.site.register(User)
 admin.site.register(Party)
 admin.site.register(Otp)
-
-admin.site.register(Education)
 admin.site.register(Profile)
 admin.site.register(Contact)
 admin.site.register(Skill)

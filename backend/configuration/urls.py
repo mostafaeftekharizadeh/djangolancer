@@ -17,21 +17,51 @@ from rest_framework import routers
 from . import views
 
 
-
 router = routers.DefaultRouter()
-router.register(r'configuration/site', views.SiteViewSet, basename='configutaion_site')
-router.register(r'configuration/estimate', views.EstimateViewSet, basename='configutaion_estimate')
-router.register(r'configuration/profile_type', views.ProfileTypeViewSet, basename='configuration_profile_type')
-router.register(r'configuration/bank', views.BankViewSet, basename='configuration_bank')
-router.register(r'configuration/language', views.LanguageViewSet, basename='configuration_language')
-router.register(r'configuration/level', views.LevelViewSet, basename='configuration_level')
-router.register(r'configuration/view_status', views.ViewStatusViewSet, basename='configuration_viewStatus')
-router.register(r'configuration/currency', views.CurrencyViewSet, basename='configuration_currency')
-router.register(r'configuration/status', views.StatusViewSet, basename='configuration_status')
-router.register(r'configuration/work_category', views.CategoryViewSet, basename='configuration_work_category')
-router.register(r'configuration/skill', views.SkillViewSet, basename='configuration_skill')
-router.register(r'configuration/complain_type', views.ComplainTypeViewSet, basename='configuration_complain_type')
-router.register(r'configuration/degree', views.DegreeViewSet, basename='configuration_degree')
-router.register(r'configuration/category', views.CategoryViewSet, basename='configuration_category')
-urlpatterns = [
-]
+router.register(r"configuration/site", views.SiteViewSet, basename="configutaion_site")
+router.register(
+    r"configuration/estimate", views.EstimateViewSet, basename="configutaion_estimate"
+)
+router.register(
+    r"configuration/profile_type",
+    views.ProfileTypeViewSet,
+    basename="configuration_profile_type",
+)
+router.register(r"configuration/bank", views.BankViewSet, basename="configuration_bank")
+router.register(
+    r"configuration/language", views.LanguageViewSet, basename="configuration_language"
+)
+router.register(
+    r"configuration/level", views.LevelViewSet, basename="configuration_level"
+)
+router.register(
+    r"configuration/view_status",
+    views.ViewStatusViewSet,
+    basename="configuration_viewStatus",
+)
+router.register(
+    r"configuration/currency", views.CurrencyViewSet, basename="configuration_currency"
+)
+router.register(
+    r"configuration/status", views.StatusViewSet, basename="configuration_status"
+)
+router.register(
+    r"configuration/work_category",
+    views.CategoryViewSet,
+    basename="configuration_work_category",
+)
+router.register(
+    r"configuration/skill", views.SkillViewSet, basename="configuration_skill"
+)
+router.register(
+    r"configuration/complain_type",
+    views.ComplainTypeViewSet,
+    basename="configuration_complain_type",
+)
+router.register(
+    r"configuration/degree", views.DegreeViewSet, basename="configuration_degree"
+)
+router.register(
+    r"configuration/category", views.CategoryViewSet, basename="configuration_category"
+)
+urlpatterns = []

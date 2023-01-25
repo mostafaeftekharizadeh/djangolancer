@@ -68,7 +68,7 @@ class LoginView(generics.CreateAPIView):
                 request.data["password"] = "**********"
             _logger.error("Login failed %s", request.data)
             raise serializers.ValidationError(serializer.errors)
-        user = serializer.validated_data["user"]
+        user = serializer.validated_data["user"]  # type:ignore
         token, created = Token.objects.get_or_create(user=user)
         data = {"id": user.id, "token": token.key, "profile": None, "party": None}
         if hasattr(user, "party"):
