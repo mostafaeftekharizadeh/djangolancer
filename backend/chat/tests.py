@@ -1,3 +1,6 @@
-from django.test import TestCase
+"""
+Chat Testcase
+"""
+# from django.test import TestCase
 
 # Create your tests here.
