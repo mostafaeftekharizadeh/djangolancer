@@ -90,14 +90,15 @@ class OfferViewSet(ModelViewSet):
             query_set = query_set.filter(party=self.request.user.party)  # type: ignore
         return query_set
 
-    def create(self, request, project):
+    # self, request, *args, **kwargs
+    def create(self, request, *project, **kwargs):
         """
         Offer create function
         """
         self.request.data["project"] = project  # type: ignore
         return super().create(request, project)
 
-    def update(self, request, project):
+    def update(self, request, *project, **kwargs):
         """
         Offer update function
         """

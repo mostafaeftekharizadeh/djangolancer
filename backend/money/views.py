@@ -13,7 +13,7 @@ from .filters.card_transfer import CardTransferFilter
 
 _logger = logging.getLogger("midlancer.api.count")
 
-
+# pylint: disable=too-many-ancestors
 class CardTransferViewSet(ModelViewSet):
     """
     Card Transfer view state

@@ -11,8 +11,8 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils import timezone
-from library.models import BaseModel
 from ippanel import Client
+from library.models import BaseModel
 
 
 sms = Client(settings.IPPANEL_SECRET)

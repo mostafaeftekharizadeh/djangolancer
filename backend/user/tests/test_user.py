@@ -80,7 +80,7 @@ class UserTestCase(TestCase):
         assert rate_limit_data["no_feild_erros"] == "otp rate limit reached."
         # check if user is active after otp validation
         user = User.objects.get(username=user_data["username"])
-        assert user.is_active == True
+        assert user.is_active is True
         # otp expires after first use
         response = client.post("/api/v1/user/otp/", data)
         assert response.status_code == 400

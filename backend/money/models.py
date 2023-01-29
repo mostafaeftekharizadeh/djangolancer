@@ -57,8 +57,8 @@ class Wallet(BaseModel):
         if transaction:
             wallet.deposit(value, self, project)
             return transaction
-        else:
-            return False
+
+        return False
 
 
 class CardTransfer(BaseModel):
@@ -84,12 +84,11 @@ class CardTransfer(BaseModel):
         wallet = Wallet.objects.get(party=self.party)
         transaction = wallet.withdraw(self.value)
         if transaction:
-            instance = super().save(*args, **kwargs)
+            # instance = super().save(*args, **kwargs)
             transaction.card = self
             transaction.save()
-            return instance
-        else:
-            return False
+            return True
+        return False
 
 
 class Transaction(BaseModel):
