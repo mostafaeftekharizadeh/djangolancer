@@ -1,5 +1,9 @@
 # freelancing!!
 
+# پروژه فریلنسری
+
+این پروژه به درخواست شرکت میدکو و بر اساس طراحی های مورد نیاز طراحی و پیاده شده است
+
 ## Anlayses cod by pylint
 
 Pylint is a static code analyser for Python.
@@ -9,3 +13,5 @@ Pylint analyses your code without actually running it. It checks for errors, enf
 cd backend
 pylint --load-plugins pylint_django --fail-under=9 --django-settings-module=midlancer.settings <MODULENAME>
 ```
+
+Please edit .pylintrc for ignoring folder.
