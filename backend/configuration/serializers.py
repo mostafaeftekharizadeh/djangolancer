@@ -160,77 +160,77 @@ class SiteSerializer(serializers.ModelSerializer):
         model = Site
         fields = "__all__"
 
-    def get_estimate(self, obj):
+    def get_estimate(self):
         """
         Site estimate serializer
         """
         qs = Estimate.objects.filter(active=True)
         return EstimateSerializer(qs, context=self.context, many=True).data
 
-    def get_profile_type(self, obj):
+    def get_profile_type(self):
         """
         Site profile type serializer
         """
         qs = ProfileType.objects.filter(active=True)
         return ProfileTypeSerializer(qs, context=self.context, many=True).data
 
-    def get_bank(self, obj):
+    def get_bank(self):
         """
         Site bank serializer
         """
         qs = Bank.objects.filter(active=True)
         return BankSerializer(qs, context=self.context, many=True).data
 
-    def get_language(self, obj):
+    def get_language(self):
         """
         Site language serializer
         """
         qs = Language.objects.filter(active=True)
         return BaseLanguageSerializer(qs, context=self.context, many=True).data
 
-    def get_level(self, obj):
+    def get_level(self):
         """
         Site Level serializer
         """
         qs = Level.objects.filter(active=True)
         return BaseLevelSerializer(qs, context=self.context, many=True).data
 
-    def get_currency(self, obj):
+    def get_currency(self):
         """
         Site estimate serializer
         """
         qs = Currency.objects.filter(active=True)
         return CurrencySerializer(qs, context=self.context, many=True).data
 
-    def get_status(self, obj):
+    def get_status(self):
         """
         site status serializer
         """
         qs = Status.objects.filter(active=True)
         return StatusSerializer(qs, context=self.context, many=True).data
 
-    def get_skill(self, obj):
+    def get_skill(self):
         """
         Site skill serializer
         """
         qs = Skill.objects.filter(active=True)
         return BaseSkillSerializer(qs, context=self.context, many=True).data
 
-    def get_complain_type(self, obj):
+    def get_complain_type(self):
         """
         Site complain type serializer
         """
         qs = ComplainType.objects.filter(active=True)
         return ComplainTypeSerializer(qs, context=self.context, many=True).data
 
-    def get_degree(self, obj):
+    def get_degree(self):
         """
         Site degree serializer
         """
         qs = Degree.objects.filter(active=True)
         return DegreeSerializer(qs, context=self.context, many=True).data
 
-    def get_category(self, obj):
+    def get_category(self):
         """
         Site category serializer
         """

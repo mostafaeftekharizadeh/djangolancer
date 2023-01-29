@@ -46,7 +46,10 @@ class Message(BaseModel):
     Chat Message model
     """
 
-    def hash_upload(instance, filename):
+    def hash_upload(self, instance, filename):
+        """
+        Hashing upload
+        """
         fname, ext = os.path.splitext(filename)
         return f"message/{instance.id}{ext}".format()
 

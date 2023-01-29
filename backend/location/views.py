@@ -4,7 +4,6 @@ Location App views
 import logging
 from library.viewsets import ModelViewSet
 from library.permissions import IsAdminOrReadOnly
-from django.shortcuts import render
 from .models import Place, Country, State, City
 from .serializers import (
     PlaceSerializer,
@@ -13,6 +12,7 @@ from .serializers import (
     CitySerializer,
 )
 
+# pylint: disable=too-many-ancestors
 _logger = logging.getLogger("midlancer.api.location")
 
 

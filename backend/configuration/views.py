@@ -2,10 +2,11 @@
 Configuration api endpoints module
 """
 import logging
-from library.viewsets import ModelViewSet
-from library.permissions import IsAdminOrReadOnly
+
 from django.contrib.sites.models import Site
 from django_filters.rest_framework import DjangoFilterBackend
+from library.viewsets import ModelViewSet
+from library.permissions import IsAdminOrReadOnly
 from .filters.category import CategoryFilter
 from .models import (
     Estimate,

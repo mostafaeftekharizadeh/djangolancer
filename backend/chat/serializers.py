@@ -1,7 +1,7 @@
 """
 Chat Serializer
 """
-# from django.db.models import Q
+from django.db.models import Q
 from rest_framework import serializers
 from library.serializers import ModelOwnerSerializer
 from user.profile_serializers import ProfileShortSerializer
@@ -33,9 +33,9 @@ class RoomSerializer(ModelOwnerSerializer):
         if project and project.party != party and project.party != user:
             raise serializers.ValidationError("Permission Denied!")
 
-        q1 = Q(party=user, user=party, project=project)
-        q2 = Q(party=party, user=user, project=project)
-        room = Room.objects.filter(q1 | q2)
+        q_1 = Q(party=user, user=party, project=project)
+        q_2 = Q(party=party, user=user, project=project)
+        room = Room.objects.filter(q_1 | q_2)
         if room:
             raise serializers.ValidationError("Room Exists!")
         return attrs
