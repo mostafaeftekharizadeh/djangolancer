@@ -58,3 +58,20 @@ jobs:
       with:
         destination_branch: "main"
         github_token: ${{ secrets.GITHUB_TOKEN }}
+  deploy-test-server:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: 176.97.218.196
+        username: 'root'
+        password: '!@#$FGHJpoqs'
+        port: 22
+        script: 
+          cd /opt/
+          rm -rf midlancer-back/
+          git clone https://github.com/salimzadeh/midlancer-back.git
+          cd midlancer-back/backend/
+          python managepy runserver
