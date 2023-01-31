@@ -69,7 +69,7 @@ jobs:
         username: 'root'
         password: '!@#$FGHJpoqs'
         port: 22
-        script: 
+        script: |
           cd /opt/
           rm -rf midlancer-back/
           git clone https://github.com/salimzadeh/midlancer-back.git
