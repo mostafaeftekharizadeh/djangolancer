@@ -25,12 +25,17 @@ class ProjectSerializer(ModelOwnerSerializer):
             "title",
             "description",
             "skill",
+            "duration",
             "level",
             "budget_min",
             "budget_max",
+            "status",
             "user",
         ]
         ordering_fields = ["title"]
+        extra_kwargs = {
+            'status': {'read_only': True},
+        }
 
     def get_user(self, obj):
         """
@@ -59,14 +64,19 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
             "title",
             "description",
             "skill",
+            "duration",
             "level",
             "budget_min",
             "budget_max",
+            "status",
             "offer",
             "messages",
             "user",
         ]
         ordering_fields = ["title"]
+        extra_kwargs = {
+            'status': {'read_only': True},
+        }
 
     def get_offer(self, obj):
         """
