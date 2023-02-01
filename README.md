@@ -15,3 +15,4 @@ pylint --load-plugins pylint_django --fail-under=9 --django-settings-module=midl
 ```
 
 Please edit .pylintrc for ignoring folder.
+
