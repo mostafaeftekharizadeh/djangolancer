@@ -106,7 +106,8 @@ class FileSerializer(ModelOwnerSerializer):
     def validate(self, attrs):
         if attrs["project"].party != self.context["request"].user.party:
             raise serializers.ValidationError("permission denied.")
-        return super(FileSerializer, self).validate(attrs)
+        # return super(FileSerializer, self).validate(attrs)
+        return super().validate(attrs)
 
 
 class CostSerializer(serializers.ModelSerializer):

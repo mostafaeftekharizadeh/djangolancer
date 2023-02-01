@@ -4,12 +4,12 @@ User Dashboard api Serializers
 import jdatetime
 from dateutil.relativedelta import relativedelta
 from django.db.models import Sum
+from rest_framework import serializers
 from library.serializers import ModelOwnerSerializer
 from money.models import Transaction
 from money.serializers import TransactionSerializer
 from projects.models import Project
 from projects.serializers import ProjectDetailSerializer
-from rest_framework import serializers
 
 from .profile_models import Profile, Skill
 from .user_serializers import UserSerializer

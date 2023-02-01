@@ -3,9 +3,9 @@ Chat Api endpoint Viewset
 """
 import logging
 from django_filters.rest_framework import DjangoFilterBackend
-from library.viewsets import ModelViewSet
 from rest_framework.parsers import MultiPartParser
 from rest_framework import permissions
+from library.viewsets import ModelViewSet
 from .permissions.message import MessagePermission
 from .serializers import RoomSerializer, ParticipateSerializer, MessageSerializer
 from .models import Room, Participate, Message
@@ -13,7 +13,7 @@ from .filters.room import RoomFilter
 
 _logger = logging.getLogger("midlancer.api.chat")
 
-
+# pylint: disable=too-many-ancestors
 class RoomViewSet(ModelViewSet):
     """
     Room endpoint Viewset
