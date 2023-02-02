@@ -16,7 +16,7 @@ class Profile(models.Model):
     Profile endpoint Model
     """
 
-    def hash_upload(self, instance, filename):
+    def hash_upload(instance, filename):
         """
         HashUpload
         delete old avatar if exists
