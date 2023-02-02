@@ -111,14 +111,14 @@ class File(BaseModel):
     Project file model
     """
 
-    def hash_upload(self, instance, filename):
+    def hash_upload(instance, filename):
         """
         Project file model
         """
         try:
             # delete old avatar if exists
             this = File.objects.get(party=instance.id)
-            this.image.delete()  # type: ignore
+            this.project_file.delete()  # type: ignore
         except:
             pass
         fname, ext = os.path.splitext(filename)
@@ -128,7 +128,7 @@ class File(BaseModel):
 
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    project_file = models.ImageField(upload_to=hash_upload, null=True, blank=True)
+    project_file = models.FileField(upload_to=hash_upload, null=True, blank=True)
 
 
 class Cost(BaseModel):
