@@ -79,7 +79,7 @@ class DashboardSerializer(ModelOwnerSerializer):
         pay = Transaction.objects.filter(
             wallet__party=obj.party, value__lt=0
         ).aggregate(Sum("value"))
-        if par['value__sum']:
+        if pay['value__sum']:
             payment["pay"] = pay["value__sum"] * -1
         else:
             payment["pay"] = 0
