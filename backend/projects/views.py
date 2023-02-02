@@ -113,8 +113,6 @@ class OfferViewSet(ModelViewSet):
         Offer accept function
         """
         offer = self.get_object()
-        print(offer.project.party.user)
-        print(request.user.party)
         if offer.project.party != request.user.party:
             raise serializers.ValidationError("Permission Denied!")
         offer.state = "a"
