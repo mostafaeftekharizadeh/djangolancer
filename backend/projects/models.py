@@ -36,7 +36,7 @@ class Project(BaseModel):
     work = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     skill = models.ManyToManyField(BaseSkill, related_name="project_skill")
-    exp_time = models.DateTimeField(null=True, blank=True)
+    duration = models.DurationField(default=timedelta)
     description = models.TextField(null=True, blank=True)
     currency = models.ForeignKey(
         Currency,
@@ -99,6 +99,11 @@ class Project(BaseModel):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            self.status = Status.objects.filter(default=True).first()
+        super().save(*args, **kwargs)
 
 
 class File(BaseModel):

@@ -97,6 +97,7 @@ class Status(BaseModel):
     """
 
     name = models.CharField(max_length=200, unique=True, null=False, blank=False)
+    default = models.BooleanField(default=False)
     active = models.BooleanField(default=False)
 
     def __str__(self):

@@ -79,15 +79,24 @@ class DashboardSerializer(ModelOwnerSerializer):
         pay = Transaction.objects.filter(
             wallet__party=obj.party, value__lt=0
         ).aggregate(Sum("value"))
-        payment["pay"] = pay["value__sum"] * -1
+        if par['value__sum']:
+            payment["pay"] = pay["value__sum"] * -1
+        else:
+            payment["pay"] = 0
         income = Transaction.objects.filter(
             wallet__party=obj.party, value__gt=0
         ).aggregate(Sum("value"))
-        payment["income"] = income["value__sum"]
+        if income['value__sum']:
+            payment["income"] = income["value__sum"]
+        else:
+            payment["income"] = 0
         income_last_month = Transaction.objects.filter(
             wallet__party=obj.party, value__gt=0, created_at__gt=last_month
         ).aggregate(Sum("value"))
-        payment["income_last_month"] = income_last_month["value__sum"]
+        if income_last_month['value__sum']:
+            payment["income_last_month"] = income_last_month["value__sum"]
+        else:
+            payment["income_last_month"] = 0
         return payment
 
     def get_user(self, obj):
