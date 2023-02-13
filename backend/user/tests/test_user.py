@@ -12,6 +12,10 @@ User = get_user_model()
 
 
 class UserTestCase(TestCase):
+    """
+    test case for user module
+    """
+
     # fixtures = ['auth.json', 'location.json', 'configuration.json', 'user.json']
     fixtures = ["compleated.json"]
 
