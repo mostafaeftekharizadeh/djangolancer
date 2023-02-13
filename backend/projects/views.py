@@ -90,8 +90,8 @@ class OfferViewSet(ModelViewSet):
             query_set = query_set.filter(party=self.request.user.party)  # type: ignore
         return query_set
 
-    # self, request, *args, **kwargs
-    def create(self, request, *project, **kwargs):
+    # override create method
+    def create(self, request, project):
         """
         Offer create function
         """
@@ -121,15 +121,15 @@ class OfferViewSet(ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
-    def payment(self, request):
+    def payment(self, request, project, pk=None):
         """
         Offer payment function
         """
         offer = self.get_object()
         if offer.project.party != request.user.party:
             raise serializers.ValidationError("Permission Denied!")
-        wallet = offer.project.party.wallet_set.all().first()
-        target = offer.party.wallet_set.all().first()
+        wallet = offer.project.party.wallet.all().first()
+        target = offer.party.wallet.all().first()
         if not wallet.transfer(target, offer.cost, offer.project):
             raise serializers.ValidationError("Payment Error!")
         offer.state = "p"
