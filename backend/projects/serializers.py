@@ -82,7 +82,8 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
         """
         Project get offers serializer function
         """
-        qs = obj.offers.filter(state="a")
+        #qs = obj.offers.filter(state="a")
+        qs = obj.offers.all()
         return OfferSerializer(qs, context=self.context, many=True).data
 
     def get_messages(self, obj):

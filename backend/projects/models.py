@@ -115,14 +115,8 @@ class File(BaseModel):
         """
         Project file model
         """
-        try:
-            # delete old avatar if exists
-            this = File.objects.get(party=instance.id)
-            this.project_file.delete()  # type: ignore
-        except:
-            pass
         fname, ext = os.path.splitext(filename)
-        return f"project/{0}{1}".format(
+        return "project/{0}{1}".format(
             hashlib.md5(fname.encode("utf-8")).hexdigest(), ext
         )
 
