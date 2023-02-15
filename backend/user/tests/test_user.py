@@ -15,6 +15,23 @@ from user.user_models import Party, Otp
 
 User = get_user_model()
 
+# testuser1
+# 08121000001
+# Test@123
+
+
+# testuser2
+# 08121000002
+# Test@123
+
+# testuser3
+# 08121000003
+# Test@123
+
+# testuser4
+# 08121000004
+# Test@123
+
 
 class UserTestCase(TestCase):
     """
@@ -32,10 +49,9 @@ class UserTestCase(TestCase):
             "password2": "arian1391",
             "mobile": "989121000001",
             "first_name": "fname1",
-            "last_name": "lname1"
+            "last_name": "lname1",
         }
         # pass
-
 
     @override_settings(DEBUG=True)
     def test_register(self):
@@ -45,15 +61,15 @@ class UserTestCase(TestCase):
         assert response.status_code == 201
         res = json.loads(response.content)
         otp_data = {
-            "mobile": self.new_user_data['mobile'],
-            "token": res['otp_token'],
-            "code": "12345"
+            "mobile": self.new_user_data["mobile"],
+            "token": res["otp_token"],
+            "code": "12345",
         }
         response = client.post("/api/v1/user/otp/", otp_data, format="json")
         assert response.status_code == 201
         res = json.loads(response.content)
 
-        self.new_user_data['otp_token'] = res['token']
+        self.new_user_data["otp_token"] = res["token"]
         response = client.post("/api/v1/user/user/", self.new_user_data, format="json")
         assert response.status_code == 201
 
@@ -62,11 +78,11 @@ class UserTestCase(TestCase):
         user = User.objects.get(username="testuser")
         assert user.is_active is True
 
-    # def test_login(self):
-    #     client = APIClient()
-    #     data = {"username": "testuser1", "password": "testuser1"}
-    #     response = client.post("/api/v1/user/login/", data, format="json")
-    #     assert response.status_code == 200
+    def test_login(self):
+        client = APIClient()
+        data = {"username": "988121000001", "password": "Test@123"}
+        response = client.post("/api/v1/user/login/", data, format="json")
+        assert response.status_code == 200
 
     # def test_login_not_active_user(self):
     #     client = APIClient()
