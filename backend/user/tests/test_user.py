@@ -4,7 +4,9 @@ userTest unit
 # import json
 import json
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.contrib.auth import get_user_model
+
 
 # from django.contrib.auth.models import User
 from rest_framework.test import APIClient
@@ -34,18 +36,31 @@ class UserTestCase(TestCase):
         }
         # pass
 
+
+    @override_settings(DEBUG=True)
     def test_register(self):
 
         client = APIClient()
         response = client.post("/api/v1/user/user/", self.new_user_data, format="json")
-        print("response")
-        print(response.status_code)
-        print("response")
         assert response.status_code == 201
+        res = json.loads(response.content)
+        otp_data = {
+            "mobile": self.new_user_data['mobile'],
+            "token": res['otp_token'],
+            "code": "12345"
+        }
+        response = client.post("/api/v1/user/otp/", otp_data, format="json")
+        assert response.status_code == 201
+        res = json.loads(response.content)
+
+        self.new_user_data['otp_token'] = res['token']
+        response = client.post("/api/v1/user/user/", self.new_user_data, format="json")
+        assert response.status_code == 201
+
         party = Party.objects.get(user__username="testuser")
         assert party is not None
         user = User.objects.get(username="testuser")
-        assert user.is_active is False
+        assert user.is_active is True
 
     # def test_login(self):
     #     client = APIClient()

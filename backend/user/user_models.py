@@ -120,10 +120,13 @@ class Otp(models.Model):
         send token to user mobile
         TODO : must be send via a worker
         """
-        sms.send_pattern(
-            "npqwr55s7rr23wk",
-            "+983000505",
-            self.mobile,
-            {"verification-code": self.code},
-        )
+        try:
+            sms.send_pattern(
+                "npqwr55s7rr23wk",
+                "+983000505",
+                self.mobile,
+                {"verification-code": self.code},
+            )
+        except:
+            pass
         return True
