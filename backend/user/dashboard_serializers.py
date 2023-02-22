@@ -9,7 +9,7 @@ from library.serializers import ModelOwnerSerializer
 from money.models import Transaction
 from money.serializers import TransactionSerializer
 from projects.models import Project
-from projects.serializers import ProjectDetailSerializer
+from projects.serializers import ProjectDetailSerializer,OfferSerializer
 
 from .profile_models import Profile, Skill
 from .user_serializers import UserSerializer
@@ -36,6 +36,7 @@ class DashboardSerializer(ModelOwnerSerializer):
     projects = serializers.SerializerMethodField()
     transactions = serializers.SerializerMethodField()
     payment = serializers.SerializerMethodField()
+    last_offer=serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -54,6 +55,15 @@ class DashboardSerializer(ModelOwnerSerializer):
         """
         qs = Project.objects.filter(party=obj.party)
         return ProjectDetailSerializer(qs, context=self.context, many=True).data
+    
+    def get_last_offer(self, obj):
+        """
+        Latest offer on projects
+        """
+
+        obj = Project.objects.filter(party=obj.party).latest('date').offers
+        obj2 = obj.latest('created_at')
+        return OfferSerializer(obj2, context=self.context, many=False).data
 
     def get_projects(self, obj):
         """
