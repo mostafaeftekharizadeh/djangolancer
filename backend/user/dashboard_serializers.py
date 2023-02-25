@@ -8,7 +8,7 @@ from rest_framework import serializers
 from library.serializers import ModelOwnerSerializer
 from money.models import Transaction
 from money.serializers import TransactionSerializer
-from projects.models import Project
+from projects.models import Project,Offer
 from projects.serializers import ProjectDetailSerializer,OfferSerializer
 
 from .profile_models import Profile, Skill
@@ -61,9 +61,8 @@ class DashboardSerializer(ModelOwnerSerializer):
         Latest offer on projects
         """
 
-        obj = Project.objects.filter(party=obj.party).latest('date').offers
-        obj2 = obj.latest('created_at')
-        return OfferSerializer(obj2, context=self.context, many=False).data
+        obj_offer=Offer.objects.filter(party=obj.party).latest('created_at')
+        return OfferSerializer(obj_offer, context=self.context, many=False).data
 
     def get_projects(self, obj):
         """
