@@ -80,6 +80,7 @@ class LoginView(generics.CreateAPIView):
             ).data
             if len(profile) > 0:
                 data["profile"] = profile[0]
+                data["mobile"] = user.mobile
         if "password" in request.data:
             request.data["password"] = "**********"
         _logger.info("Loged in %s.", request.data)

@@ -70,7 +70,7 @@ class ProfileViewSet(ModelViewSet):
     def get_object(self):
         if self.kwargs["pk"] == "0":
             self.kwargs["pk"] = self.request.user.party.id  # type: ignore
-            return super().get_object()
+        return super().get_object()
 
 
 class AvatarViewSet(ModelViewSet):
