@@ -121,6 +121,19 @@ class OfferViewSet(ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
+    def reject(self, request):
+        """
+        reject offer by offer id
+        """
+        offer = self.get_object()
+        if offer.project.party != request.user.party:
+            raise serializers.ValidationError("Permission Denied!")
+        offer.state = "r"
+        offer.save()
+        serializer = self.serializer_class(instance=offer, context={"request": request})
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["get"])
     def payment(self, request, project, pk=None):
         """
         Offer payment function
