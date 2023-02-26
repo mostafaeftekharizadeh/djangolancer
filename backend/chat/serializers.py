@@ -83,8 +83,7 @@ class MessageSerializer(ModelOwnerSerializer):
     def validate(self, attrs):
         room = attrs.get("room")
         party = attrs.get("party")
-        try:
-            room.chat_participate.get(party=party)
-        except:
+        if room.chat_participate.filter(party=party).first():
+            return attrs
+        else:
             raise serializers.ValidationError("Permission Denied!")
-        return attrs
