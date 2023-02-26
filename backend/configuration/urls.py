@@ -64,4 +64,7 @@ router.register(
 router.register(
     r"configuration/category", views.CategoryViewSet, basename="configuration_category"
 )
+router.register(
+    r"configuration/allcategory", views.AllCategoryViewSet, basename="configuration_all_category"
+)
 urlpatterns = []
