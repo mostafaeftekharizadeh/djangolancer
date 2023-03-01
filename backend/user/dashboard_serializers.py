@@ -61,8 +61,11 @@ class DashboardSerializer(ModelOwnerSerializer):
         """
         Latest offer on projects
         """
-        obj= Offer.objects.filter(party=obj.party).latest('created_at')
-        return OfferSerializer(obj, context=self.context, many=False).data
+        if(Offer.objects.filter(project__party=obj.party,state='n').count()>0):
+            obj= Offer.objects.filter(project__party=obj.party,state='n').latest('created_at')
+            return OfferSerializer(obj, context=self.context, many=False).data
+        
+
 
     def get_projects(self, obj):
         """

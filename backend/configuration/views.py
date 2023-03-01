@@ -185,3 +185,14 @@ class CategoryViewSet(ModelViewSet):
     logger = _logger
     filter_backends = (DjangoFilterBackend,)
     filterset_class = CategoryFilter
+
+class AllCategoryViewSet(ModelViewSet):
+    """
+    Category endpoint Viewset
+    """
+
+    queryset = Category.objects.filter(parent=None,active=True).all()
+    serializer_class = CategorySerializer
+    logger = _logger
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = CategoryFilter

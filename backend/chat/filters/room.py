@@ -17,7 +17,7 @@ class RoomFilter(FilterSet):
     def qs(self):
         user = getattr(self.request, 'user', None)
         qs = super().qs
-        return  qs.filter(Q(party__user=user))
+        return  qs.filter(Q(chat_participate__party__user=user))
 
 
 
