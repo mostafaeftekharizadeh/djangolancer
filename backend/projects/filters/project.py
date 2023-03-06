@@ -6,6 +6,7 @@ from django_filters import FilterSet
 from django_filters import rest_framework as filters
 from projects.models import Project
 from library.filters import CharInFilter
+from configuration.models import Skill
 
 
 class ProjectFilter(FilterSet):
@@ -41,11 +42,16 @@ class ProjectFilter(FilterSet):
                 qs = qs.filter(~Q(party__user=user))
 
         if q:
+            #qs = qs.distinct()
+            skills = Skill.objects.filter(name__icontains=q)
+            print(skills)
             qs = qs.filter(
-                Q(skill__name__icontains=q)
-                | Q(level__name=q)
+                #Q(skill__name__icontains=q)
+                Q(skill__in=skills)
+                #| Q(level__name=q)
                 | Q(category__name=q)
-                | Q(sub_category__name=q)
-                | Q(title__icontains=q)
+                #| Q(sub_category__name=q)
+                #| Q(title__icontains=q)
             )
+        print(qs.query)
         return qs
