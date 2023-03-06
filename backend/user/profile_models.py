@@ -68,6 +68,7 @@ class Profile(models.Model):
     country = models.ForeignKey(
         Country, on_delete=models.CASCADE, null=True, blank=True
     )
+    is_employer = models.BooleanField(default=False)
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
 
