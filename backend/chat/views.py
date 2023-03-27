@@ -10,7 +10,7 @@ from .permissions.message import MessagePermission
 from .serializers import RoomSerializer, ParticipateSerializer, MessageSerializer
 from .models import Room, Participate, Message
 from .filters.room import RoomFilter
-from .filters.message import MessageFilter
+
 
 _logger = logging.getLogger("midlancer.api.chat")
 
@@ -52,5 +52,6 @@ class MessageViewSet(ModelViewSet):
     parser_classes = (MultiPartParser,)
     http_method_names = ["post", "get", "head"]
     logger = _logger
+
     def get_queryset(self):
-        return Message.objects.filter(room=self.kwargs['room'])
+        return Message.objects.filter(room=self.kwargs["room"])
