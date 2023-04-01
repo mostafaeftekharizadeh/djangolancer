@@ -29,19 +29,21 @@ class ProjectFilter(FilterSet):
         """
         Projetc filter owner
         """
+        if self.request.user and self.request.user.is_authenticated:
+            return queryset.filter(party__user=self.request.user)
         return queryset
 
     @property
     def qs(self):
-        owner = self.request.query_params.get("owner", None)
         q = self.request.query_params.get("q", None)
         user = getattr(self.request, "user", None)
         qs = super().qs
-        if user and user.is_authenticated:
-            if owner:
-                qs = qs.filter(Q(party__user=user))
-            else:
-                qs = qs.filter(~Q(party__user=user))
+        #owner = self.request.query_params.get("owner", None)
+        #if user and user.is_authenticated:
+        #    if owner:
+        #        qs = qs.filter(Q(party__user=user))
+        #    else:
+        #        qs = qs.filter(~Q(party__user=user))
 
         if q:
             qs = qs.filter(
