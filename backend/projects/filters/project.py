@@ -15,7 +15,7 @@ class ProjectFilter(FilterSet):
     """
 
     owner = filters.CharFilter(method="owner_filter")
-    q = filters.CharFilter(method="owner_filter")
+    q = filters.CharFilter(method="q_filter")
     skill = CharInFilter(field_name="skill", lookup_expr="in")
     level = CharInFilter(field_name="level", lookup_expr="in")
     category = CharInFilter(field_name="category", lookup_expr="in")
@@ -27,16 +27,27 @@ class ProjectFilter(FilterSet):
 
     def owner_filter(self, queryset, name, value):
         """
-        Projetc filter owner
+        show user projects
         """
+
         if self.request.user and self.request.user.is_authenticated:
             return queryset.filter(party__user=self.request.user)
         return queryset
 
+    def q_filter(self, queryset, name, value):
+        """
+        QueryString filter
+        """
+        q = queryset.filter(
+            Q(title__icontains=value)
+        )
+        return q
+    '''
     @property
     def qs(self):
         q = self.request.query_params.get("q", None)
         user = getattr(self.request, "user", None)
+        print(user)
         qs = super().qs
         #owner = self.request.query_params.get("owner", None)
         #if user and user.is_authenticated:
@@ -51,3 +62,4 @@ class ProjectFilter(FilterSet):
             )
         print(qs.query)
         return qs
+    '''
