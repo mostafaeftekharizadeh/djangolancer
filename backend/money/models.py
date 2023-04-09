@@ -5,6 +5,7 @@ from django.db import models
 from library.models import BaseModel
 from user.user_models import Party
 from projects.models import Project
+from configuration.models import Bank
 
 
 class Wallet(BaseModel):
@@ -84,7 +85,7 @@ class CardTransfer(BaseModel):
         wallet = Wallet.objects.get(party=self.party)
         transaction = wallet.withdraw(self.value)
         if transaction:
-            # instance = super().save(*args, **kwargs)
+            super().save(args, kwargs)
             transaction.card = self
             transaction.save()
             return True
@@ -109,3 +110,4 @@ class Transaction(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True)
     # def __str__(self):
     #    return "{} : amount {}".format(self.wallet.user.first_name, self.value)
+

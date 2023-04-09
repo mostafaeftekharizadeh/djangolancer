@@ -18,7 +18,6 @@ class RoomFilter(FilterSet):
     def qs(self):
         user = getattr(self.request, 'user', None)
         qs = super().qs
-        print(qs.query)
         return  qs.filter(Q(chat_participate__party__user=user)).distinct()
 
 
