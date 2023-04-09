@@ -53,12 +53,20 @@ class Project(BaseModel):
     expire_date = models.DateTimeField(null=True, blank=True)
     discount = models.IntegerField(null=True, blank=True)
     date = models.DateTimeField(default=timezone.now)
-    status = models.ForeignKey(
-        Status,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name="project_status",
+    #status = models.ForeignKey(
+    #    Status,
+    #    on_delete=models.CASCADE,
+    #    null=True,
+    #    blank=True,
+    #    related_name="project_status",
+    #)
+    STATUS_CHOICES = [
+        ("n", "New"),
+        ("i", "In Progress"),
+        ("c", "Closed"),
+    ]
+    status = models.CharField(
+        max_length=1, choices=STATUS_CHOICES, default="n", null=True, blank=True
     )
     level = models.ForeignKey(
         Level,
@@ -97,13 +105,19 @@ class Project(BaseModel):
     )
     deleted_date = models.DateTimeField(null=True, blank=True)
 
+    def InProgress(self):
+        self.status = 'p'
+        self.save()
+        return True
+
+    def Close(self):
+        self.status = 'c'
+        self.save()
+        return True
+
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        if self._state.adding:
-            self.status = Status.objects.filter(default=True).first()
-        super().save(*args, **kwargs)
 
 
 class File(BaseModel):

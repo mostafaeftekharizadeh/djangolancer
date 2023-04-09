@@ -20,10 +20,11 @@ class ProjectFilter(FilterSet):
     level = CharInFilter(field_name="level", lookup_expr="in")
     category = CharInFilter(field_name="category", lookup_expr="in")
     sub_category = CharInFilter(field_name="sub_category", lookup_expr="in")
+    status = CharInFilter(field_name="status", lookup_expr="in")
 
     class Meta:
         model = Project
-        fields = ["skill", "level", "category", "sub_category", "q", "owner"]
+        fields = ["skill", "level", "category", "sub_category", "status", "q", "owner"]
 
     def owner_filter(self, queryset, name, value):
         """

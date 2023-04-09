@@ -80,8 +80,8 @@ class MyOfferViewSet(ModelViewSet):
             get my offer on project
             """
             offer= Offer.objects.all()
-            query_set = self.queryset.filter(party=self.request.user.party)        
-            
+            query_set = self.queryset.filter(party=self.request.user.party)
+
             return query_set
 
 class OfferViewSet(ModelViewSet):
@@ -101,7 +101,7 @@ class OfferViewSet(ModelViewSet):
         """
         Offer get function
         """
-        
+
 
         project = Project.objects.get(pk=self.kwargs["project"])
         query_set = self.queryset.filter(project=project)
@@ -114,7 +114,7 @@ class OfferViewSet(ModelViewSet):
         """
         Offer create function
         """
-        
+
         self.request.data["project"] = project  # type: ignore
         return super().create(request, project)
 
@@ -128,16 +128,16 @@ class OfferViewSet(ModelViewSet):
         return super().update(request, project)
 
     @action(detail=True, methods=["get"])
-    def accept(self, request,project,pk=None):
+    def accept(self, request, project, pk=None):
         """
         Offer accept function
         """
         offer = self.get_object()
-        print(offer)
         if offer.project.party != request.user.party:
             raise serializers.ValidationError("Permission Denied!")
         offer.state = "a"
         offer.save()
+        offer.project.InProgress()
         serializer = self.serializer_class(instance=offer, context={"request": request})
         return Response(serializer.data)
 
@@ -168,6 +168,7 @@ class OfferViewSet(ModelViewSet):
             raise serializers.ValidationError("Payment Error!")
         offer.state = "p"
         offer.save()
+        offer.project.Close()
         serializer = self.serializer_class(instance=offer, context={"request": request})
         return Response(serializer.data)
 
