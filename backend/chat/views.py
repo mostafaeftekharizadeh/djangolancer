@@ -14,6 +14,7 @@ from .filters.room import RoomFilter
 
 _logger = logging.getLogger("midlancer.api.chat")
 
+
 # pylint: disable=too-many-ancestors
 class RoomViewSet(ModelViewSet):
     """

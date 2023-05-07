@@ -4,6 +4,7 @@ Location Models
 from django.db import models
 from library.models import BaseModel
 
+
 # Create your models here.
 class Country(BaseModel):
     """

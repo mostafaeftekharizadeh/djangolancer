@@ -110,4 +110,3 @@ class Transaction(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True)
     # def __str__(self):
     #    return "{} : amount {}".format(self.wallet.user.first_name, self.value)
-

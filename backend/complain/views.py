@@ -10,6 +10,7 @@ from .serializers import ComplainSerializer, ResultComplainSerializer
 
 _logger = logging.getLogger("midlancer.api.complain")
 
+
 # pylint: disable=too-many-ancestors
 class ComplainViewSet(ModelViewSet):
     """

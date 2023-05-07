@@ -5,7 +5,8 @@ from django.db import models
 from library.models import BaseModel
 
 # pylint: disable=too-many-ancestors
-# Create your models here.
+
+
 class Estimate(BaseModel):
     """
     Estimate model

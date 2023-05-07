@@ -81,8 +81,12 @@ router.register(
     basename="socialmedia",
 )
 router.register(
-    r"user/dashboard/employee", dashboard_views.EmployeeDashboardViewSet, basename="employee_dashboard"
+    r"user/dashboard/employee",
+    dashboard_views.EmployeeDashboardViewSet,
+    basename="employee_dashboard",
 )
 router.register(
-    r"user/dashboard/employer", dashboard_views.EmployerDashboardViewSet, basename="employer_dashboard"
+    r"user/dashboard/employer",
+    dashboard_views.EmployerDashboardViewSet,
+    basename="employer_dashboard",
 )

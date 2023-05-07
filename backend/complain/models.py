@@ -6,6 +6,7 @@ from configuration.models import Status, ComplainType, ViewStatus
 from projects.models import Project
 from user.user_models import Party
 
+
 # Create your models here.
 class Complain(models.Model):
     """

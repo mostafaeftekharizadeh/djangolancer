@@ -1,7 +1,11 @@
 from rest_framework import permissions
 
-# only authenticated user add, only owner can delete/put, AnyOne can read
+
 class IsOwnerOrReadOnly(permissions.BasePermission):
+    """
+    only authenticated user add, only owner can delete/put, AnyOne can read
+    """
+
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True
@@ -12,8 +16,12 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         return obj.party.user == request.user
 
-# only authenticated user can add/read, only owner can delete/put,
+
 class IsOwnerOrAuthenticated(permissions.BasePermission):
+    """
+    only authenticated user can add/read, only owner can delete/put,
+    """
+
     def has_permission(self, request, view):
         return request.user.is_authenticated
 
@@ -22,17 +30,24 @@ class IsOwnerOrAuthenticated(permissions.BasePermission):
             return True
         return obj.party.user == request.user
 
-# only staff users can add/delete/put, AnyOne can read
+
 class IsAdminOrReadOnly(permissions.BasePermission):
+    """
+    only staff users can add/delete/put, AnyOne can read
+    """
+
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True
         return request.user.is_staff
 
-# only staff users can add/delete/put, Authenticated user can read
+
 class IsAdminOrAuthenticated(permissions.BasePermission):
+    """
+    only staff users can add/delete/put, Authenticated user can read
+    """
+
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return request.user.is_authenticated
         return request.user.is_staff
-

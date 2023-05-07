@@ -5,10 +5,14 @@ import logging
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
 from .profile_models import Profile
-from .dashboard_serializers import EmployeeDashboardSerializer, EmployerDashboardSerializer
+from .dashboard_serializers import (
+    EmployeeDashboardSerializer,
+    EmployerDashboardSerializer,
+)
 
 
 _logger = logging.getLogger("midlancer.api.user.dashboard")
+
 
 # pylint: disable=too-many-ancestors
 class EmployeeDashboardViewSet(ModelViewSet):
@@ -33,6 +37,7 @@ class EmployeeDashboardViewSet(ModelViewSet):
     def get_object(self):
         self.kwargs["pk"] = self.request.user.party.id
         return super().get_object()
+
 
 # pylint: disable=too-many-ancestors
 class EmployerDashboardViewSet(ModelViewSet):

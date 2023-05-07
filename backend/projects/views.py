@@ -24,6 +24,7 @@ from .filters.project import ProjectFilter
 
 _logger = logging.getLogger("midlancer.api.projetcs")
 
+
 # pylint: disable=too-many-ancestors
 class ProjectViewSet(ModelViewSet):
     """
@@ -66,23 +67,30 @@ class CostViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     logger = _logger
 
-class MyOfferViewSet(ModelViewSet):
-        queryset = Offer.objects.all()
-        serializer_class = OfferSerializer
-        # permission_classes = [permissions.IsAuthenticated]
-        permission_classes = [IsOwnerOrReadOnly]
-        filter_backends = (DjangoFilterBackend,)
-        http_method_names =['get']
-        # filterset_class = OfferFilter
-        logger = _logger
-        def get_queryset(self):
-            """
-            get my offer on project
-            """
-            offer= Offer.objects.all()
-            query_set = self.queryset.filter(party=self.request.user.party)
 
-            return query_set
+class MyOfferViewSet(ModelViewSet):
+    """
+    my offer endpoint Viewset
+    """
+
+    queryset = Offer.objects.all()
+    serializer_class = OfferSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
+    filter_backends = (DjangoFilterBackend,)
+    http_method_names = ["get"]
+    # filterset_class = OfferFilter
+    logger = _logger
+
+    def get_queryset(self):
+        """
+        get my offer on project
+        """
+        offer = Offer.objects.all()
+        query_set = self.queryset.filter(party=self.request.user.party)
+
+        return query_set
+
 
 class OfferViewSet(ModelViewSet):
     """
@@ -102,12 +110,11 @@ class OfferViewSet(ModelViewSet):
         Offer get function
         """
 
-
         project = Project.objects.get(pk=self.kwargs["project"])
         query_set = self.queryset.filter(project=project)
         if project.party != self.request.user.party:  # type: ignore
             query_set = query_set.filter(party=self.request.user.party)  # type: ignore
-        return query_set.order_by('-created_at')
+        return query_set.order_by("-created_at")
 
     # override create method
     def create(self, request, project):
@@ -142,7 +149,7 @@ class OfferViewSet(ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
-    def reject(self, request,project,pk=None):
+    def reject(self, request, project, pk=None):
         """
         reject offer by offer id
         """

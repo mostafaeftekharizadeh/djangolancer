@@ -19,6 +19,7 @@ from .profile_models import (
     SocialMedia,
 )
 
+
 # pylint: disable=too-many-ancestors
 class ContactSerializer(ModelOwnerSerializer):
     """

@@ -18,6 +18,7 @@ from .models import (
     Category,
 )
 
+
 # pylint: disable=too-many-ancestors
 class EstimateSerializer(serializers.ModelSerializer):
     """

@@ -9,7 +9,7 @@ from library.serializers import ModelOwnerSerializer
 from money.models import Transaction
 from money.serializers import TransactionSerializer
 from projects.models import Project
-from projects.serializers import ProjectDetailSerializer,OfferSerializer
+from projects.serializers import ProjectDetailSerializer, OfferSerializer
 
 from .profile_models import Profile, Skill
 from projects.models import Offer
@@ -35,7 +35,7 @@ class EmployeeDashboardSerializer(ModelOwnerSerializer):
     user = serializers.SerializerMethodField()
     projects = serializers.SerializerMethodField()
     payment = serializers.SerializerMethodField()
-    last_offer=serializers.SerializerMethodField()
+    last_offer = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -60,8 +60,8 @@ class EmployeeDashboardSerializer(ModelOwnerSerializer):
         """
         Latest offer on projects
         """
-        if(Offer.objects.filter(party=obj.party).count()>0):
-            obj= Offer.objects.filter(party=obj.party).latest('created_at')
+        if Offer.objects.filter(party=obj.party).count() > 0:
+            obj = Offer.objects.filter(party=obj.party).latest("created_at")
             return OfferSerializer(obj, context=self.context, many=False).data
 
     def get_payment(self, obj):
@@ -74,14 +74,14 @@ class EmployeeDashboardSerializer(ModelOwnerSerializer):
         income = Transaction.objects.filter(
             wallet__party=obj.party, value__gt=0
         ).aggregate(Sum("value"))
-        if income['value__sum']:
+        if income["value__sum"]:
             payment["income"] = income["value__sum"]
         else:
             payment["income"] = 0
         income_last_month = Transaction.objects.filter(
             wallet__party=obj.party, value__gt=0, created_at__gt=last_month
         ).aggregate(Sum("value"))
-        if income_last_month['value__sum']:
+        if income_last_month["value__sum"]:
             payment["income_last_month"] = income_last_month["value__sum"]
         else:
             payment["income_last_month"] = 0
@@ -93,6 +93,7 @@ class EmployeeDashboardSerializer(ModelOwnerSerializer):
         """
         return UserSerializer(obj.party.user, context=self.context, many=False).data
 
+
 class EmployerDashboardSerializer(ModelOwnerSerializer):
     """
     Dashboard Serializers
@@ -103,7 +104,7 @@ class EmployerDashboardSerializer(ModelOwnerSerializer):
 
     transactions = serializers.SerializerMethodField()
     payment = serializers.SerializerMethodField()
-    last_offer=serializers.SerializerMethodField()
+    last_offer = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -120,8 +121,10 @@ class EmployerDashboardSerializer(ModelOwnerSerializer):
         """
         Latest offer on projects
         """
-        if(Offer.objects.filter(project__party=obj.party,state='n').count()>0):
-            obj= Offer.objects.filter(project__party=obj.party,state='n').latest('created_at')
+        if Offer.objects.filter(project__party=obj.party, state="n").count() > 0:
+            obj = Offer.objects.filter(project__party=obj.party, state="n").latest(
+                "created_at"
+            )
             return OfferSerializer(obj, context=self.context, many=False).data
 
     def get_transactions(self, obj):
@@ -141,7 +144,7 @@ class EmployerDashboardSerializer(ModelOwnerSerializer):
         pay = Transaction.objects.filter(
             wallet__party=obj.party, value__lt=0
         ).aggregate(Sum("value"))
-        if pay['value__sum']:
+        if pay["value__sum"]:
             payment["pay"] = pay["value__sum"] * -1
         else:
             payment["pay"] = 0

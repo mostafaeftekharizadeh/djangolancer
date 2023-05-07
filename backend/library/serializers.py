@@ -24,8 +24,10 @@ class ModelOwnerSerializer(ModelSerializer):
     Library Owner Serializer
     """
 
-    # force party to be set to current user party id
     def to_internal_value(self, data):
+        """
+        force party to be set to current user party id
+        """
         _mutable = False
         try:
             _mutable = data._mutable

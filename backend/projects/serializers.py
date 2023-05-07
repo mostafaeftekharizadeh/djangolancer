@@ -6,6 +6,7 @@ from library.serializers import ModelOwnerSerializer
 from user.user_serializers import UserSerializer
 from .models import Project, File, Cost, Offer, OfferStep, Budget
 
+
 # pylint: disable=too-many-ancestors
 class ProjectSerializer(ModelOwnerSerializer):
     """
@@ -34,7 +35,7 @@ class ProjectSerializer(ModelOwnerSerializer):
         ]
         ordering_fields = ["title"]
         extra_kwargs = {
-            'status': {'read_only': True},
+            "status": {"read_only": True},
         }
 
     def get_user(self, obj):
@@ -75,14 +76,14 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
         ]
         ordering_fields = ["title"]
         extra_kwargs = {
-            'status': {'read_only': True},
+            "status": {"read_only": True},
         }
 
     def get_offer(self, obj):
         """
         Project get offers serializer function
         """
-        #qs = obj.offers.filter(state="a")
+        # qs = obj.offers.filter(state="a")
         qs = obj.offers.all()
         return OfferSerializer(qs, context=self.context, many=True).data
 
@@ -152,7 +153,7 @@ class OfferSerializer(ModelOwnerSerializer):
         return OfferStepSerializer(qs, context=self.context, many=True).data
 
     def create(self, validated_data):
-        if validated_data['project'].party == validated_data['party']:
+        if validated_data["project"].party == validated_data["party"]:
             raise serializers.ValidationError(
                 {"no_feild_erros": "operation not permmited"}
             )
