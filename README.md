@@ -16,3 +16,17 @@ pylint --load-plugins pylint_django --fail-under=9 --django-settings-module=midl
 
 Please edit .pylintrc for ignoring folder.
 
+## Create Fixture
+
+```sh
+python -Xutf8 manage.py dumpdata > fixture.json
+```
+
+## Test Api
+
+For test api use this command
+
+```sh
+python manage.py test user/tests/
+python manage.py test user.tests.test_user
+```
