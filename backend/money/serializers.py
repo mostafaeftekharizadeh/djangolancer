@@ -30,6 +30,7 @@ class CardTransferSerializer(ModelOwnerSerializer):
 
     def create(self, validated_data):
         obj = super().create(validated_data)
+        print(obj.created_at)
         if obj.created_at is None:
             raise serializers.ValidationError({"non_field_errors": "cant transfer!"})
         return obj

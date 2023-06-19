@@ -17,6 +17,7 @@ from configuration.models import (
     Status,
     ViewStatus,
 )
+from rest_framework import status
 
 
 class ConfigurationTestCase(TestCase):
@@ -24,261 +25,188 @@ class ConfigurationTestCase(TestCase):
     configuration test case
     """
 
-    fixtures = ["auth.json"]
+    # fixtures = ["auth.json"]
 
-    def setUp(self):
-        pass
+    # def setUp(self):
+    #     pass
+
+    fixtures = ["user.json", "level.json", "category.json", "skill.json"]
 
     def test_bank(self):
         """
-        configuration bank test case
+        Bank Test
         """
-        data = {"name": "test bank", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post("/api/v1/configuration/bank/", data, format="json")
-        assert response.status_code == 201
-        bank = Bank.objects.get(name="test bank")
+        Bank.objects.create(name="TestBank", active=True)
+        bank = Bank.objects.get(name="TestBank")
         assert bank is not None
-
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post("/api/v1/configuration/bank/", data, format="json")
-        assert response.status_code == 403
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/bank/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.get("/api/v1/configuration/bank/" + str(bank.id) + "/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_category(self):
         """
-        configuration category test case
+        Category Test
         """
-        data = {"name": "test category", "type": "w", "parent": "", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post("/api/v1/configuration/category/", data, format="json")
-        assert response.status_code == 201
-        category = Category.objects.get(name="test category")
+        Category.objects.create(name="TestCategory", active=True)
+        category = Category.objects.get(name="TestCategory")
         assert category is not None
-
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post("/api/v1/configuration/category/", data, format="json")
-        assert response.status_code == 403
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/category/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_complain_type(self):
-        """
-        configuration Complain Type test case
-        """
-        data = {"name": "test Complain_Type", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post(
-            "/api/v1/configuration/complain_type/", data, format="json"
+        response = client.get(
+            "/api/v1/configuration/category/" + str(category.id) + "/"
         )
-        assert response.status_code == 201
-        complain_type = ComplainType.objects.get(name="test Complain_Type")
-        assert complain_type is not None
-
-        client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post(
-            "/api/v1/configuration/complain_type/", data, format="json"
-        )
-        assert response.status_code == 403
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_currency(self):
         """
-        configuration currency test case
+        Currency Test
         """
-        data = {"name": "test currency", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post("/api/v1/configuration/currency/", data, format="json")
-        assert response.status_code == 201
-        currency = Currency.objects.get(name="test currency")
+        Currency.objects.create(name="TestCurrency", active=True)
+        currency = Currency.objects.get(name="TestCurrency")
         assert currency is not None
-
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post("/api/v1/configuration/currency/", data, format="json")
-        assert response.status_code == 403
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/currency/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.get(
+            "/api/v1/configuration/currency/" + str(currency.id) + "/"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_degree(self):
         """
-        configuration degree test case
+        Degree Test
         """
-        data = {"name": "test degree", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post("/api/v1/configuration/degree/", data, format="json")
-        assert response.status_code == 201
-        degree = Degree.objects.get(name="test degree")
+        Degree.objects.create(name="TestDegre", active=True)
+        degree = Degree.objects.get(name="TestDegre")
         assert degree is not None
-
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post("/api/v1/configuration/degree/", data, format="json")
-        assert response.status_code == 403
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/degree/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.get("/api/v1/configuration/degree/" + str(degree.id) + "/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_estimate(self):
         """
-        configuration estimate test case
+        Estimate Test
         """
-        data = {"name": "test estimate", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post("/api/v1/configuration/estimate/", data, format="json")
-        assert response.status_code == 201
-        estimate = Estimate.objects.get(name="test estimate")
+        Estimate.objects.create(name="TestEstimate", active=True)
+        estimate = Estimate.objects.get(name="TestEstimate")
         assert estimate is not None
-
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post("/api/v1/configuration/estimate/", data, format="json")
-        assert response.status_code == 403
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/estimate/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.get(
+            "/api/v1/configuration/estimate/" + str(estimate.id) + "/"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_language(self):
         """
-        configuration language test case
+        Language Test
         """
-        data = {"name": "test language", "symbol": "TL", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post("/api/v1/configuration/language/", data, format="json")
-        assert response.status_code == 201
-        language = Language.objects.get(name="test language")
+        Language.objects.create(name="Testlanguage", active=True)
+        language = Language.objects.get(name="Testlanguage")
         assert language is not None
-
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post("/api/v1/configuration/language/", data, format="json")
-        assert response.status_code == 403
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/language/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.get(
+            "/api/v1/configuration/language/" + str(language.id) + "/"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_level(self):
         """
-        configuration level test case
+        Level Test
         """
-        data = {"name": "test level", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post("/api/v1/configuration/level/", data, format="json")
-        assert response.status_code == 201
-        level = Level.objects.get(name="test level")
+        Level.objects.create(name="Testlevel", active=True)
+        level = Level.objects.get(name="Testlevel")
         assert level is not None
-
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post("/api/v1/configuration/level/", data, format="json")
-        assert response.status_code == 403
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/level/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.get("/api/v1/configuration/level/" + str(level.id) + "/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_profile_type(self):
         """
-        configuration language test case
+        ProfileType Test
         """
-        data = {"name": "test profile_type", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post(
-            "/api/v1/configuration/profile_type/", data, format="json"
-        )
-        assert response.status_code == 201
-        profile_type = ProfileType.objects.get(name="test profile_type")
+        ProfileType.objects.create(name="Testprofile_type", active=True)
+        profile_type = ProfileType.objects.get(name="Testprofile_type")
         assert profile_type is not None
-
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post(
-            "/api/v1/configuration/profile_type/", data, format="json"
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/profile_type/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.get(
+            "/api/v1/configuration/profile_type/" + str(profile_type.id) + "/"
         )
-        assert response.status_code == 403
-
-    def test_skill(self):
-        """
-        configuration skill test case
-        """
-        data = {
-            # "category" : NULL,
-            "name": "test skill",
-            "active": True,
-        }
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post("/api/v1/configuration/skill/", data, format="json")
-        assert response.status_code == 201
-        skill = Skill.objects.get(name="test skill")
-        assert skill is not None
-
-        client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post("/api/v1/configuration/skill/", data, format="json")
-        assert response.status_code == 403
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_status(self):
         """
-        configuration status test case
+        Status Test
         """
-        data = {"name": "test status", "active": True}
+        Status.objects.create(name="Teststatus", default=False, active=True)
+        status_obj = Status.objects.get(name="Teststatus")
+        assert status_obj is not None
         client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post("/api/v1/configuration/status/", data, format="json")
-        assert response.status_code == 201
-        status = Status.objects.get(name="test status")
-        assert status is not None
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/status/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+        response = client.get(
+            "/api/v1/configuration/status/" + str(status_obj.id) + "/"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_skill(self):
+        """
+        Skill Test
+        """
+        Skill.objects.create(name="Testskill", active=True)
+        skill = Skill.objects.get(name="Testskill")
+        assert skill is not None
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post("/api/v1/configuration/status/", data, format="json")
-        assert response.status_code == 403
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/skill/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.get("/api/v1/configuration/skill/" + str(skill.id) + "/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_view_status(self):
         """
-        configuration view status test case
+        ViewStatus Test
         """
-        data = {"name": "test view_status", "active": True}
-        client = APIClient()
-        client.login(username="service", password="ser12345")
-        response = client.post(
-            "/api/v1/configuration/view_status/", data, format="json"
-        )
-        assert response.status_code == 201
-        view_status = ViewStatus.objects.get(name="test view_status")
+        ViewStatus.objects.create(name="TestViewStatus", active=True)
+        view_status = ViewStatus.objects.get(name="TestViewStatus")
         assert view_status is not None
-
         client = APIClient()
-        client.login(username="testuser1", password="testuser1")
-        response = client.post(
-            "/api/v1/configuration/view_status/", data, format="json"
+        client.login(username="989120000010", password="1")
+        response = client.get("/api/v1/configuration/view_status/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.get(
+            "/api/v1/configuration/view_status/" + str(view_status.id) + "/"
         )
-        assert response.status_code == 403
-
-    # def test_work_category(self):
-    #     data = {
-    #         "name" : "test work_category",
-    #         "active" : True
-    #     }
-    #     client = APIClient()
-    #     client.login(username='service', password='ser12345')
-    #     response = client.post('/api/v1/configuration/work_category/', data, format='json')
-    #     assert response.status_code == 201
-    #     work_category = work_category.objects.get(name="test work_category")
-    #     assert work_category is not None
-
-    #     client = APIClient()
-    #     client.login(username='testuser1', password='testuser1')
-    #     response = client.post('/api/v1/configuration/work_category/', data, format='json')
-    #     assert response.status_code == 403
-
-    # def test_site(self):
-    #     data = {
-    #         "name" : "test site",
-    #         "active" : True
-    #     }
-    #     client = APIClient()
-    #     client.login(username='service', password='ser12345')
-    #     response = client.post('/api/v1/configuration/site/', data, format='json')
-    #     assert response.status_code == 201
-    #     site = Site.objects.get(name="test site")
-    #     assert site is not None
-
-    #     client = APIClient()
-    #     client.login(username='testuser1', password='testuser1')
-    #     response = client.post('/api/v1/configuration/site/', data, format='json')
-    #     assert response.status_code == 403
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

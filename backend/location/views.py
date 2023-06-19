@@ -24,6 +24,7 @@ class PlaceViewSet(ModelViewSet):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
     permission_classes = [IsAdminOrReadOnly]
+    http_method_names = ["get"]
     logger = _logger
 
 
@@ -35,6 +36,7 @@ class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
     permission_classes = [IsAdminOrReadOnly]
+    http_method_names = ["get"]
     logger = _logger
 
 
@@ -46,6 +48,7 @@ class StateViewSet(ModelViewSet):
     queryset = State.objects.all()
     serializer_class = StateSerializer
     permission_classes = [IsAdminOrReadOnly]
+    http_method_names = ["get"]
     logger = _logger
 
 
@@ -57,4 +60,5 @@ class CityViewSet(ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
     permission_classes = [IsAdminOrReadOnly]
+    http_method_names = ["get"]
     logger = _logger

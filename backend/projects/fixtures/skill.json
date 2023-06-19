@@ -3,7 +3,7 @@
     "model": "configuration.skill",
     "pk": "0129d54a-31ce-4afd-b719-f8acb67be527",
     "fields": {
-      "category": "58e61bf8-1d0b-42ec-86c2-4350d16ead22",
+      "category": "c9cac280-24c5-4126-afe9-2b8f730427e8",
       "name": "Python",
       "active": true
     }
@@ -12,7 +12,7 @@
     "model": "configuration.skill",
     "pk": "146f2e54-19b1-459e-a6a4-6d92df9953ec",
     "fields": {
-      "category": "58e61bf8-1d0b-42ec-86c2-4350d16ead22",
+      "category": "c9cac280-24c5-4126-afe9-2b8f730427e8",
       "name": "PHP",
       "active": true
     }
@@ -21,7 +21,7 @@
     "model": "configuration.skill",
     "pk": "f8f72374-37cd-4b51-ae84-31849868cf00",
     "fields": {
-      "category": "58e61bf8-1d0b-42ec-86c2-4350d16ead22",
+      "category": "c9cac280-24c5-4126-afe9-2b8f730427e8",
       "name": "React",
       "active": true
     }
