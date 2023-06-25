@@ -30,3 +30,16 @@ For test api use this command
 python manage.py test user/tests/
 python manage.py test user.tests.test_user
 ```
+
+docker Compose Environment:
+ALLOWED_HOSTS
+DEBUG
+SECRET_KEY
+IPPANEL_SECRET
+CORS_ALLOWED_ORIGINS
+DB_ENGIN : sqlite,mysql
+    DB_NAME
+    DB_USER
+    DB_PASS
+    DB_HOST
+    DB_PORT

@@ -18,18 +18,23 @@ env = environ.Env()
 SITE_ID = 1
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env(
+
+# SECRET_KEY = env(
+#     "SECRET_KEY",
+#     default="django-insecure-w34chp8@_0iwp2s%g_(=qb!#y3tqqcwtckk-33l^&#f-f8+6+8",  # type: ignore
+# )
+SECRET_KEY = os.environ.get(
     "SECRET_KEY",
-    default="django-insecure-w34chp8@_0iwp2s%g_(=qb!#y3tqqcwtckk-33l^&#f-f8+6+8",  # type: ignore
+    default="django-insecure-w34chp8@_0iwp2s%g_(=qb!#y3tqqcwtckk-33l^&#f-f8+6+8",
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG", default=True)  # type: ignore
+# DEBUG = env("DEBUG", default=True)  # type: ignore
+DEBUG = os.environ.get("DEBUG", default=True)  # type: ignore
+
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])  # type: ignore
-print(ALLOWED_HOSTS)
-
-
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])  # type: ignore
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,7 +50,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
-    "drf_test_generator",
     "user",
     "location",
     "projects",
@@ -93,9 +97,24 @@ WSGI_APPLICATION = "midlancer.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    "default": env.db_url("DB_URL", default="sqlite:///db.sqlite3"),  # type: ignore
-}
+# DATABASES = {
+#     "default": env.db_url("DB_URL", default="sqlite:///db.sqlite3"),  # type: ignore
+# }
+if os.environ.get("DB_ENGIN") == "sqlite":
+    DATABASES = {
+        "default": "sqlite:///db.sqlite3",  # type: ignore
+    }
+if os.environ.get("DB_ENGIN") == "mysql":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.environ.get("DB_NAME"),
+            "USER": os.environ.get("DB_USER"),
+            "PASSWORD": os.environ.get("DB_PASS"),
+            "HOST": os.environ.get("DB_HOST"),
+            "PORT": os.environ.get("DB_PORT"),
+        }
+    }
 
 
 # Password validation
@@ -174,7 +193,16 @@ MIDLANCER_APPS = [
 
 AUTH_PROFILE_MODULE = "user.Profile"
 
-CORS_ALLOWED_ORIGINS = env(
+# CORS_ALLOWED_ORIGINS = env(
+#     "CORS_ALLOWED_ORIGINS",
+#     default=[
+#         "http://localhost:8000",  # type: ignore
+#         "http://127.0.0.1:8000",  # type: ignore
+#         "http://localhost:3000",  # type: ignore
+#         "http://127.0.0.1:3000",  # type: ignore
+#     ],
+# )
+CORS_ALLOWED_ORIGINS = os.environ.get(
     "CORS_ALLOWED_ORIGINS",
     default=[
         "http://localhost:8000",  # type: ignore
@@ -213,8 +241,9 @@ LOGGING = {
 
 # expire otp code in minutes
 OTP_EXPIRE_TIME = 120
-IPPANEL_SECRET = env("IPPANEL_SECRET", default="")  # type: ignore
-print(IPPANEL_SECRET)
+# IPPANEL_SECRET = env("IPPANEL_SECRET", default="")  # type: ignore
+IPPANEL_SECRET = os.environ.get("IPPANEL_SECRET", default="")  # type: ignore
+
 
 MEDIA_ROOT = BASE_DIR / "media/"
 MEDIA_URL = "/media/"
