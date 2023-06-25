@@ -33,7 +33,7 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get("DEBUG", default=True)  # type: ignore
 
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])  # type: ignore
+# ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])  # type: ignore
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])  # type: ignore
 # Application definition
 
