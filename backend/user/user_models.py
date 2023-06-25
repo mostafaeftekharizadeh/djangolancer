@@ -82,7 +82,8 @@ class Party(BaseModel):
         on_delete=models.CASCADE,
     )
     deleted_date = models.DateTimeField(null=True, blank=True)
-
+    def __str__(self):
+        return self.user.first_name+" "+self.user.last_name+"-"+ self.user.mobile+" "
 
 class Otp(models.Model):
     """

@@ -61,6 +61,17 @@ class Wallet(BaseModel):
 
         return False
 
+    def __str__(self):
+        return (
+            self.party.user.first_name
+            + " "
+            + self.party.user.last_name
+            + "-"
+            + self.party.user.mobile
+            + "::"
+            + str(self.balance)
+        )
+
 
 class CardTransfer(BaseModel):
     """

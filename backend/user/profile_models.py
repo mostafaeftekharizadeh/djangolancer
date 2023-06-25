@@ -10,6 +10,7 @@ from configuration.models import Level, Degree, Language as BaseLanguage
 from configuration.models import Skill as BaseSkill
 from .user_models import Party
 
+
 # pylint: disable=too-many-ancestors
 class Profile(models.Model):
     """
@@ -71,6 +72,16 @@ class Profile(models.Model):
     is_employer = models.BooleanField(default=False)
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return (
+            self.party.user.first_name
+            + " "
+            + self.party.user.last_name
+            + "-"
+            + self.party.user.mobile
+            + " "
+        )
 
 
 class Contact(BaseModel):

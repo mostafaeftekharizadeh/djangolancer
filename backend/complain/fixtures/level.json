@@ -1,0 +1,12 @@
+[
+  {
+    "model": "configuration.level",
+    "pk": "68472fb1-f357-477b-9c05-2bcd44d31326",
+    "fields": { "name": "تازه کار", "active": true }
+  },
+  {
+    "model": "configuration.level",
+    "pk": "ab17f201-27d5-4d2a-866e-abab78dada50",
+    "fields": { "name": "حرفه ای", "active": true }
+  }
+]

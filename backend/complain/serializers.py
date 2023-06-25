@@ -12,7 +12,7 @@ class ComplainSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Complain
-        fields = ["description"]
+        fields = "__all__"
 
 
 class ResultComplainSerializer(serializers.HyperlinkedModelSerializer):

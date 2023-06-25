@@ -212,7 +212,8 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
     """
 
     mobile = serializers.CharField(required=True)
-    otp_token = serializers.CharField(write_only=True, required=True)
+    # otp_token = serializers.CharField(write_only=True, required=True)
+    old_password = serializers.CharField(write_only=True, required=True)
     password = serializers.CharField(
         write_only=True, required=True, validators=[validate_password]
     )
@@ -224,12 +225,23 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         """
 
         model = User
-        fields = ("mobile", "otp_token", "password", "password2")
+        fields = ("mobile",'old_password',  "password", "password2")
+        
+        
 
     def validate(self, attrs):
         """
         global validation
-        """
+        """        
+        user = User.objects.get(mobile=attrs["mobile"])
+        print("-----------------------------------------------")
+        print(attrs)
+        print("-----------------------------------------------")
+        if not user.check_password(attrs["old_password"]):
+            raise serializers.ValidationError(
+                {"password": "dont valid old Password "}
+            )
+        
         if attrs["password"] != attrs["password2"]:
             raise serializers.ValidationError(
                 {"password": "Password fields didn't match."}
@@ -243,18 +255,20 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         we need to check if the user has access to change password
         with OTP validation
         """
-        try:
-            # check if otp token is valid, then expire otp_token
-            otp = Otp.objects.get(
-                mobile=format_mobile_number(validated_data["mobile"]),
-                token=validated_data["otp_token"],
-                activated_at__isnull=False,
-            )
-            otp.save()
-        except Exception as exc:
-            _logger.error(exc)
-            raise serializers.ValidationError({"otp_token": "invalid"})
-        user = User.objects.get(mobile=otp.mobile)
+        # try:
+        #     # check if otp token is valid, then expire otp_token
+        #     otp = Otp.objects.get(
+        #         mobile=format_mobile_number(validated_data["mobile"]),
+        #         token=validated_data["otp_token"],
+        #         activated_at__isnull=False,
+        #     )
+        #     otp.save()
+        # except Exception as exc:
+        #     _logger.error(exc)
+        #     raise serializers.ValidationError({"otp_token": "invalid"})        
+        # user = User.objects.get(mobile=otp.mobile)
+
+        user = User.objects.get(mobile=instance)
         user.set_password(validated_data.get("password"))
         user.save()
 
