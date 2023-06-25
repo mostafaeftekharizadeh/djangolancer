@@ -6,3 +6,4 @@ drf_yasg==1.21.5
 ippanel==2.0.7
 jdatetime==4.1.0
 python_dateutil==2.8.2
+django-cors-headers==4.1.0
