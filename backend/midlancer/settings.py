@@ -202,14 +202,27 @@ AUTH_PROFILE_MODULE = "user.Profile"
 #         "http://127.0.0.1:3000",  # type: ignore
 #     ],
 # )
-CORS_ALLOWED_ORIGINS = os.environ.get(
-    "CORS_ALLOWED_ORIGINS",
-    default=[
-        "http://localhost:8000",  # type: ignore
-        "http://127.0.0.1:8000",  # type: ignore
-        "http://localhost:3000",  # type: ignore
-        "http://127.0.0.1:3000",  # type: ignore
-    ],
+CORS_ALLOWED_ORIGINS = list(
+    os.environ.get(
+        "CORS_ALLOWED_ORIGINS",
+        default=[
+            "http://localhost:8000",  # type: ignore
+            "http://127.0.0.1:8000",  # type: ignore
+            "http://localhost:3000",  # type: ignore
+            "http://127.0.0.1:3000",  # type: ignore
+        ],
+    )
+)
+CSRF_TRUSTED_ORIGINS = list(
+    os.environ.get(
+        "CORS_ALLOWED_ORIGINS",
+        default=[
+            "http://localhost:8000",  # type: ignore
+            "http://127.0.0.1:8000",  # type: ignore
+            "http://localhost:3000",  # type: ignore
+            "http://127.0.0.1:3000",  # type: ignore
+        ],
+    )
 )
 
 LOGGING = {
