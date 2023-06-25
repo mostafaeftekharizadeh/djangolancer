@@ -27,6 +27,7 @@ SECRET_KEY = env(
 DEBUG = env("DEBUG", default=True)  # type: ignore
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])  # type: ignore
+print(ALLOWED_HOSTS)
 
 
 # Application definition
@@ -213,6 +214,7 @@ LOGGING = {
 # expire otp code in minutes
 OTP_EXPIRE_TIME = 120
 IPPANEL_SECRET = env("IPPANEL_SECRET", default="")  # type: ignore
+print(IPPANEL_SECRET)
 
 MEDIA_ROOT = BASE_DIR / "media/"
 MEDIA_URL = "/media/"
