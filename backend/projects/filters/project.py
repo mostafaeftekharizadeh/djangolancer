@@ -20,6 +20,9 @@ class ProjectFilter(FilterSet):
     level = CharInFilter(field_name="level", lookup_expr="in")
     category = CharInFilter(field_name="category", lookup_expr="in")
     sub_category = CharInFilter(field_name="sub_category", lookup_expr="in")
+
+    # category = CharInFilter(field_name="category__name", lookup_expr="in")
+    # sub_category = CharInFilter(field_name="sub_category__name", lookup_expr="in")
     status = CharInFilter(field_name="status", lookup_expr="in")
 
     class Meta:
@@ -40,10 +43,11 @@ class ProjectFilter(FilterSet):
         QueryString filter
         """
         q = queryset.filter(
-            Q(title__icontains=value)
+            Q(title__icontains=value) | Q(category__name__icontains=value)
         )
         return q
-    '''
+
+    """
     @property
     def qs(self):
         q = self.request.query_params.get("q", None)
@@ -63,4 +67,4 @@ class ProjectFilter(FilterSet):
             )
         print(qs.query)
         return qs
-    '''
+    """

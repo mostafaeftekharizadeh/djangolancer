@@ -3,8 +3,9 @@ User Profile api endpoints module
 """
 import logging
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import permissions
+from rest_framework import status, permissions
 from rest_framework.parsers import MultiPartParser
+from rest_framework.response import Response
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
 from .filters.profile import ProfileFilter
@@ -112,6 +113,15 @@ class SkillViewSet(ModelViewSet):
     permission_classes = [IsOwnerOrReadOnly]
     http_method_names = ["get", "post", "head", "delete"]
     logger = _logger
+
+    def destroy(self, request, *args, **kwargs):
+        """
+        set user active=false on user delete
+        """
+        user = getattr(self.request, "user", None)
+        Skill.objects.filter(party__user=user, skill__id=kwargs["pk"]).delete()
+
+        return Response({"detail": "delete success"}, status=status.HTTP_200_OK)
 
 
 class JobViewSet(ModelViewSet):

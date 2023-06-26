@@ -19,23 +19,22 @@ SITE_ID = 1
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-# SECRET_KEY = env(
-#     "SECRET_KEY",
-#     default="django-insecure-w34chp8@_0iwp2s%g_(=qb!#y3tqqcwtckk-33l^&#f-f8+6+8",  # type: ignore
-# )
-SECRET_KEY = os.environ.get(
+SECRET_KEY = env(
     "SECRET_KEY",
-    default="django-insecure-w34chp8@_0iwp2s%g_(=qb!#y3tqqcwtckk-33l^&#f-f8+6+8",
+    default="django-insecure-w34chp8@_0iwp2s%g_(=qb!#y3tqqcwtckk-33l^&#f-f8+6+8",  # type: ignore
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = env("DEBUG", default=True)  # type: ignore
-DEBUG = os.environ.get("DEBUG", default=True)  # type: ignore
 
+DEBUG = bool(os.environ.get("DEBUG", "True"))
 
-# ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])  # type: ignore
-ALLOWED_HOSTS = list(os.environ.get("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"]))  # type: ignore
-# Application definition
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS.extend(
+    filter(
+        None,
+        os.environ.get("ALLOWED_HOSTS", "").split(","),
+    )
+)
 
 INSTALLED_APPS = [
     # 'jazzmin',
@@ -97,13 +96,18 @@ WSGI_APPLICATION = "midlancer.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": env.db_url("DB_URL", default="sqlite:///db.sqlite3"),  # type: ignore
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "db.sqlite3",
+    }
+}
+
 if os.environ.get("DB_ENGIN") == "sqlite":
     DATABASES = {
-        "default": "sqlite:///db.sqlite3",  # type: ignore
+        "default": env.db_url("DB_URL", default="sqlite:///db.sqlite3"),  # type: ignore
     }
+
 if os.environ.get("DB_ENGIN") == "mysql":
     DATABASES = {
         "default": {
@@ -115,7 +119,6 @@ if os.environ.get("DB_ENGIN") == "mysql":
             "PORT": os.environ.get("DB_PORT"),
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -193,33 +196,21 @@ MIDLANCER_APPS = [
 
 AUTH_PROFILE_MODULE = "user.Profile"
 
-# CORS_ALLOWED_ORIGINS = env(
-#     "CORS_ALLOWED_ORIGINS",
-#     default=[
-#         "http://localhost:8000",  # type: ignore
-#         "http://127.0.0.1:8000",  # type: ignore
-#         "http://localhost:3000",  # type: ignore
-#         "http://127.0.0.1:3000",  # type: ignore
-#     ],
-# )
-CORS_ALLOWED_ORIGINS = os.environ.get(
-    "CORS_ALLOWED_ORIGINS",
-    default=[
-        "http://localhost:8000",  # type: ignore
-        "http://127.0.0.1:8000",  # type: ignore
-        "http://localhost:3000",  # type: ignore
-        "http://127.0.0.1:3000",  # type: ignore
-    ],
+
+CORS_ALLOWED_ORIGINS = ["http://127.0.0.1", "http://localhost", "http://localhost:3000"]
+CORS_ALLOWED_ORIGINS.extend(
+    filter(
+        None,
+        os.environ.get("CORS_ALLOWED_ORIGINS", "").split(","),
+    )
 )
 
-CSRF_TRUSTED_ORIGINS = os.environ.get(
-    "CORS_ALLOWED_ORIGINS",
-    default=[
-        "http://localhost:8000",  # type: ignore
-        "http://127.0.0.1:8000",  # type: ignore
-        "http://localhost:3000",  # type: ignore
-        "http://127.0.0.1:3000",  # type: ignore
-    ],
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1", "http://localhost", "http://localhost:3000"]
+CSRF_TRUSTED_ORIGINS.extend(
+    filter(
+        None,
+        os.environ.get("CORS_ALLOWED_ORIGINS", "").split(","),
+    )
 )
 
 
@@ -252,7 +243,6 @@ LOGGING = {
 
 # expire otp code in minutes
 OTP_EXPIRE_TIME = 120
-# IPPANEL_SECRET = env("IPPANEL_SECRET", default="")  # type: ignore
 IPPANEL_SECRET = os.environ.get("IPPANEL_SECRET", default="")  # type: ignore
 
 

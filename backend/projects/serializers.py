@@ -155,7 +155,7 @@ class OfferSerializer(ModelOwnerSerializer):
     def create(self, validated_data):
         if validated_data["project"].party == validated_data["party"]:
             raise serializers.ValidationError(
-                {"no_feild_erros": "operation not permmited"}
+                {"no_feild_erros": "You cannot make an offer on your own project"}
             )
         offer = super().create(validated_data)
         offer_step = OfferStep(
