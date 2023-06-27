@@ -9,6 +9,8 @@ from .dashboard_serializers import (
     EmployeeDashboardSerializer,
     EmployerDashboardSerializer,
 )
+from .profile_models import Party
+from money.models import Wallet, Transaction
 
 
 _logger = logging.getLogger("midlancer.api.user.dashboard")
@@ -51,6 +53,10 @@ class EmployerDashboardViewSet(ModelViewSet):
     http_method_names = ["get"]
 
     def get_queryset(self):
+        party = Party.objects.get(id=self.request.user.party.id)
+        if Party.objects.get(id=self.request.user.party.id).wallet.count() == 0:
+            Wallet.objects.create(party=party, balance=0).save()
+
         queryset = (
             Profile.objects.filter(party_id=self.request.user.party.id)
             .select_related("party__user")

@@ -52,7 +52,25 @@ class FileViewSet(ModelViewSet):
     logger = _logger
 
     def get_queryset(self):
-        query_set = self.queryset.filter(project=self.kwargs["project"])
+        query_set = File.objects.filter(project=self.kwargs["pk"]).all()
+        return query_set
+
+
+class FileListViewSet(ModelViewSet):
+    """
+    File endpoint Viewset
+    """
+
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+    parser_classes = (FormParser, MultiPartParser)
+    http_method_names = ["get"]
+    logger = _logger
+
+    def get_queryset(self):
+        project = Project.objects.get(pk=self.kwargs["project"])
+        query_set = File.objects.filter(project=project).all()
         return query_set
 
 
@@ -89,6 +107,29 @@ class MyOfferViewSet(ModelViewSet):
         offer = Offer.objects.all()
         query_set = self.queryset.filter(party=self.request.user.party)
 
+        return query_set
+
+
+class OfferDeatilViewSet(ModelViewSet):
+    """
+    return Offer detail endpoint Viewset
+    """
+
+    queryset = Offer.objects.all()
+    serializer_class = OfferSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
+    filter_backends = (DjangoFilterBackend,)
+    # filterset_class = OfferFilter
+    logger = _logger
+
+    def get_queryset(self):
+        """
+        Offer get function
+        """
+        query_set = self.queryset.filter(
+            pk=self.kwargs["id"], party=self.request.user.party
+        )
         return query_set
 
 
@@ -173,7 +214,7 @@ class OfferViewSet(ModelViewSet):
         target = offer.party.wallet.all().first()
         if not wallet.transfer(target, offer.cost, offer.project):
             raise serializers.ValidationError("Payment Error!")
-        offer.state = "p"
+        offer.state = "c"
         offer.save()
         offer.project.Close()
         serializer = self.serializer_class(instance=offer, context={"request": request})
