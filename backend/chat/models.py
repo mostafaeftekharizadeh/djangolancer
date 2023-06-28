@@ -2,6 +2,7 @@
 Chat Models
 """
 import os
+import hashlib
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
@@ -46,12 +47,14 @@ class Message(BaseModel):
     Chat Message model
     """
 
-    def hash_upload(self, instance, filename):
+    def hash_upload(instance, filename):
         """
         Hashing upload
         """
         fname, ext = os.path.splitext(filename)
-        return f"message/{instance.id}{ext}".format()
+        return "message/{0}{1}".format(
+            hashlib.md5(fname.encode("utf-8")).hexdigest(), ext
+        )
 
     party = models.ForeignKey(
         Party, null=False, related_name="source", on_delete=models.CASCADE

@@ -3,7 +3,7 @@ Chat Api endpoint Viewset
 """
 import logging
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework import permissions
 from library.viewsets import ModelViewSet
 from .permissions.message import MessagePermission
@@ -50,7 +50,8 @@ class MessageViewSet(ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     permission_classes = (MessagePermission,)
-    parser_classes = (MultiPartParser,)
+    # parser_classes = (MultiPartParser,)
+    parser_classes = (FormParser, MultiPartParser)
     http_method_names = ["post", "get", "head"]
     logger = _logger
 

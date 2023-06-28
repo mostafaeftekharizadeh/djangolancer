@@ -137,6 +137,10 @@ class File(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     project_file = models.FileField(upload_to=hash_upload, null=True, blank=True)
 
+    # def save(self, *args, **kwargs):
+    #     chat
+    #     super().save()
+
 
 class Cost(BaseModel):
     """
