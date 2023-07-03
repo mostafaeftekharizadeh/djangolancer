@@ -197,7 +197,12 @@ MIDLANCER_APPS = [
 AUTH_PROFILE_MODULE = "user.Profile"
 
 
-CORS_ALLOWED_ORIGINS = ["http://127.0.0.1", "http://localhost", "http://localhost:3000"]
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1",
+    "http://localhost",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
 CORS_ALLOWED_ORIGINS.extend(
     filter(
         None,
@@ -205,7 +210,12 @@ CORS_ALLOWED_ORIGINS.extend(
     )
 )
 
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1", "http://localhost", "http://localhost:3000"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1",
+    "http://localhost",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000/",
+]
 CSRF_TRUSTED_ORIGINS.extend(
     filter(
         None,

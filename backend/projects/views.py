@@ -127,9 +127,11 @@ class OfferDeatilViewSet(ModelViewSet):
         """
         Offer get function
         """
+
         query_set = self.queryset.filter(
             pk=self.kwargs["id"], party=self.request.user.party
-        )
+        ).all()
+        print(query_set.count())
         return query_set
 
 
