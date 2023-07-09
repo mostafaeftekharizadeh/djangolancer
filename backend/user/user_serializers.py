@@ -9,6 +9,7 @@ from django.utils.timezone import get_current_timezone
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.password_validation import validate_password
+from django.db.models import Avg, Window
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework.authtoken.models import Token
@@ -268,8 +269,6 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
                 _logger.error(exc)
                 raise serializers.ValidationError({"otp_token": "invalid"})
             # user = User.objects.get(mobile=otp.mobile)
-
-        print(validated_data["mobile"])
         user = User.objects.get(mobile=validated_data["mobile"])
         user.set_password(validated_data.get("password"))
         user.save()
@@ -324,4 +323,29 @@ class VoteSerializer(ModelOwnerSerializer):
         """
 
         model = Vote
-        fields = ["user", "voter", "vote"]
+        fields = ["party", "owner", "vote", "opinion"]
+
+
+class VoteSummerySerializer(ModelOwnerSerializer):
+    """
+    summeryze Vote serializer
+    """
+
+    user_vote = serializers.SerializerMethodField()
+
+    def get_user_vote(self, obj):
+        # return 10
+        print("self")
+        print(self.context.get("view").kwargs.get("uid"))
+        print("-----------------------------------------")
+        return Vote.objects.filter(
+            owner=self.context.get("view").kwargs.get("uid")
+        ).aggregate(avg_vote=Avg("vote"))["avg_vote"]
+
+    class Meta:
+        """
+        Meta Class
+        """
+
+        model = Vote
+        fields = ["user_vote"]

@@ -20,6 +20,9 @@ urlpatterns = []
 
 router = routers.DefaultRouter()
 router.register(r"project/project", views.ProjectViewSet, basename="project")
+router.register(
+    r"project/project-offer", views.ProjectOfferViewSet, basename="projectoffer"
+)
 router.register(r"project/file", views.FileViewSet, basename="file")
 router.register(
     r"project/filelist/(?P<project>[^/]+)", views.FileListViewSet, basename="filelist"
@@ -31,6 +34,7 @@ router.register(
 router.register(
     r"project/offer-detail/(?P<id>[^/]+)", views.OfferDeatilViewSet, basename="offer"
 )
+router.register(r"project/factor/(?P<id>[^/]+)", views.FactorViewSet, basename="offer")
 router.register(r"project/offer_step", views.OfferStepViewSet, basename="offer_step")
 router.register(r"project/budget", views.BudgetViewSet, basename="budget")
 router.register(r"project/test", views.NewViewSet, basename="test")

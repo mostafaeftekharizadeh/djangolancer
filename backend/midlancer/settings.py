@@ -176,10 +176,10 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.UserRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {
-        "otp_minute": "6/min",
-        "otp_hour": "60/hour",
-        "anon": "20/min",
-        "user": "40/min",
+        "otp_minute": "16/min",
+        "otp_hour": "600/hour",
+        "anon": "200/min",
+        "user": "400/min",
     },
 }
 
@@ -257,7 +257,7 @@ IPPANEL_SECRET = os.environ.get("IPPANEL_SECRET", default="")  # type: ignore
 
 
 MEDIA_ROOT = BASE_DIR / "media/"
-MEDIA_URL = "/media/"
+MEDIA_URL = "media/"
 STATIC_ROOT = BASE_DIR / "static/"
 AUTH_USER_MODEL = "user.User"
 LOCALE_PATHS = ["locale"]

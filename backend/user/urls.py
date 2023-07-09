@@ -28,7 +28,6 @@ urlpatterns = [
     ### profile urls
     # path('api/v1/user/profile/worksample_file/', profile_views.WorkSampleFileView.as_view(),...
     # ...name='worksample_file_view'),
-    # path('api/v1/user/vote/', user_views.VoteViewSet, name='vote'),
 ]
 
 
@@ -89,4 +88,14 @@ router.register(
     r"user/dashboard/employer",
     dashboard_views.EmployerDashboardViewSet,
     basename="employer_dashboard",
+)
+router.register(
+    r"user/vote",
+    user_views.VoteViewSet,
+    basename="vote",
+)
+router.register(
+    r"user/votesummery/(?P<uid>[^/]+)",
+    user_views.VoteSummeryViewSet,
+    basename="votesummery",
 )

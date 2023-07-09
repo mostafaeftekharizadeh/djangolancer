@@ -45,6 +45,30 @@ class ProjectSerializer(ModelOwnerSerializer):
         return UserSerializer(obj.party.user, context=self.context, many=False).data
 
 
+class ProjectOfferSerializer(ModelOwnerSerializer):
+    """
+    Project Serializer
+    """
+
+    employer = serializers.SerializerMethodField()
+    # employer = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Project
+        fields = "__all__"
+
+    def get_employer(self, obj):
+        """
+        Project get offers serializer function
+        """
+        qs = obj.offers.get(state="p", project=obj.id).party.user
+        return {
+            "id": qs.party.id,
+            "first_name": qs.first_name,
+            "last_name": qs.last_name,
+        }
+
+
 class ProjectDetailSerializer(ModelOwnerSerializer):
     """
     Project detaile Serializer
@@ -56,6 +80,7 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
 
     class Meta:
         model = Project
+        depth = 3
         fields = "__all__"
         fields = [
             "id",
@@ -144,6 +169,42 @@ class OfferSerializer(ModelOwnerSerializer):
     class Meta:
         model = Offer
         fields = "__all__"
+
+    def get_offersteps(self, obj):
+        """
+        Project get offer serializer
+        """
+        qs = obj.offersteps.all()
+        return OfferStepSerializer(qs, context=self.context, many=True).data
+
+    def create(self, validated_data):
+        if validated_data["project"].party == validated_data["party"]:
+            raise serializers.ValidationError(
+                {"no_feild_erros": "You cannot make an offer on your own project"}
+            )
+        offer = super().create(validated_data)
+        offer_step = OfferStep(
+            offer=offer,
+            party=offer.party,
+            duration=offer.duration,
+            title=offer.title,
+            cost=offer.cost,
+        )
+        offer_step.save()
+        return offer
+
+
+class FactorSerializer(ModelOwnerSerializer):
+    """
+    Project offer serializer
+    """
+
+    offersteps = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Offer
+        fields = "__all__"
+        depth = 3
 
     def get_offersteps(self, obj):
         """

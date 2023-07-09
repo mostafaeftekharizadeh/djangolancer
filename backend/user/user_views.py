@@ -3,6 +3,7 @@ user api endpoints module
 """
 import logging
 from django.contrib.auth import get_user_model
+from django.db.models import Avg, Window
 from rest_framework import generics, permissions, status, serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -15,6 +16,8 @@ from .user_serializers import (
     OtpSerializer,
     PartySerializer,
     ChangePasswordSerializer,
+    VoteSerializer,
+    VoteSummerySerializer,
 )
 from .profile_serializers import ProfileSerializer
 from .user_models import Otp
@@ -149,6 +152,24 @@ class VoteViewSet(ModelViewSet):
     """
 
     queryset = Vote.objects.all()
-    serializer_class = Vote
+    serializer_class = VoteSerializer
     permission_classes = [permissions.IsAuthenticated]
     logger = _logger
+
+
+class VoteSummeryViewSet(ModelViewSet):
+    """
+    vote api endpoint
+    """
+
+    queryset = Vote.objects.all()
+    serializer_class = VoteSummerySerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    logger = _logger
+    http_method_names = ["get"]
+
+    # def get_queryset(self):
+    #     # avg()
+    #     # Avg()
+    #     query_set = Vote.objects.filter(owner=self.kwargs["pk"]).aggregate(Avg("vote"))
+    #     return query_set

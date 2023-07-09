@@ -2,7 +2,7 @@
 Projetcs api endpoints module
 """
 import logging
-
+from django.db.models import Q
 from rest_framework import permissions
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework import serializers
@@ -12,12 +12,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from library.viewsets import ModelViewSet
 from library.permissions import IsOwnerOrReadOnly
 from .serializers import (
+    FactorSerializer,
     ProjectSerializer,
     FileSerializer,
     CostSerializer,
     OfferSerializer,
     OfferStepSerializer,
     BudgetSerializer,
+    ProjectOfferSerializer,
 )
 from .models import Project, File, Cost, Offer, OfferStep, Budget
 from .filters.project import ProjectFilter
@@ -33,6 +35,19 @@ class ProjectViewSet(ModelViewSet):
 
     queryset = Project.objects.select_related("party__user")
     serializer_class = ProjectSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ProjectFilter
+    logger = _logger
+
+
+class ProjectOfferViewSet(ModelViewSet):
+    """
+    Project endpoint Viewset
+    """
+
+    queryset = Project.objects.select_related("party__user")
+    serializer_class = ProjectOfferSerializer
     permission_classes = [IsOwnerOrReadOnly]
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ProjectFilter
@@ -117,7 +132,7 @@ class OfferDeatilViewSet(ModelViewSet):
 
     queryset = Offer.objects.all()
     serializer_class = OfferSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     permission_classes = [IsOwnerOrReadOnly]
     filter_backends = (DjangoFilterBackend,)
     # filterset_class = OfferFilter
@@ -129,9 +144,36 @@ class OfferDeatilViewSet(ModelViewSet):
         """
 
         query_set = self.queryset.filter(
-            pk=self.kwargs["id"], party=self.request.user.party
+            Q(pk=self.kwargs["id"]),
+            Q(party=self.request.user.party)
+            | Q(project__party=self.request.user.party),
         ).all()
-        print(query_set.count())
+        return query_set
+
+
+class FactorViewSet(ModelViewSet):
+    """
+    return Offer detail endpoint Viewset
+    """
+
+    queryset = Offer.objects.all()
+    serializer_class = FactorSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
+    filter_backends = (DjangoFilterBackend,)
+    # filterset_class = OfferFilter
+    logger = _logger
+
+    def get_queryset(self):
+        """
+        Offer get function
+        """
+
+        query_set = self.queryset.filter(
+            Q(pk=self.kwargs["id"]),
+            Q(party=self.request.user.party)
+            | Q(project__party=self.request.user.party),
+        ).all()
         return query_set
 
 
@@ -215,8 +257,10 @@ class OfferViewSet(ModelViewSet):
         wallet = offer.project.party.wallet.all().first()
         target = offer.party.wallet.all().first()
         if not wallet.transfer(target, offer.cost, offer.project):
+            if wallet.balance < offer.cost:
+                raise serializers.ValidationError("Dont have enough budjet!")
             raise serializers.ValidationError("Payment Error!")
-        offer.state = "c"
+        offer.state = "p"
         offer.save()
         offer.project.Close()
         serializer = self.serializer_class(instance=offer, context={"request": request})

@@ -70,6 +70,7 @@ class Profile(models.Model):
         Country, on_delete=models.CASCADE, null=True, blank=True
     )
     is_employer = models.BooleanField(default=False)
+    company_name = models.TextField(default="", null=True, blank=True)
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -291,3 +292,4 @@ class Vote(BaseModel):
         Party, related_name="vote_owner", unique=True, on_delete=models.CASCADE
     )
     vote = models.IntegerField(default=0, null=True, blank=True)
+    opinion = models.TextField(default="", null=True, blank=True)
