@@ -136,6 +136,7 @@ class File(BaseModel):
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     project_file = models.FileField(upload_to=hash_upload, null=True, blank=True)
+    comment = models.TextField(default="")
 
     # def save(self, *args, **kwargs):
     #     chat
