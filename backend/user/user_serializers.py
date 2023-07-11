@@ -233,11 +233,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         global validation
         """
         user = User.objects.get(mobile=attrs.get("mobile"))
-        # print("-------------------------------------------")
-        # print(attrs.get("otp_token"))
-        # print(attrs)
         if not attrs.get("otp_token"):
-            # print("+++++++++++++++++++++++++++++++")
             if not user.check_password(attrs.get("old_password")):
                 raise serializers.ValidationError(
                     {"password": "dont valid otp or old Password "}
@@ -334,10 +330,6 @@ class VoteSummerySerializer(ModelOwnerSerializer):
     user_vote = serializers.SerializerMethodField()
 
     def get_user_vote(self, obj):
-        # return 10
-        print("self")
-        print(self.context.get("view").kwargs.get("uid"))
-        print("-----------------------------------------")
         return Vote.objects.filter(
             owner=self.context.get("view").kwargs.get("uid")
         ).aggregate(avg_vote=Avg("vote"))["avg_vote"]

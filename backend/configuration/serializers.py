@@ -107,7 +107,7 @@ class BaseSkillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Skill
-        fields = ["id", "name", "active"]
+        fields = ["id", "name", "active", "category"]
 
 
 class ComplainTypeSerializer(serializers.ModelSerializer):
