@@ -132,6 +132,18 @@ class EmployerDashboardSerializer(ModelOwnerSerializer):
         transaction get Serializers
         """
         qs = obj.party.wallet.all().first().transaction.all().order_by("-created_at")
+        if qs.count() == 0:
+            wallet = obj.party.wallet.all().first()
+            fake_transaction = Transaction()
+            fake_transaction.wallet = wallet
+            fake_transaction.balance = wallet.balance
+            fake_transaction.created_at = wallet.created_at
+            fake_list = []
+            fake_list.append(fake_transaction)
+            return TransactionSerializer(
+                fake_list, context=self.context, many=True
+            ).data
+
         return TransactionSerializer(qs, context=self.context, many=True).data
 
     def get_payment(self, obj):
