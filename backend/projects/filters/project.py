@@ -20,6 +20,7 @@ class ProjectFilter(FilterSet):
     level = CharInFilter(field_name="level", lookup_expr="in")
     category = CharInFilter(field_name="category", lookup_expr="in")
     sub_category = CharInFilter(field_name="sub_category", lookup_expr="in")
+    # cat = CharInFilter(method="q_filter")
 
     # category = CharInFilter(field_name="category__name", lookup_expr="in")
     # sub_category = CharInFilter(field_name="sub_category__name", lookup_expr="in")
@@ -42,9 +43,17 @@ class ProjectFilter(FilterSet):
         """
         QueryString filter
         """
-        q = queryset.filter(
-            Q(title__icontains=value) | Q(category__name__icontains=value)
-        )
+
+        if "cat" in self.data:
+            q = queryset.filter(
+                Q(title__icontains=value)
+                & (
+                    Q(category__name__icontains=self.data["cat"])
+                    | Q(sub_category__name__icontains=self.data["cat"])
+                )
+            )
+        else:
+            q = queryset.filter(Q(title__icontains=value))
         return q
 
     """
