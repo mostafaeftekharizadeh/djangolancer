@@ -18,6 +18,7 @@ from .user_serializers import (
     ChangePasswordSerializer,
     VoteSerializer,
     VoteSummerySerializer,
+    ForgetPasswordSerializer,
 )
 from .profile_serializers import ProfileSerializer
 from .user_models import Otp
@@ -127,6 +128,23 @@ class UserViewSet(ModelViewSet):
         instance.save()
 
         return super().update(request, args, kwargs)
+
+
+class ForgetPasswordView(generics.UpdateAPIView):
+    """
+    change user password
+    """
+
+    queryset = User.objects.all()
+    model = User
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = ForgetPasswordSerializer
+
+    def get_object(self):
+        """
+        return user instance
+        """
+        return self.request.user
 
 
 class ChangePasswordView(generics.UpdateAPIView):

@@ -21,7 +21,12 @@ from . import user_views, profile_views, dashboard_views
 urlpatterns = [
     path("api/v1/user/login/", user_views.LoginView.as_view(), name="login_view"),
     path(
-        "api/v1/user/password/",
+        "api/v1/user/forgetpassword/",
+        user_views.ForgetPasswordView.as_view(),
+        name="forget_password_view",
+    ),
+    path(
+        "api/v1/user/changepassword/",
         user_views.ChangePasswordView.as_view(),
         name="change_password_view",
     ),
