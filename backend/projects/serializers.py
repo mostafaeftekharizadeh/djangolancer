@@ -7,6 +7,29 @@ from user.user_serializers import UserSerializer
 from .models import Project, File, Cost, Offer, OfferStep, Budget
 
 
+class UserProjectSerializer(ModelOwnerSerializer):
+    class Meta:
+        model = Project
+        fields = "__all__"
+        fields = [
+            "id",
+            "title",
+            "category",
+            "sub_category",
+            "level",
+            "skill",
+            "party",
+            
+            
+            
+            
+        ]
+        ordering_fields = ["title"]
+        extra_kwargs = {
+            "status": {"read_only": True},
+        }
+
+    
 # pylint: disable=too-many-ancestors
 class ProjectSerializer(ModelOwnerSerializer):
     """
@@ -32,6 +55,7 @@ class ProjectSerializer(ModelOwnerSerializer):
             "budget_max",
             "status",
             "user",
+            
         ]
         ordering_fields = ["title"]
         extra_kwargs = {

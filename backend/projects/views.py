@@ -20,13 +20,29 @@ from .serializers import (
     OfferStepSerializer,
     BudgetSerializer,
     ProjectOfferSerializer,
+    UserProjectSerializer,
 )
 from .models import Project, File, Cost, Offer, OfferStep, Budget
 from .filters.project import ProjectFilter
 
 _logger = logging.getLogger("midlancer.api.projetcs")
 
+# pylint: disable=too-many-ancestors
+class UserProjectViewSet(ModelViewSet):
+    """
+    User Project endpoint Viewset
+    """
 
+    queryset = Project.objects.select_related("offers").all()
+    serializer_class = ProjectSerializer
+    # permission_classes = [IsOwnerOrReadOnly]
+    # filter_backends = (DjangoFilterBackend,)
+    # filterset_class = ProjectFilter
+    logger = _logger
+    http_method_names = ["get"]
+    def get_queryset(self):            
+        query_set = Project.objects.filter(offers__party_id=self.kwargs["userid"],offers__state='p').all()
+        return query_set
 # pylint: disable=too-many-ancestors
 class ProjectViewSet(ModelViewSet):
     """
