@@ -38,6 +38,7 @@ class SkillSerializer(ModelOwnerSerializer):
 
     class Meta:
         model = Skill
+        # depth= 1
         fields = ["id", "skill", "party", "level"]
 
 

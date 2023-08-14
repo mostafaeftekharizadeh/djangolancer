@@ -19,17 +19,13 @@ class UserProjectSerializer(ModelOwnerSerializer):
             "level",
             "skill",
             "party",
-            
-            
-            
-            
         ]
         ordering_fields = ["title"]
         extra_kwargs = {
             "status": {"read_only": True},
         }
 
-    
+
 # pylint: disable=too-many-ancestors
 class ProjectSerializer(ModelOwnerSerializer):
     """
@@ -55,7 +51,7 @@ class ProjectSerializer(ModelOwnerSerializer):
             "budget_max",
             "status",
             "user",
-            
+            "date",
         ]
         ordering_fields = ["title"]
         extra_kwargs = {

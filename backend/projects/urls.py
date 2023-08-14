@@ -21,6 +21,7 @@ urlpatterns = []
 router = routers.DefaultRouter()
 router.register(r"project/userproject/(?P<userid>[^/]+)", views.UserProjectViewSet, basename="project")
 router.register(r"project/project", views.ProjectViewSet, basename="project")
+router.register(r"project/projectFile/(?P<project>[^/]+)", views.ProjectFileListViewSet, basename="filelist")
 router.register(
     r"project/project-offer", views.ProjectOfferViewSet, basename="projectoffer"
 )

@@ -27,6 +27,7 @@ from .filters.project import ProjectFilter
 
 _logger = logging.getLogger("midlancer.api.projetcs")
 
+
 # pylint: disable=too-many-ancestors
 class UserProjectViewSet(ModelViewSet):
     """
@@ -40,9 +41,14 @@ class UserProjectViewSet(ModelViewSet):
     # filterset_class = ProjectFilter
     logger = _logger
     http_method_names = ["get"]
-    def get_queryset(self):            
-        query_set = Project.objects.filter(offers__party_id=self.kwargs["userid"],offers__state='p').all()
+
+    def get_queryset(self):
+        query_set = Project.objects.filter(
+            offers__party_id=self.kwargs["userid"], offers__state="p"
+        ).all()
         return query_set
+
+
 # pylint: disable=too-many-ancestors
 class ProjectViewSet(ModelViewSet):
     """
@@ -84,6 +90,24 @@ class FileViewSet(ModelViewSet):
 
     def get_queryset(self):
         query_set = File.objects.filter(project=self.kwargs["pk"]).all()
+        return query_set
+
+
+class ProjectFileListViewSet(ModelViewSet):
+    """
+    File endpoint Viewset
+    """
+
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+    parser_classes = (FormParser, MultiPartParser)
+    http_method_names = ["get"]
+    logger = _logger
+
+    def get_queryset(self):
+        project = Project.objects.get(pk=self.kwargs["project"])
+        query_set = File.objects.filter(project=project, party=project.party).all()
         return query_set
 
 
