@@ -16,6 +16,7 @@ from user.profile_models import (
     Experience,
     SocialMedia,
     Vote,
+    ProfilePermissions,
 )
 from user.user_models import User, Party, Otp
 
@@ -37,3 +38,4 @@ admin.site.register(WorkSample)
 admin.site.register(Experience)
 admin.site.register(SocialMedia)
 admin.site.register(Vote)
+admin.site.register(ProfilePermissions)

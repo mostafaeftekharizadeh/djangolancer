@@ -17,6 +17,7 @@ from .profile_models import (
     WorkSample,
     Experience,
     SocialMedia,
+    ProfilePermissions,
 )
 
 
@@ -203,6 +204,16 @@ class AvatarSerializer(ModelOwnerSerializer):
         fields = ["party", "avatar"]
 
 
+class ProfilePermissionsSerializer(ModelOwnerSerializer):
+    """
+    Short Profile serializers
+    """
+
+    class Meta:
+        model = ProfilePermissions
+        fields = "__all__"
+
+
 class ProfileShortSerializer(ModelOwnerSerializer):
     """
     Short Profile serializers
@@ -237,6 +248,7 @@ class ProfileSerializer(ModelOwnerSerializer):
     work_samples = serializers.SerializerMethodField()
     experience = serializers.SerializerMethodField()
     user = serializers.SerializerMethodField()
+    permissions = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -324,3 +336,11 @@ class ProfileSerializer(ModelOwnerSerializer):
         user Get function
         """
         return UserSerializer(obj.party.user, context=self.context, many=False).data
+
+    def get_permissions(self, obj):
+        """
+        user Get function
+        """
+        return ProfilePermissionsSerializer(
+            obj.party.party_permission, context=self.context, many=True
+        ).data

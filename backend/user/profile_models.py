@@ -7,7 +7,7 @@ from django.db import models
 from library.models import BaseModel
 from location.models import City, State, Country
 from configuration.models import Level, Degree, Language as BaseLanguage
-from configuration.models import Skill as BaseSkill
+from configuration.models import Skill as BaseSkill, Category
 from .user_models import Party
 
 
@@ -293,3 +293,19 @@ class Vote(BaseModel):
     )
     vote = models.IntegerField(default=0, null=True, blank=True)
     opinion = models.TextField(default="", null=True, blank=True)
+
+
+class ProfilePermissions(BaseModel):
+    """
+    User only allow this permission to add projects
+    """
+
+    party = models.ForeignKey(
+        Party, related_name="party_permission", unique=False, on_delete=models.CASCADE
+    )
+    category = models.ForeignKey(
+        Category,
+        related_name="category_permission",
+        unique=False,
+        on_delete=models.CASCADE,
+    )
