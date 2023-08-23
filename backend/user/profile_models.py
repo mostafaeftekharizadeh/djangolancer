@@ -147,7 +147,9 @@ class Education(BaseModel):
     uni_name = models.TextField(default="")
     major = models.TextField(default="")
     date_start = models.DateTimeField(auto_now=False, auto_now_add=False)
-    date_end = models.DateTimeField(auto_now=False, auto_now_add=False)
+    date_end = models.DateTimeField(
+        auto_now=False, auto_now_add=False, null=True, blank=True
+    )
 
     class Meta:
         unique_together = (
@@ -260,7 +262,7 @@ class Experience(BaseModel):
         auto_now=False, auto_now_add=False, blank=True, null=True
     )
     date_end = models.DateTimeField(
-        auto_now=False, auto_now_add=False, blank=True, null=True
+        auto_now=False, auto_now_add=False, null=True, blank=True
     )
 
 

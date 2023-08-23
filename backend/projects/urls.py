@@ -19,9 +19,17 @@ from . import views
 urlpatterns = []
 
 router = routers.DefaultRouter()
-router.register(r"project/userproject/(?P<userid>[^/]+)", views.UserProjectViewSet, basename="project")
+router.register(
+    r"project/userproject/(?P<userid>[^/]+)",
+    views.UserProjectViewSet,
+    basename="project",
+)
 router.register(r"project/project", views.ProjectViewSet, basename="project")
-router.register(r"project/projectFile/(?P<project>[^/]+)", views.ProjectFileListViewSet, basename="filelist")
+router.register(
+    r"project/projectFile/(?P<project>[^/]+)",
+    views.ProjectFileListViewSet,
+    basename="filelist",
+)
 router.register(
     r"project/project-offer", views.ProjectOfferViewSet, basename="projectoffer"
 )
@@ -34,7 +42,12 @@ router.register(
     r"project/offer/(?P<project>[^/]+)", views.OfferViewSet, basename="offer"
 )
 router.register(
-    r"project/offer-detail/(?P<id>[^/]+)", views.OfferDeatilViewSet, basename="offer"
+    r"project/offer-change", views.OfferChangeViewset, basename="offer_change"
+)
+router.register(
+    r"project/offer-detail/(?P<id>[^/]+)",
+    views.OfferDeatilViewSet,
+    basename="offer_detail",
 )
 router.register(r"project/factor/(?P<id>[^/]+)", views.FactorViewSet, basename="offer")
 router.register(r"project/offer_step", views.OfferStepViewSet, basename="offer_step")

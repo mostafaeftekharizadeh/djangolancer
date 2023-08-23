@@ -237,6 +237,9 @@ class OfferViewSet(ModelViewSet):
 
         project = Project.objects.get(pk=self.kwargs["project"])
         query_set = self.queryset.filter(project=project)
+        print(project.title)
+        print(project.id)
+        print(self.__dict__)
         if project.party != self.request.user.party:  # type: ignore
             query_set = query_set.filter(party=self.request.user.party)  # type: ignore
         return query_set.order_by("-created_at")
@@ -254,6 +257,13 @@ class OfferViewSet(ModelViewSet):
         """
         Offer update function
         """
+        offer = self.get_object()
+
+        if offer.state != "n":
+            raise serializers.ValidationError("Permission Denied!")
+        return super().update(request, project)
+
+    def partial_update(self, request, *project, **kwargs):
         offer = self.get_object()
         if offer.state != "n":
             raise serializers.ValidationError("Permission Denied!")
@@ -305,6 +315,14 @@ class OfferViewSet(ModelViewSet):
         offer.project.Close()
         serializer = self.serializer_class(instance=offer, context={"request": request})
         return Response(serializer.data)
+
+
+class OfferChangeViewset(ModelViewSet):
+    queryset = Offer.objects.all()
+    serializer_class = OfferSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+    filter_backends = (DjangoFilterBackend,)
+    logger = _logger
 
 
 class OfferStepViewSet(ModelViewSet):
