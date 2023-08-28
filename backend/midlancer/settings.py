@@ -26,7 +26,7 @@ SECRET_KEY = env(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = bool(os.environ.get("DEBUG", "True"))
+DEBUG = bool(os.environ.get("DEBUG", "False"))
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 ALLOWED_HOSTS.extend(
@@ -253,7 +253,7 @@ LOGGING = {
 
 # expire otp code in minutes
 OTP_EXPIRE_TIME = 120
-IPPANEL_SECRET = os.environ.get("IPPANEL_SECRET", default="")  # type: ignore
+IPPANEL_SECRET = os.environ.get("IPPANEL_SECRET", default="NhFNGQaW7WR4r72tiTGclUrvkpK9VwaKmVMwmdQ1eJ0=")  # type: ignore
 
 
 MEDIA_ROOT = BASE_DIR / "media/"
