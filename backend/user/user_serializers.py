@@ -72,16 +72,14 @@ class OtpSerializer(serializers.ModelSerializer):
                     {"no_feild_erros": "otp/token not valid."}
                 )
             return otp
-        # if settings.DEBUG or mobile.startswith("988"):
-        if mobile.startswith("988"):
+        if settings.DEBUG or mobile.startswith("988"):
             code = 12345
         else:
             code = None
         otp = Otp.objects.create(mobile=mobile, code=code)
 
-        # if not settings.DEBUG:
-        #     otp.send_sms()
-        otp.send_sms()
+        if not settings.DEBUG:
+            otp.send_sms()
         return otp
 
 
