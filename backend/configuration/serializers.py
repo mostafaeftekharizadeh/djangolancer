@@ -135,9 +135,20 @@ class CategorySerializer(serializers.ModelSerializer):
     Category serializer
     """
 
+    project_counter = serializers.CharField(source="num_projects", read_only=True)
+    project_sub_counter = serializers.CharField(source="num_subcat", read_only=True)
+
     class Meta:
         model = Category
-        fields = ["id", "name", "type", "parent", "active"]
+        fields = [
+            "id",
+            "name",
+            "type",
+            "parent",
+            "active",
+            "project_counter",
+            "project_sub_counter",
+        ]
 
 
 class SiteSerializer(serializers.ModelSerializer):
