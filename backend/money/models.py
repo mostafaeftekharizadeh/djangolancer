@@ -36,7 +36,9 @@ class Wallet(BaseModel):
         """
         Money wallet withdraw action
         """
-        if value > self.balance:
+        print("self.balance - value")
+        print(self.balance - value)
+        if value > self.balance or self.balance - value < 0:
             return False
 
         transaction = self.transaction.create(  # type:ignore
@@ -46,6 +48,7 @@ class Wallet(BaseModel):
             card=card,
             balance=self.balance - value,
         )
+        print(value)
         self.balance -= value
         self.save()
         return transaction
