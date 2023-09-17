@@ -36,8 +36,6 @@ class Wallet(BaseModel):
         """
         Money wallet withdraw action
         """
-        print("self.balance - value")
-        print(self.balance - value)
         if value > self.balance or self.balance - value < 0:
             return False
 

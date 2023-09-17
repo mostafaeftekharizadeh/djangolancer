@@ -1,6 +1,9 @@
 """
 Money serializer
 """
+import jdatetime
+from dateutil.relativedelta import relativedelta
+from django.db.models import Sum
 from rest_framework import serializers
 from library.serializers import ModelOwnerSerializer
 from .models import Wallet, Transaction, CardTransfer
@@ -42,10 +45,33 @@ class WalletSerializer(ModelOwnerSerializer):
     """
 
     target = serializers.UUIDField(write_only=True, required=False)
+    payment = serializers.SerializerMethodField()
+
+    def get_payment(self, obj):
+        """
+        payment get Serializers
+        """
+        jtoday = jdatetime.datetime.now()
+        last_month = jtoday.togregorian() - relativedelta(months=1)
+        payment = {"income": 0, "income_last_month": 0}
+        # income = Transaction.objects.filter(
+        #     wallet__party=obj.party, value__gt=0
+        # ).aggregate(Sum("value"))
+
+        payment["income"] = obj.balance
+
+        income_last_month = Transaction.objects.filter(
+            wallet__party=obj.party, value__gt=0, created_at__gt=last_month
+        ).aggregate(Sum("value"))
+        if income_last_month["value__sum"]:
+            payment["income_last_month"] = income_last_month["value__sum"]
+        else:
+            payment["income_last_month"] = 0
+        return payment
 
     class Meta:
         model = Wallet
-        fields = ["id", "party", "balance", "target"]
+        fields = ["id", "party", "balance", "target", "payment"]
 
 
 class TransactionSerializer(ModelOwnerSerializer):
