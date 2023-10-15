@@ -106,7 +106,7 @@ class Project(BaseModel):
     deleted_date = models.DateTimeField(null=True, blank=True)
 
     def InProgress(self):
-        self.status = "p"
+        self.status = "i"
         self.save()
         return True
 
@@ -137,6 +137,10 @@ class File(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     project_file = models.FileField(upload_to=hash_upload, null=True, blank=True)
     comment = models.TextField(default="")
+    create_date = models.DateTimeField(
+        auto_now=True, auto_now_add=False, blank=True, null=True
+    )
+    is_last_file = models.BooleanField(default=False)
 
     # def save(self, *args, **kwargs):
     #     chat

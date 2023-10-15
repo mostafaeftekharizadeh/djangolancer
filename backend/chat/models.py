@@ -62,6 +62,7 @@ class Message(BaseModel):
     room = models.ForeignKey(
         Room, null=False, related_name="target", on_delete=models.CASCADE
     )
-    media = models.ImageField(upload_to=hash_upload, null=True, blank=True)
+    media = models.FileField(upload_to=hash_upload, null=True, blank=True)
     message = models.TextField()
+    is_seen = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now, null=True, blank=True)

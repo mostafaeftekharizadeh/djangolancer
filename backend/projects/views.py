@@ -237,9 +237,6 @@ class OfferViewSet(ModelViewSet):
 
         project = Project.objects.get(pk=self.kwargs["project"])
         query_set = self.queryset.filter(project=project)
-        print(project.title)
-        print(project.id)
-        print(self.__dict__)
         if project.party != self.request.user.party:  # type: ignore
             query_set = query_set.filter(party=self.request.user.party)  # type: ignore
         return query_set.order_by("-created_at")
