@@ -27,6 +27,7 @@ class CardTransferSerializer(ModelOwnerSerializer):
             "shaba",
             "value",
             "state",
+            "tracking_code",
             "created_at",
             "transfered_at",
         ]

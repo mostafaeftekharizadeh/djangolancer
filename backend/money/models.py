@@ -6,6 +6,7 @@ from library.models import BaseModel
 from user.user_models import Party
 from projects.models import Project
 from configuration.models import Bank
+import random
 
 
 class Wallet(BaseModel):
@@ -74,6 +75,10 @@ class Wallet(BaseModel):
         )
 
 
+def random_integer():
+    return random.randint(10000, 99999)
+
+
 class CardTransfer(BaseModel):
     """
     Money card model
@@ -92,11 +97,17 @@ class CardTransfer(BaseModel):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     transfered_at = models.DateTimeField(null=True, blank=True)
+    tracking_code = models.IntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         wallet = Wallet.objects.get(party=self.party)
         transaction = wallet.withdraw(self.value)
         if transaction:
+            tr_code = random_integer()
+            if CardTransfer.objects.filter(tracking_code=tr_code).count() == 0:
+                self.tracking_code = tr_code
+            else:
+                self.tracking_code = random_integer()
             super().save(args, kwargs)
             transaction.card = self
             transaction.save()

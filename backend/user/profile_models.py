@@ -70,7 +70,7 @@ class Profile(models.Model):
         Country, on_delete=models.CASCADE, null=True, blank=True
     )
     is_employer = models.BooleanField(default=False)
-    company_name = models.TextField(default="", null=True, blank=True)
+    company_name = models.CharField(default="", max_length=250, null=True, blank=True)
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
 
