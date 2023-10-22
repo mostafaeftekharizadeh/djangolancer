@@ -54,3 +54,4 @@ router.register(r"project/offer_step", views.OfferStepViewSet, basename="offer_s
 router.register(r"project/budget", views.BudgetViewSet, basename="budget")
 router.register(r"project/test", views.NewViewSet, basename="test")
 router.register(r"project/myoffer", views.MyOfferViewSet, basename="my_offer")
+router.register(r"project/offercount", views.OfferCount, basename="offer_count")

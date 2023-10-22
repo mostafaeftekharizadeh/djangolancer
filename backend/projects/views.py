@@ -24,6 +24,7 @@ from .serializers import (
 )
 from .models import Project, File, Cost, Offer, OfferStep, Budget
 from .filters.project import ProjectFilter
+from django.db.models import Count
 
 _logger = logging.getLogger("midlancer.api.projetcs")
 
@@ -141,6 +142,28 @@ class CostViewSet(ModelViewSet):
     logger = _logger
 
 
+class OfferCount(ModelViewSet):
+    queryset = Offer.objects.all()
+    # queryset = Offer.objects.annotate(
+    #     num_projects=Count("id"), num_subcat=Count("project_sub_category")
+    # )
+    serializer_class = OfferSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+    filter_backends = (DjangoFilterBackend,)
+    http_method_names = ["get"]
+    # filterset_class = OfferFilter
+    logger = _logger
+
+    def get_queryset(self):
+        """
+        get my offer on project
+        """
+        offer = Offer.objects.all()
+        query_set = self.queryset.filter(party=self.request.user.party)
+
+        return query_set
+
+
 class MyOfferViewSet(ModelViewSet):
     """
     my offer endpoint Viewset
@@ -224,7 +247,7 @@ class OfferViewSet(ModelViewSet):
 
     queryset = Offer.objects.all()
     serializer_class = OfferSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     permission_classes = [IsOwnerOrReadOnly]
     filter_backends = (DjangoFilterBackend,)
     # filterset_class = OfferFilter
