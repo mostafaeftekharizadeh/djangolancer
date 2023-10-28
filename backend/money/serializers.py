@@ -83,3 +83,4 @@ class TransactionSerializer(ModelOwnerSerializer):
     class Meta:
         model = Transaction
         fields = "__all__"
+        depth = 3

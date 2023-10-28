@@ -158,7 +158,7 @@ class FileSerializer(ModelOwnerSerializer):
 
     class Meta:
         model = File
-        fields = ["party", "project", "comment", "project_file"]
+        fields = ["party", "project", "comment", "project_file", "create_date"]
 
     def validate(self, attrs):
         if attrs["party"].id != self.context["request"].user.party.id:

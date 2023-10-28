@@ -287,11 +287,11 @@ class Vote(BaseModel):
     Vote endpoint Model
     """
 
-    party = models.OneToOneField(
-        Party, related_name="vote_party", unique=True, on_delete=models.CASCADE
+    party = models.ForeignKey(
+        Party, related_name="vote_party", on_delete=models.CASCADE
     )
-    owner = models.OneToOneField(
-        Party, related_name="vote_owner", unique=True, on_delete=models.CASCADE
+    owner = models.ForeignKey(
+        Party, related_name="vote_owner", on_delete=models.CASCADE
     )
     vote = models.IntegerField(default=0, null=True, blank=True)
     opinion = models.TextField(default="", null=True, blank=True)
