@@ -141,7 +141,7 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
         if offer:
             room = obj.room.filter(chat_participate__party=offer.party).first()
             if room:
-                count = room.target.all().count()
+                count = room.target.filter(is_seen=False).all().count()
         return count
 
     def get_user(self, obj):
@@ -158,7 +158,14 @@ class FileSerializer(ModelOwnerSerializer):
 
     class Meta:
         model = File
-        fields = ["party", "project", "comment", "project_file", "create_date"]
+        fields = [
+            "party",
+            "project",
+            "comment",
+            "project_file",
+            "create_date",
+            "is_last_file",
+        ]
 
     def validate(self, attrs):
         if attrs["party"].id != self.context["request"].user.party.id:

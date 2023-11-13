@@ -56,4 +56,9 @@ class MessageViewSet(ModelViewSet):
     logger = _logger
 
     def get_queryset(self):
+        messages = Message.objects.filter(
+            room=self.kwargs["room"], party=self.request.user.party
+        )
+        messages.update(is_seen=True)
+
         return Message.objects.filter(room=self.kwargs["room"])

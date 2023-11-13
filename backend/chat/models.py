@@ -66,3 +66,6 @@ class Message(BaseModel):
     message = models.TextField()
     is_seen = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now, null=True, blank=True)
+
+    def __str__(self):
+        return self.message

@@ -56,7 +56,7 @@ class ProjectViewSet(ModelViewSet):
     Project endpoint Viewset
     """
 
-    queryset = Project.objects.select_related("party__user")
+    queryset = Project.objects.select_related("party__user").filter(status="n")
     serializer_class = ProjectSerializer
     permission_classes = [IsOwnerOrReadOnly]
     filter_backends = (DjangoFilterBackend,)

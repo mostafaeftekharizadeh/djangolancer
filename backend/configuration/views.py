@@ -37,7 +37,7 @@ from .serializers import (
     ComplainTypeSerializer,
     DegreeSerializer,
 )
-from django.db.models import Count
+from django.db.models import Q, Count
 
 # pylint: disable=too-many-ancestors
 _logger = logging.getLogger("midlancer.api.configuration")
@@ -181,7 +181,8 @@ class CategoryViewSet(ModelViewSet):
     """
 
     queryset = Category.objects.annotate(
-        num_projects=Count("project_category"), num_subcat=Count("project_sub_category")
+        num_projects=Count("project_category", filter=Q(project_category__status="n")),
+        num_subcat=Count("project_sub_category"),
     )
     serializer_class = CategorySerializer
     permission_classes = [IsAdminOrReadOnly]
