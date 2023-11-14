@@ -180,7 +180,7 @@ class CategoryViewSet(ModelViewSet):
     Category endpoint Viewset
     """
 
-    queryset = Category.objects.annotate(
+    queryset = Category.objects.filter(active=True).annotate(
         num_projects=Count("project_category", filter=Q(project_category__status="n")),
         num_subcat=Count("project_sub_category"),
     )
@@ -196,8 +196,17 @@ class AllCategoryViewSet(ModelViewSet):
     Category endpoint Viewset
     """
 
-    queryset = Category.objects.annotate(
-        num_projects=Count("project_category"), num_subcat=Count("project_sub_category")
+    pagination_class = None
+
+    queryset = (
+        Category.objects.filter(active=True)
+        .annotate(
+            num_projects=Count(
+                "project_category", filter=Q(project_category__status="n")
+            ),
+            num_subcat=Count("project_sub_category"),
+        )
+        .all()
     )
     serializer_class = CategorySerializer
     logger = _logger
