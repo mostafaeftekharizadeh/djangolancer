@@ -35,7 +35,12 @@ class Project(BaseModel):
     )
     work = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
-    skill = models.ManyToManyField(BaseSkill, related_name="project_skill")
+    skill = models.ManyToManyField(
+        BaseSkill,
+        related_name="project_skill",
+        null=True,
+        blank=True,
+    )
     duration = models.DurationField(default=timedelta)
     description = models.TextField(null=True, blank=True)
     currency = models.ForeignKey(

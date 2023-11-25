@@ -182,7 +182,9 @@ class CategoryViewSet(ModelViewSet):
 
     queryset = Category.objects.filter(active=True).annotate(
         num_projects=Count("project_category", filter=Q(project_category__status="n")),
-        num_subcat=Count("project_sub_category"),
+        num_subcat=Count(
+            "project_sub_category", filter=Q(project_sub_category__status="n")
+        ),
     )
     serializer_class = CategorySerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -204,7 +206,9 @@ class AllCategoryViewSet(ModelViewSet):
             num_projects=Count(
                 "project_category", filter=Q(project_category__status="n")
             ),
-            num_subcat=Count("project_sub_category"),
+            num_subcat=Count(
+                "project_sub_category", filter=Q(project_sub_category__status="n")
+            ),
         )
         .all()
     )
