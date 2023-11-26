@@ -38,8 +38,6 @@ class Project(BaseModel):
     skill = models.ManyToManyField(
         BaseSkill,
         related_name="project_skill",
-        null=True,
-        blank=True,
     )
     duration = models.DurationField(default=timedelta)
     description = models.TextField(null=True, blank=True)

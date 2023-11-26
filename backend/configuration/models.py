@@ -133,7 +133,7 @@ class Skill(BaseModel):
     """
 
     category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200, unique=True, null=False, blank=False)
+    name = models.CharField(max_length=200, null=False, blank=False)
     active = models.BooleanField(default=False)
 
     def __str__(self):
