@@ -123,6 +123,9 @@ class Category(BaseModel):
     )
     active = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ("type", "id")
+
     def __str__(self):
         return self.type + "" + self.name
 
@@ -136,8 +139,11 @@ class Skill(BaseModel):
     name = models.CharField(max_length=200, null=False, blank=False)
     active = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ("category__name", "id")
+
     def __str__(self):
-        return self.name
+        return "(" + self.category.name + ")-  " + self.name
 
 
 class ComplainType(BaseModel):
