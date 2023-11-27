@@ -124,10 +124,10 @@ class Category(BaseModel):
     active = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ("type", "id")
+        ordering = ("type", "name")
 
     def __str__(self):
-        return self.type + "" + self.name
+        return self.name + " -(" + str(self.type) + ")"
 
 
 class Skill(BaseModel):
