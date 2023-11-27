@@ -127,7 +127,7 @@ class Category(BaseModel):
         ordering = ("type", "name")
 
     def __str__(self):
-        return self.name + " -(" + str(self.type) + ")"
+        return str(self.type) + "- " + self.name
 
 
 class Skill(BaseModel):
