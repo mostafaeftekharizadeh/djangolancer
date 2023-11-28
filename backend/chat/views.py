@@ -60,5 +60,4 @@ class MessageViewSet(ModelViewSet):
             party=self.request.user.party
         )
         messages.update(is_seen=True)
-
         return Message.objects.filter(room=self.kwargs["room"])

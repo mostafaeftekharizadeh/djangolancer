@@ -5,6 +5,7 @@ from rest_framework import serializers
 from library.serializers import ModelOwnerSerializer
 from user.user_serializers import UserSerializer
 from .models import Project, File, Cost, Offer, OfferStep, Budget
+from chat.models import Room, Message
 
 
 class UserProjectSerializer(ModelOwnerSerializer):
@@ -136,12 +137,18 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
         """
         Project get messages serializer function
         """
+        party = self.context["request"].user.party
         count = 0
         offer = obj.offers.filter(state="a").first()
         if offer:
-            room = obj.room.filter(chat_participate__party=offer.party).first()
-            if room:
-                count = room.target.filter(is_seen=False).all().count()
+            count = (
+                Message.objects.filter(
+                    room__project=obj,
+                    is_seen=False,
+                )
+                .exclude(party=party)
+                .count()
+            )
         return count
 
     def get_user(self, obj):
