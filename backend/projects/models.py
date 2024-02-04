@@ -39,7 +39,7 @@ class Project(BaseModel):
         BaseSkill,
         related_name="project_skill",
     )
-    duration = models.DurationField(default=timedelta)
+    duration = models.IntegerField(default=0)
     description = models.TextField(null=True, blank=True)
     currency = models.ForeignKey(
         Currency,
@@ -171,7 +171,7 @@ class Offer(BaseModel):
     )
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     title = models.CharField(default="", max_length=200)
-    duration = models.DurationField(default=timedelta)
+    duration = models.IntegerField(default=0)
     cost = models.IntegerField(default=0)
     description = models.TextField(default="")
     STATE_CHOICES = [
@@ -194,6 +194,14 @@ class Offer(BaseModel):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        print(self.state)
+        if self.state == "r":
+            self.state = "n"
+            # self.save()
+            super(Offer, self).save(*args, **kwargs)
+        super(Offer, self).save(*args, **kwargs)
+
 
 class OfferStep(BaseModel):
     """
@@ -209,7 +217,7 @@ class OfferStep(BaseModel):
     )
     party = models.ForeignKey(Party, on_delete=models.CASCADE, null=False, blank=False)
     title = models.CharField(max_length=200)
-    duration = models.DurationField(default=timedelta)
+    duration = models.IntegerField(default=0)
     optional = models.BooleanField(default=False, blank=True, null=True)
     cost = models.IntegerField()
 

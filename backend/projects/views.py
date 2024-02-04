@@ -3,6 +3,7 @@ Projetcs api endpoints module
 """
 import logging
 from django.db.models import Q
+from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework import serializers
@@ -238,6 +239,36 @@ class FactorViewSet(ModelViewSet):
             | Q(project__party=self.request.user.party),
         ).all()
         return query_set
+
+
+class OfferProjectViewSet(APIView):
+    """
+    Offer endpoint Viewset
+    """
+
+    # serializer_class = OfferSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwnerOrReadOnly]
+    filter_backends = (DjangoFilterBackend,)
+    # filterset_class = OfferFilter
+    logger = _logger
+
+    def get(self, request, project):
+        """
+        Offer get function
+        """
+        print(request.user)
+        # return Response("data")
+
+        project = Project.objects.get(id=project)
+        query_set = Offer.objects.filter(project=project).all()
+        if project.party != request.user.party:  # type: ignore
+            query_set = query_set.filter(party=request.user.party).all()  # type: ignore
+        data = {
+            "offer": OfferSerializer(query_set.order_by("-created_at"), many=True).data,
+            "project_name": project.title,
+        }
+        return Response(data)
 
 
 class OfferViewSet(ModelViewSet):

@@ -64,6 +64,7 @@ class LoginView(generics.CreateAPIView):
         """
         return user, profile and token if username/password is valid
         """
+
         serializer = self.serializer_class(
             data=request.data, context={"request": request}
         )

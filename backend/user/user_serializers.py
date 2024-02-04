@@ -110,7 +110,10 @@ class UserSerializer(ModelSerializer):
         required=False, validators=[UniqueValidator(queryset=User.objects.all())]
     )
     password = serializers.CharField(
-        write_only=True, required=False, validators=[validate_password]
+        trim_whitespace=False,
+        write_only=True,
+        required=False,
+        validators=[validate_password],
     )
     password2 = serializers.CharField(write_only=True, required=False)
     token = serializers.CharField(read_only=True, required=False)
@@ -215,7 +218,10 @@ class ForgetPasswordSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(required=True)
     otp_token = serializers.CharField(write_only=True, required=True)
     password = serializers.CharField(
-        write_only=True, required=True, validators=[validate_password]
+        trim_whitespace=False,
+        write_only=True,
+        required=True,
+        validators=[validate_password],
     )
     password2 = serializers.CharField(write_only=True, required=True)
 
@@ -268,9 +274,12 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
     """
 
     username = serializers.CharField(required=True)
-    old_password = serializers.CharField(write_only=True)
+    old_password = serializers.CharField(trim_whitespace=False, write_only=True)
     password = serializers.CharField(
-        write_only=True, required=True, validators=[validate_password]
+        trim_whitespace=False,
+        write_only=True,
+        required=True,
+        validators=[validate_password],
     )
     password2 = serializers.CharField(write_only=True, required=True)
 
@@ -324,7 +333,7 @@ class AuthTokenSerializer(serializers.Serializer):
 
     mobile = serializers.CharField(label=_("Mobile"))
     password = serializers.CharField(
-        label=_("Password"), style={"input_type": "password"}
+        trim_whitespace=False, label=_("Password"), style={"input_type": "password"}
     )
 
     def validate(self, attrs):
@@ -334,6 +343,8 @@ class AuthTokenSerializer(serializers.Serializer):
         """
         mobile = format_mobile_number(attrs.get("mobile"))
         password = attrs.get("password")
+        print(attrs)
+        print("/", password, "/")
 
         if mobile and password:
             user = authenticate(mobile=mobile, password=password)

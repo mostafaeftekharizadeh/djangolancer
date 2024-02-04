@@ -10,7 +10,6 @@ from money.models import Transaction
 from money.serializers import TransactionSerializer
 from projects.models import Project
 from projects.serializers import ProjectDetailSerializer, OfferSerializer
-
 from .profile_models import Profile, Skill
 from projects.models import Offer
 from .user_serializers import UserSerializer
@@ -36,6 +35,7 @@ class EmployeeDashboardSerializer(ModelOwnerSerializer):
     projects = serializers.SerializerMethodField()
     payment = serializers.SerializerMethodField()
     last_offer = serializers.SerializerMethodField()
+    offers = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -63,6 +63,14 @@ class EmployeeDashboardSerializer(ModelOwnerSerializer):
         if Offer.objects.filter(party=obj.party).count() > 0:
             obj = Offer.objects.filter(party=obj.party).latest("created_at")
             return OfferSerializer(obj, context=self.context, many=False).data
+
+    def get_offers(self, obj):
+        """
+        Latest offer on projects
+        """
+        if Offer.objects.filter(party=obj.party).count() > 0:
+            obj = Offer.objects.filter(party=obj.party).all()
+            return OfferSerializer(obj, context=self.context, many=True).data
 
     def get_payment(self, obj):
         """

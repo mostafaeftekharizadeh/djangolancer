@@ -82,7 +82,8 @@ class ProjectOfferSerializer(ModelOwnerSerializer):
         """
         Project get offers serializer function
         """
-        qs = obj.offers.get(state="p", project=obj.id).party.user
+
+        qs = obj.offers.get(project=obj.id).party.user
         return {
             "id": qs.party.id,
             "first_name": qs.first_name,
@@ -97,6 +98,8 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
 
     user = serializers.SerializerMethodField()
     offer = serializers.SerializerMethodField()
+    all_offers = serializers.SerializerMethodField()
+    unreadmessages = serializers.SerializerMethodField()
     messages = serializers.SerializerMethodField()
 
     class Meta:
@@ -117,6 +120,8 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
             "budget_max",
             "status",
             "offer",
+            "all_offers",
+            "unreadmessages",
             "messages",
             "user",
         ]
@@ -130,10 +135,20 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
         Project get offers serializer function
         """
         # qs = obj.offers.filter(state="a")
-        qs = obj.offers.all()
+        qs = obj.offers.exclude(state="r").all()
         return OfferSerializer(qs, context=self.context, many=True).data
 
-    def get_messages(self, obj):
+    def get_all_offers(self, obj):
+        """
+        Project get offers serializer function
+        """
+        # qs = obj.offers.filter(state="a")
+        party = self.context["request"].user.party
+
+        qs = obj.offers.filter(party=party).all()
+        return OfferSerializer(qs, context=self.context, many=True).data
+
+    def get_unreadmessages(self, obj):
         """
         Project get messages serializer function
         """
@@ -149,6 +164,19 @@ class ProjectDetailSerializer(ModelOwnerSerializer):
                 .exclude(party=party)
                 .count()
             )
+        return count
+
+    def get_messages(self, obj):
+        """
+        Project get messages serializer function
+        """
+        party = self.context["request"].user.party
+        count = 0
+        offer = obj.offers.filter(state="a").first()
+        if offer:
+            count = Message.objects.filter(
+                room__project=obj,
+            ).count()
         return count
 
     def get_user(self, obj):
