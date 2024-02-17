@@ -6,6 +6,8 @@ import hashlib
 from datetime import timedelta
 from django.utils import timezone
 from django.db import models
+from django.db.models.functions import Coalesce
+from django.db.models import OuterRef, QuerySet, Subquery, Value
 from library.models import BaseModel
 from configuration.models import (
     Category,
@@ -17,11 +19,29 @@ from configuration.models import (
 from location.models import City, Country, Place, State
 from user.user_models import Party
 
+class ProjectManager(models.Manager):
+    def get_queryset(self):
+        #preload user data to reduce db call
+        return super().get_queryset().select_related("party__user")
+
+    def with_owner_stats(self):
+        return self.annotate(
+            owner_projects=Coalesce(
+                Subquery(
+                    Project.objects.filter(party=OuterRef("party"))
+                    .values("party")
+                    .annotate(count=models.Count("party"))
+                    .values("count"),
+                ),
+                Value(0)
+            )
+        )
 
 class Project(BaseModel):
     """
     Project model
     """
+    objects = ProjectManager()
 
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
     category = models.ForeignKey(
